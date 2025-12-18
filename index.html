@@ -1,312 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FURIOSO — Culture in High Contrast</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FURIOSO — Journalism</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300,400,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
-                   "Helvetica Neue", Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
+    :root{
+      --bg:#070707;
+      --ink:#f4f4f2;
+      --muted:rgba(244,244,242,.72);
+      --line:rgba(244,244,242,.10);
+      --accent:#e8ff63;
+      --accent2:#ff3b81;
+      --max:1180px;
+      --radius:18px;
+      --shadow:0 30px 80px rgba(0,0,0,.55);
     }
 
-    /* ===== HEADER / NAV ===== */
-    .site-header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 50;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
-      backdrop-filter: blur(4px);
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background: radial-gradient(1200px 600px at 18% -10%, rgba(232,255,99,.10), transparent 55%),
+                  radial-gradient(900px 500px at 92% 20%, rgba(255,59,129,.08), transparent 55%),
+                  linear-gradient(180deg, #050505, #070707 30%, #050505);
+      color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      overflow-x:hidden;
+      min-height:100vh;
     }
 
-    .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.25rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .grain{
+      pointer-events:none;
+      position:fixed; inset:0;
+      opacity:.12;
+      mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      background-size: 260px 260px;
     }
 
-    .nav-logo {
-      font-size: 0.8rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #fff;
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,7,7,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:baseline; gap:10px; letter-spacing:.06em;
+      text-transform:uppercase;
+      font-weight:700;
+      font-size:13px;
+    }
+    .brand .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 18px rgba(232,255,99,.25);
+      display:inline-block;
+      transform: translateY(-1px);
     }
 
-    .nav-links a {
-      margin-left: 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: rgba(255,255,255,0.8);
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:30px 18px 90px;
     }
 
-    .nav-links a:hover { opacity: 1; }
-
-    /* ===== HERO ===== */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      padding-top: 5rem;
-      isolation: isolate;
-      overflow: hidden;
+    .hero{
+      padding:42px 0 24px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:24px;
+    }
+    .kicker{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .pill{
+      border:1px solid var(--line);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.03);
+    }
+    h1{
+      font-family: Fraunces, Georgia, "Times New Roman", serif;
+      font-weight:600;
+      line-height:1.03;
+      letter-spacing:-0.02em;
+      font-size: clamp(40px, 5.2vw, 72px);
+      margin:14px 0 10px;
+    }
+    .dek{
+      max-width: 80ch;
+      color:var(--muted);
+      font-size: clamp(16px, 1.7vw, 20px);
+      line-height:1.6;
+      margin-top:6px;
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
+    .grid{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:22px;
+      align-items:start;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.02);
+      padding:18px;
+      box-shadow: var(--shadow);
+    }
+
+    a{color:inherit}
+    .featured{
+      display:flex; flex-direction:column; gap:10px;
+      text-decoration:none;
+      border-radius: var(--radius);
+      padding:18px;
+      border:1px solid rgba(244,244,242,.12);
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)),
-        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
-        center/cover no-repeat fixed;
-      filter: grayscale(70%) contrast(1.2);
-      z-index: -2;
-      transform: scale(1.05);
+        radial-gradient(800px 260px at 10% 20%, rgba(232,255,99,.10), transparent 60%),
+        radial-gradient(700px 260px at 90% 40%, rgba(255,59,129,.08), transparent 60%),
+        rgba(255,255,255,.02);
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    .featured:hover{
+      transform: translateY(-2px);
+      border-color: rgba(232,255,99,.26);
+    }
+    .featured h2{
+      font-family: Fraunces, Georgia, serif;
+      font-weight:600;
+      letter-spacing:-0.01em;
+      font-size: clamp(22px, 2.4vw, 32px);
+      line-height:1.1;
+    }
+    .featured p{
+      color: rgba(244,244,242,.82);
+      font-size:16px;
+      line-height:1.7;
+      margin-top:2px;
+      max-width: 70ch;
+    }
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:8px;
+    }
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-top:12px;
+      color: rgba(244,244,242,.90);
+      font-weight:600;
+      font-size:13px;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+    .cta span{
+      display:inline-flex;
+      width:28px;height:28px;
+      align-items:center; justify-content:center;
+      border-radius:999px;
+      border:1px solid rgba(244,244,242,.14);
+      background: rgba(255,255,255,.03);
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: -50px;
-      background-image: url("https://grainy-gradients.vercel.app/noise.png");
-      opacity: 0.35;
-      mix-blend-mode: soft-light;
-      z-index: -1;
-      pointer-events: none;
-      animation: grainShift 8s steps(10) infinite;
+    .list a{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 12px;
+      border-radius:14px;
+      text-decoration:none;
+      border:1px solid transparent;
+      color: rgba(244,244,242,.82);
+      transition: background .12s ease, border-color .12s ease;
     }
-
-    @keyframes grainShift {
-      0% { transform: translate(0,0); }
-      25% { transform: translate(-10px, 8px); }
-      50% { transform: translate(6px, -12px); }
-      75% { transform: translate(-4px, 6px); }
-      100% { transform: translate(0,0); }
+    .list a:hover{
+      background: rgba(255,255,255,.04);
+      border-color: rgba(244,244,242,.10);
     }
-
-    .hero-inner {
-      max-width: 720px;
-      animation: fadeIn 1.4s ease-out forwards;
-      opacity: 0;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .brand-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 1.25rem;
-    }
-
-    h1 {
-      letter-spacing: 0.35em;
-      font-size: clamp(2.7rem, 8vw, 4.6rem);
-      margin-bottom: 1.5rem;
-    }
-
-    .tagline {
-      font-size: clamp(0.85rem, 2.1vw, 1rem);
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      line-height: 2;
-      opacity: 0.9;
-    }
-
-    .hero-meta {
-      position: absolute;
-      inset-inline: 2.5rem;
-      bottom: 1.75rem;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      opacity: 0.75;
-    }
-
-    /* ===== FEATURED JOURNALISM ===== */
-    .feature {
-      padding: 4.5rem 1.75rem;
-      background: #070707;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .feature-inner {
-      max-width: 1050px;
-      margin: 0 auto;
-    }
-
-    .feature-link {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 2.25rem;
-      text-decoration: none;
-      color: inherit;
-      padding: 1.75rem;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(0,0,0,0.35);
-    }
-
-    .feature-kicker {
-      font-size: 0.7rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 1rem;
-    }
-
-    .feature-title {
-      font-size: clamp(1.6rem, 3.2vw, 2.25rem);
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-
-    .feature-dek {
-      font-size: 0.98rem;
-      line-height: 1.8;
-      opacity: 0.85;
-      margin-bottom: 1.25rem;
-    }
-
-    .feature-meta {
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      opacity: 0.65;
-    }
-
-    .feature-media {
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .feature-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(40%) contrast(1.1);
-    }
-
-    /* ===== ABOUT ===== */
-    .section {
-      padding: 5rem 1.75rem 5.5rem;
-      background: #050505;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .section-inner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-body {
-      font-size: 0.95rem;
-      line-height: 1.9;
-      opacity: 0.85;
-      max-width: 680px;
-    }
-
-    @media (max-width: 820px) {
-      .feature-link { grid-template-columns: 1fr; }
-    }
+    .list small{color:var(--muted); white-space:nowrap}
+    .muted{color:var(--muted)}
   </style>
 </head>
 
 <body>
+  <div class="grain"></div>
 
-<header class="site-header">
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">FURIOSO</a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="journalism.html">Journalism</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>FURIOSO</span>
+        <span style="opacity:.35">/</span>
+        <span style="opacity:.75">Journalism</span>
+      </div>
+      <div class="muted" style="font-size:12px; letter-spacing:.06em; text-transform:uppercase;">
+        Culture in High Contrast
+      </div>
     </div>
-  </nav>
-</header>
+  </header>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
-    <h1>FURIOSO</h1>
-    <p class="tagline">CULTURE IN HIGH CONTRAST.<br>NO GLOSS. JUST GRIT.</p>
-  </div>
-  <div class="hero-meta">
-    <span>FURIOSO.WORLD</span>
-    <span>SHOT IN REAL LIFE / NO FILTERS</span>
-  </div>
-</section>
-
-<section class="feature">
-  <div class="feature-inner">
-    <a class="feature-link" href="haiti-afterlife-of-empire.html">
-      <div>
-        <div class="feature-kicker">Journalism · Featured Op-Ed</div>
-        <h2 class="feature-title">Haiti, or the Afterlife of Empire</h2>
-        <p class="feature-dek">
-          Colonial debt, modern extraction, and the way history keeps collecting interest.
-        </p>
-        <div class="feature-meta">Read · 8–12 min</div>
+  <main class="wrap">
+    <section class="hero">
+      <div class="kicker">
+        <span class="pill">Op-Ed</span>
+        <span class="pill">Investigations</span>
+        <span class="pill">Essays</span>
       </div>
-      <div class="feature-media">
-        <img src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg" alt="Haiti editorial image">
+      <h1>Journalism</h1>
+      <p class="dek">Hard edges, clean type. Essays that look like a magazine spread and read like a punch.</p>
+    </section>
+
+    <section class="grid">
+      <!-- Featured -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <a class="featured" href="./haiti-afterlife-of-empire.html">
+          <div class="kicker">
+            <span class="pill">Featured</span>
+            <span class="pill">Op-Ed</span>
+          </div>
+          <h2>Haiti, or the Afterlife of Empire</h2>
+          <p>Colonialism did not die. It went offshore, learned the language of finance, and started charging interest.</p>
+          <div class="meta">
+            <span class="pill">5–6 min read</span>
+            <span class="pill">History / Finance / Power</span>
+          </div>
+          <div class="cta">
+            Read now <span>→</span>
+          </div>
+        </a>
       </div>
-    </a>
-  </div>
-</section>
 
-<section class="section">
-  <div class="section-inner">
-    <div class="section-label">ABOUT</div>
-    <h2 class="section-title">Run-and-gun stories from the edges of the map.</h2>
-    <p class="section-body">
-      FURIOSO is a film-driven culture and geopolitics platform, built for people who are tired of
-      safe narratives. We move with a camera and a question: what does the world really look like
-      when you strip away the gloss?
-    </p>
-  </div>
-</section>
+      <!-- Sidebar list -->
+      <aside class="card">
+        <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:.10em;color:var(--muted);margin-bottom:10px;">
+          Latest
+        </h3>
+        <div class="list">
+          <a href="./haiti-afterlife-of-empire.html">
+            <span>Haiti, or the Afterlife of Empire</span>
+            <small>Op-Ed</small>
+          </a>
 
+          <!-- Add future pieces like this:
+          <a href="./another-article.html">
+            <span>Title of the next piece</span>
+            <small>Essay</small>
+          </a>
+          -->
+        </div>
+
+        <div style="margin-top:14px;border-top:1px solid var(--line);padding-top:14px;">
+          <p class="muted" style="font-size:13px;line-height:1.6;">
+            Build your archive here. Each article is its own page. This index stays clean.
+          </p>
+        </div>
+      </aside>
+    </section>
+  </main>
 </body>
 </html>
