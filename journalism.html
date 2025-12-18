@@ -57,6 +57,18 @@
       text-transform: uppercase;
       text-decoration: none;
       color: rgba(255,255,255,0.75);
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: rgba(255,255,255,1);
+    }
+
+    .nav-links a[aria-current="page"] {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      text-decoration-thickness: 1px;
     }
 
     /* ===== ARTICLE LAYOUT ===== */
@@ -116,6 +128,16 @@
       font-style: italic;
       opacity: 0.85;
     }
+
+    @media (max-width: 640px) {
+      .nav {
+        padding: 1rem 1.25rem;
+      }
+
+      .nav-links a {
+        margin-left: 1rem;
+      }
+    }
   </style>
 </head>
 
@@ -126,7 +148,7 @@
     <a href="index.html" class="nav-logo">FURIOSO</a>
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="journalism.html">Journalism</a>
+      <a href="journalism.html" aria-current="page">Journalism</a>
     </div>
   </nav>
 </header>
@@ -135,12 +157,8 @@
   <div class="article">
     <div class="article-header">
       <div class="article-label">Journalism</div>
-      <h1 class="article-title">
-        Title of the piece goes here
-      </h1>
-      <div class="article-meta">
-        By FURIOSO · Location · Year
-      </div>
+      <h1 class="article-title">Title of the piece goes here</h1>
+      <div class="article-meta">By FURIOSO · Location · Year</div>
     </div>
 
     <article>
