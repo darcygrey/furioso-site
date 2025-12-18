@@ -21,7 +21,7 @@
       overflow-x: hidden;
     }
 
-    /* ===== HEADER / NAV ===== */
+    /* ===== HEADER / NAV (CENTERED LOGO) ===== */
     .site-header {
       position: fixed;
       top: 0;
@@ -151,6 +151,7 @@
 
     .meta {
       display: flex;
+      flex-wrap: wrap;
       gap: 1rem;
       font-size: 0.72rem;
       letter-spacing: 0.18em;
@@ -178,12 +179,27 @@
       max-width: 72ch;
     }
 
+    .article p:first-of-type {
+      font-size: 1.08rem;
+      opacity: 1;
+    }
+
     .article h2 {
       margin: 3rem 0 1.25rem;
       font-size: 1.05rem;
       letter-spacing: 0.26em;
       text-transform: uppercase;
       opacity: 0.9;
+      max-width: 72ch;
+    }
+
+    .article blockquote {
+      margin: 2.75rem 0;
+      padding-left: 1.5rem;
+      border-left: 2px solid rgba(255,255,255,0.18);
+      font-style: italic;
+      opacity: 0.9;
+      max-width: 72ch;
     }
 
     .back-row {
@@ -192,6 +208,8 @@
       border-top: 1px solid rgba(255,255,255,0.08);
       display: flex;
       justify-content: space-between;
+      gap: 1rem;
+      opacity: 0.9;
       max-width: 72ch;
     }
 
@@ -218,9 +236,13 @@
 
 <header class="site-header">
   <nav class="nav">
-    <a href="../index.html" class="nav-logo">FURIOSO</a>
-    <div class="nav-links">
+    <div class="nav-side nav-left">
       <a href="../index.html">Home</a>
+    </div>
+
+    <a href="../index.html" class="nav-logo-center">FURIOSO</a>
+
+    <div class="nav-side nav-right">
       <a href="../journalism.html">Journalism</a>
     </div>
   </nav>
@@ -239,15 +261,11 @@
       <span>Read · 8–12 min</span>
     </div>
   </div>
-
-  <div class="scroll-indicator">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
-  </div>
 </section>
 
 <main>
   <article class="article">
+
     <p>There is a lie we like to tell ourselves in the West. It is a comforting lie, dressed in the language of progress, legality, and time.</p>
 
     <p>The lie goes something like this: colonialism ended. Slavery was abolished. Empires retreated. Flags were lowered. Nations were born. The past, however regrettable, is finished business.</p>
