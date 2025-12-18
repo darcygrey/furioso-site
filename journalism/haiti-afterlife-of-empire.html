@@ -12,16 +12,32 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg-main: #000;
+      --bg-secondary: #050505;
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.75);
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
+    body.light {
+      --bg-main: #f6f6f4;
+      --bg-secondary: #ffffff;
+      --text-main: #111111;
+      --text-muted: rgba(0,0,0,0.65);
+      --border-soft: rgba(0,0,0,0.08);
+    }
+
     body {
       font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
                    "Helvetica Neue", Arial, sans-serif;
-      background: #000;
-      color: #fff;
+      background: var(--bg-main);
+      color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ===== HEADER / NAV (CENTERED LOGO) ===== */
+    /* ===== HEADER / NAV (CENTERED LOGO + TOGGLE) ===== */
     .site-header {
       position: fixed;
       top: 0;
@@ -29,6 +45,10 @@
       z-index: 50;
       background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
       backdrop-filter: blur(4px);
+    }
+
+    body.light .site-header {
+      background: linear-gradient(to bottom, rgba(246,246,244,0.90), rgba(246,246,244,0));
     }
 
     .nav {
@@ -46,6 +66,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
+      align-items: center;
     }
 
     .nav-left { justify-content: flex-start; }
@@ -53,19 +74,36 @@
 
     .nav-side a {
       text-decoration: none;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-muted);
     }
 
-    .nav-side a:hover { opacity: 1; }
+    .nav-side a:hover { opacity: 1; color: var(--text-main); }
 
     .nav-logo-center {
       font-size: 0.8rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
       text-decoration: none;
-      color: #fff;
+      color: var(--text-main);
       justify-self: center;
     }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      line-height: 1;
+      padding: 0.55rem 0.7rem;
+      cursor: pointer;
+      opacity: 0.75;
+    }
+
+    body.light .theme-toggle {
+      border: 1px solid rgba(0,0,0,0.18);
+    }
+
+    .theme-toggle:hover { opacity: 1; }
 
     /* ===== HERO / ARTICLE BANNER ===== */
     .article-hero {
@@ -91,6 +129,15 @@
       filter: grayscale(65%) contrast(1.15);
       z-index: -2;
       transform: scale(1.05);
+      transition: filter 0.25s ease;
+    }
+
+    body.light .article-hero::before {
+      background:
+        linear-gradient(to bottom, rgba(246,246,244,0.15), rgba(246,246,244,0.92)),
+        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(25%) contrast(1.05);
     }
 
     .article-hero::after {
@@ -132,6 +179,7 @@
       text-transform: uppercase;
       opacity: 0.75;
       margin-bottom: 1rem;
+      color: var(--text-muted);
     }
 
     h1 {
@@ -147,6 +195,7 @@
       opacity: 0.88;
       max-width: 70ch;
       margin-bottom: 1.25rem;
+      color: var(--text-main);
     }
 
     .meta {
@@ -157,13 +206,18 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       opacity: 0.7;
+      color: var(--text-muted);
     }
 
     /* ===== ARTICLE BODY ===== */
     main {
-      background: #050505;
+      background: var(--bg-secondary);
       border-top: 1px solid rgba(255,255,255,0.06);
       padding: 4.5rem 1.75rem 6rem;
+    }
+
+    body.light main {
+      border-top: 1px solid rgba(0,0,0,0.06);
     }
 
     .article {
@@ -177,6 +231,7 @@
       opacity: 0.92;
       margin-bottom: 1.6rem;
       max-width: 72ch;
+      color: var(--text-main);
     }
 
     .article p:first-of-type {
@@ -191,6 +246,7 @@
       text-transform: uppercase;
       opacity: 0.9;
       max-width: 72ch;
+      color: var(--text-main);
     }
 
     .article blockquote {
@@ -202,10 +258,14 @@
       max-width: 72ch;
     }
 
+    body.light .article blockquote {
+      border-left: 2px solid rgba(0,0,0,0.18);
+    }
+
     .back-row {
       margin-top: 3.5rem;
       padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid var(--border-soft);
       display: flex;
       justify-content: space-between;
       gap: 1rem;
@@ -214,7 +274,7 @@
     }
 
     .back-row a {
-      color: #fff;
+      color: var(--text-main);
       text-decoration: none;
       font-size: 0.72rem;
       letter-spacing: 0.18em;
@@ -236,11 +296,13 @@
 
 <header class="site-header">
   <nav class="nav">
-    <div class="nav-side nav-left">
-      <a href="../index.html">Home</a>
-    </div>
 
     <a href="../index.html" class="nav-logo-center">FURIOSO</a>
+
+    <div class="nav-side nav-right">
+      <a href="../journalism.html">Journalism</a>
+      <button class="theme-toggle" aria-label="Toggle theme">☾</button>
+    </div>
   </nav>
 </header>
 
@@ -260,127 +322,150 @@
 </section>
 
 <main>
-<article class="article">
+  <article class="article">
 
-  <p>What does colonialism look like once it has learned to disappear?</p>
+    <p>What does colonialism look like once it has learned to disappear?</p>
 
-  <p>Not the version preserved in textbooks, with shaded maps and heroic dates. Not the one that announces itself with flags, governors, and proclamations. But the version that survives quietly, through signatures and schedules, through offices far from the places it reshapes.</p>
+    <p>Not the version preserved in textbooks, with shaded maps and heroic dates. Not the one that announces itself with flags, governors, and proclamations. But the version that survives quietly, through signatures and schedules, through offices far from the places it reshapes.</p>
 
-  <p>The kind that no longer needs to raise its voice.</p>
+    <p>The kind that no longer needs to raise its voice.</p>
 
-  <p>Colonialism did not collapse under the weight of its own violence. It adjusted. It moved indoors. It traded the open brutality of the plantation for the slow precision of paperwork. It learned the language of legality and development. It learned how to wait. It learned how to charge interest.</p>
+    <p>Colonialism did not collapse under the weight of its own violence. It adjusted. It moved indoors. It traded the open brutality of the plantation for the slow precision of paperwork. It learned the language of legality and development. It learned how to wait. It learned how to charge interest.</p>
 
-  <p>There is a story often told in the West, usually with sincerity, sometimes with relief. In this version, colonialism ended. Slavery was abolished. Empires withdrew. Nations emerged. The past is acknowledged briefly, before being placed at a safe distance.</p>
+    <p>There is a story often told in the West, usually with sincerity, sometimes with relief. In this version, colonialism ended. Slavery was abolished. Empires withdrew. Nations emerged. The past is acknowledged briefly, before being placed at a safe distance.</p>
 
-  <p>The implication is that history has been settled.</p>
+    <p>The implication is that history has been settled.</p>
 
-  <p>Haiti suggests otherwise.</p>
+    <p>Haiti suggests otherwise.</p>
 
-  <h2>The plantation that fed Europe</h2>
+    <h2>The plantation that fed Europe</h2>
 
-  <p>Before it was Haiti, it was Saint-Domingue. The name travelled well. It appeared in shipping records, insurance ledgers, and merchant correspondence. It was spoken approvingly in European ports and financial houses.</p>
+    <p>Before it was Haiti, it was Saint-Domingue. The name travelled well. It appeared in shipping records, insurance ledgers, and merchant correspondence. It was spoken approvingly in European ports and financial houses.</p>
 
-  <p>This was not a marginal colony. It was the engine.</p>
+    <p>This was not a marginal colony. It was the engine.</p>
 
-  <p>By the late eighteenth century, Saint-Domingue supplied much of Europe’s sugar and coffee. Wealth moved quickly and efficiently from the island to the metropole. Those who profited rarely saw the place itself. They saw figures, consignments, returns.</p>
+    <p>By the late eighteenth century, Saint-Domingue supplied much of Europe’s sugar and coffee. Wealth moved quickly and efficiently from the island to the metropole. Those who profited rarely saw the place itself. They saw figures, consignments, returns.</p>
 
-  <p>The system was calibrated for maximum output. Enslaved Africans were worked until they collapsed. New shipments arrived to replace them. The population could not sustain itself through birth. Death was expected. It was accounted for. Human beings were treated as consumables, assets with a limited productive life.</p>
+    <p>The system was calibrated for maximum output. Enslaved Africans were worked until they collapsed. New shipments arrived to replace them. The population could not sustain itself through birth. Death was expected. It was accounted for. Human beings were treated as consumables, assets with a limited productive life.</p>
 
-  <p>This was not an old world clinging to outdated cruelty. This was modernity, functioning as designed. Rational. Industrial. Legal.</p>
+    <p>This was not an old world clinging to outdated cruelty. This was modernity, functioning as designed. Rational. Industrial. Legal.</p>
 
-  <p>France prospered.</p>
+    <p>France prospered.</p>
 
-  <p>The island absorbed the cost.</p>
+    <p>The island absorbed the cost.</p>
 
-  <h2>A rupture the system could not absorb</h2>
+    <h2>A rupture the system could not absorb</h2>
 
-  <p>Then the machinery failed.</p>
+    <p>Then the machinery failed.</p>
 
-  <p>The enslaved population rose up and did what the Atlantic world was not built to tolerate. They won.</p>
+    <p>The enslaved population rose up and did what the Atlantic world was not built to tolerate. They won.</p>
 
-  <p>In 1804, Haiti declared independence. The first Black republic. The only nation created by a successful slave uprising. The event unsettled more than colonial authority. It challenged the moral logic of the entire system.</p>
+    <p>In 1804, Haiti declared independence. The first Black republic. The only nation created by a successful slave uprising. The event unsettled more than colonial authority. It challenged the moral logic of the entire system.</p>
 
-  <p>Recognition did not follow. Haiti existed in isolation, its victory treated as a contagion. Then, in 1825, French warships appeared offshore.</p>
+    <p>Recognition did not follow. Haiti existed in isolation, its victory treated as a contagion. Then, in 1825, French warships appeared offshore.</p>
 
-  <p>They did not come to reclaim the colony. They came with documents.</p>
+    <p>They did not come to reclaim the colony. They came with documents.</p>
 
-  <p>France offered recognition of Haitian sovereignty on the condition that Haiti compensate former slave owners for their losses. The losses in question were people. The sum demanded reflected their market value.</p>
+    <p>France offered recognition of Haitian sovereignty on the condition that Haiti compensate former slave owners for their losses. The losses in question were people. The sum demanded reflected their market value.</p>
 
-  <p>Haiti could not pay. It borrowed instead, from French banks, under harsh terms. Loans were refinanced. Interest accumulated. Fees were added. Commissions were taken.</p>
+    <p>Haiti could not pay. It borrowed instead, from French banks, under harsh terms. Loans were refinanced. Interest accumulated. Fees were added. Commissions were taken.</p>
 
-  <p>Independence entered the world already indebted.</p>
+    <p>Independence entered the world already indebted.</p>
 
-  <p>Freedom arrived with conditions.</p>
+    <p>Freedom arrived with conditions.</p>
 
-  <h2>The long shadow of repayment</h2>
+    <h2>The long shadow of repayment</h2>
 
-  <p>What followed unfolded slowly, over decades.</p>
+    <p>What followed unfolded slowly, over decades.</p>
 
-  <p>Haiti’s public finances were shaped around servicing this debt. Revenues flowed outward. Investment inward was constrained. Infrastructure lagged. Institutions struggled to stabilise under permanent fiscal pressure.</p>
+    <p>Haiti’s public finances were shaped around servicing this debt. Revenues flowed outward. Investment inward was constrained. Infrastructure lagged. Institutions struggled to stabilise under permanent fiscal pressure.</p>
 
-  <p>The final payments were completed in 1947. Close enough to be remembered. Distant enough to be dismissed.</p>
+    <p>The final payments were completed in 1947. Close enough to be remembered. Distant enough to be dismissed.</p>
 
-  <p>The money was not taken by force. It moved through contracts, schedules, and agreements recognised by international law. By modern estimates, the total transfer amounts to tens of billions of dollars.</p>
+    <p>The money was not taken by force. It moved through contracts, schedules, and agreements recognised by international law. By modern estimates, the total transfer amounts to tens of billions of dollars.</p>
 
-  <p>Colonialism no longer required chains.</p>
+    <p>Colonialism no longer required chains.</p>
 
-  <p>It required compliance.</p>
+    <p>It required compliance.</p>
 
-  <h2>A different language, the same arrangement</h2>
+    <h2>A different language, the same arrangement</h2>
 
-  <p>France was not alone in refining the model.</p>
+    <p>France was not alone in refining the model.</p>
 
-  <p>In the early twentieth century, the United States occupied Haiti, citing instability and financial mismanagement. Customs revenues were seized. Control of public finances was transferred to American institutions. National City Bank of New York, now Citibank, assumed its role.</p>
+    <p>In the early twentieth century, the United States occupied Haiti, citing instability and financial mismanagement. Customs revenues were seized. Control of public finances was transferred to American institutions. National City Bank of New York, now Citibank, assumed its role.</p>
 
-  <p>This was not described as colonialism. It was framed as stabilisation.</p>
+    <p>This was not described as colonialism. It was framed as stabilisation.</p>
 
-  <p>The methods were familiar. Debt oversight. Revenue control. External supervision. The language was technical. The effects were not.</p>
+    <p>The methods were familiar. Debt oversight. Revenue control. External supervision. The language was technical. The effects were not.</p>
 
-  <p>When power is uneven and sustained, outcomes tend to resemble colonialism regardless of what the documents say.</p>
+    <p>When power is uneven and sustained, outcomes tend to resemble colonialism regardless of what the documents say.</p>
 
-  <h2>After the empire leaves</h2>
+    <h2>After the empire leaves</h2>
 
-  <p>By the mid twentieth century, empire was said to be over. Colonies became nations. Flags changed. Speeches were made.</p>
+    <p>By the mid twentieth century, empire was said to be over. Colonies became nations. Flags changed. Speeches were made.</p>
 
-  <p>But independence did not mean parity. It meant entry into a global system already in motion.</p>
+    <p>But independence did not mean parity. It meant entry into a global system already in motion.</p>
 
-  <p>What followed was a world structured by asymmetry. Debt regimes. Trade rules written elsewhere. Markets designed for extraction. States inheriting borders drawn for convenience rather than cohesion. Institutions weakened before they could take hold.</p>
+    <p>What followed was a world structured by asymmetry. Debt regimes. Trade rules written elsewhere. Markets designed for extraction. States inheriting borders drawn for convenience rather than cohesion. Institutions weakened before they could take hold.</p>
 
-  <p>Colonialism did not disappear. It became administrative. It became abstract. It became easy to deny.</p>
+    <p>Colonialism did not disappear. It became administrative. It became abstract. It became easy to deny.</p>
 
-  <p>Today, Haiti is often described as a failed state, as though failure emerged in isolation, as though history simply passed through and moved on.</p>
+    <p>Today, Haiti is often described as a failed state, as though failure emerged in isolation, as though history simply passed through and moved on.</p>
 
-  <p>This framing completes the circle by removing cause from consequence.</p>
+    <p>This framing completes the circle by removing cause from consequence.</p>
 
-  <h2>What lingers</h2>
+    <h2>What lingers</h2>
 
-  <p>France no longer collects payments from Haiti. The United States no longer occupies it. The original contracts have expired. The paperwork is archived.</p>
+    <p>France no longer collects payments from Haiti. The United States no longer occupies it. The original contracts have expired. The paperwork is archived.</p>
 
-  <p>On paper, the matter is resolved.</p>
+    <p>On paper, the matter is resolved.</p>
 
-  <p>But history does not operate on filing systems.</p>
+    <p>But history does not operate on filing systems.</p>
 
-  <p>The effects of those arrangements remain visible in roads never built, institutions never fully formed, wealth that never had the chance to compound. Haiti did not merely fall behind. It was shaped by obligations imposed at the moment of its emergence, while other nations accumulated stability and capital through the same systems extracting from it.</p>
+    <p>The effects of those arrangements remain visible in roads never built, institutions never fully formed, wealth that never had the chance to compound. Haiti did not merely fall behind. It was shaped by obligations imposed at the moment of its emergence, while other nations accumulated stability and capital through the same systems extracting from it.</p>
 
-  <p>This leaves a question that resists easy resolution.</p>
+    <p>This leaves a question that resists easy resolution.</p>
 
-  <p>If wealth generated through coercion helped construct modern states and financial institutions, what, if anything, follows from that recognition? If colonialism has changed form rather than disappeared, what does responsibility look like now? And if the answer is that nothing is owed, that the past is sealed, then what purpose does remembering it serve?</p>
+    <p>If wealth generated through coercion helped construct modern states and financial institutions, what, if anything, follows from that recognition? If colonialism has changed form rather than disappeared, what does responsibility look like now? And if the answer is that nothing is owed, that the past is sealed, then what purpose does remembering it serve?</p>
 
-  <p>Haiti paid for its freedom.</p>
+    <p>Haiti paid for its freedom.</p>
 
-  <p>The consequences of that transaction remain.</p>
+    <p>The consequences of that transaction remain.</p>
 
-  <p>History, patient and unsentimental, continues to observe.</p>
+    <p>History, patient and unsentimental, continues to observe.</p>
 
-  <p>And the books, whether acknowledged or not, are still open.</p>
+    <p>And the books, whether acknowledged or not, are still open.</p>
 
-  <div class="back-row">
-    <a href="../journalism.html">← Back to Journalism</a>
-    <a href="../index.html">Home →</a>
-  </div>
-</article>
+    <div class="back-row">
+      <a href="../journalism.html">← Back to Journalism</a>
+      <a href="../index.html">Home →</a>
+    </div>
 
+  </article>
 </main>
+
+<script>
+  const toggle = document.querySelector('.theme-toggle');
+  const body = document.body;
+
+  // Load saved preference
+  if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light');
+    toggle.textContent = '☀';
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('light');
+
+    if (body.classList.contains('light')) {
+      localStorage.setItem('theme', 'light');
+      toggle.textContent = '☀';
+    } else {
+      localStorage.setItem('theme', 'dark');
+      toggle.textContent = '☾';
+    }
+  });
+</script>
 
 </body>
 </html>
