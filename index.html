@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Journalism — FURIOSO</title>
+  <title>FURIOSO — Culture in High Contrast</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,19 +17,21 @@
     }
 
     body {
-      font-family: "Montserrat", system-ui, sans-serif;
-      background: #0b0b0b;
-      color: #f2f2f2;
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* ===== HEADER ===== */
-
+    /* ====== HEADER / NAV ====== */
     .site-header {
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 50;
-      background: rgba(0,0,0,0.85);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
       backdrop-filter: blur(4px);
     }
 
@@ -38,8 +40,8 @@
       margin: 0 auto;
       padding: 1.25rem 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
 
     .nav-logo {
@@ -56,132 +58,235 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
       text-decoration: none;
-      color: rgba(255,255,255,0.75);
-      transition: color 0.2s ease, opacity 0.2s ease;
+      color: rgba(255,255,255,0.8);
+      transition: opacity 0.2s ease;
     }
 
     .nav-links a:hover {
-      color: rgba(255,255,255,1);
-    }
-
-    .nav-links a[aria-current="page"] {
-      color: #fff;
-      text-decoration: underline;
-      text-underline-offset: 6px;
-      text-decoration-thickness: 1px;
-    }
-
-    /* ===== ARTICLE LAYOUT ===== */
-
-    main {
-      padding-top: 7rem;
-      padding-bottom: 6rem;
-    }
-
-    .article {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    .article-header {
-      margin-bottom: 3rem;
-    }
-
-    .article-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      opacity: 0.6;
-      margin-bottom: 1rem;
-    }
-
-    .article-title {
-      font-size: clamp(2rem, 4vw, 2.6rem);
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-
-    .article-meta {
-      font-size: 0.75rem;
-      opacity: 0.6;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    article p {
-      font-size: 1rem;
-      line-height: 1.9;
-      margin-bottom: 1.5rem;
-      opacity: 0.9;
-    }
-
-    article p:first-of-type {
-      font-size: 1.05rem;
       opacity: 1;
     }
 
-    article blockquote {
-      margin: 2.5rem 0;
-      padding-left: 1.5rem;
-      border-left: 2px solid rgba(255,255,255,0.2);
-      font-style: italic;
+    /* ====== HERO SECTION ====== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      padding-top: 5rem; /* so header doesn't overlap */
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)),
+        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(70%) contrast(1.2);
+      z-index: -2;
+      transform: scale(1.05);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -50px;
+      background-image: url("https://grainy-gradients.vercel.app/noise.png");
+      opacity: 0.35;
+      mix-blend-mode: soft-light;
+      z-index: -1;
+      pointer-events: none;
+      animation: grainShift 8s steps(10) infinite;
+    }
+
+    @keyframes grainShift {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(-10px, 8px); }
+      50% { transform: translate(6px, -12px); }
+      75% { transform: translate(-4px, 6px); }
+      100% { transform: translate(0,0); }
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      animation: fadeIn 1.4s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      letter-spacing: 0.35em;
+      font-size: clamp(2.7rem, 8vw, 4.6rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: clamp(0.85rem, 2.1vw, 1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      line-height: 2;
+      opacity: 0.9;
+      margin-bottom: 2.75rem;
+    }
+
+    .hero-meta {
+      position: absolute;
+      inset-inline: 2.5rem;
+      bottom: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      opacity: 0.75;
+    }
+
+    .hero-meta span { white-space: nowrap; }
+
+    .scroll-indicator {
+      position: absolute;
+      left: 50%;
+      bottom: 1.5rem;
+      transform: translateX(-50%);
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 26px;
+      background: rgba(255,255,255,0.75);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scroll-line::before {
+      content: "";
+      position: absolute;
+      top: -26px;
+      left: 0;
+      width: 100%;
+      height: 26px;
+      background: #fff;
+      animation: scrollDown 1.4s linear infinite;
+    }
+
+    @keyframes scrollDown {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(26px); }
+    }
+
+    /* ====== SECOND SECTION ====== */
+    .section {
+      padding: 5rem 1.75rem 5.5rem;
+      background: #050505;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-body {
+      font-size: 0.95rem;
+      line-height: 1.9;
       opacity: 0.85;
+      max-width: 680px;
     }
 
     @media (max-width: 640px) {
-      .nav {
-        padding: 1rem 1.25rem;
-      }
-
-      .nav-links a {
-        margin-left: 1rem;
-      }
+      .hero-meta { inset-inline: 1.5rem; font-size: 0.6rem; }
+      .nav { padding: 1rem 1.25rem; }
+      .nav-links a { margin-left: 1rem; }
     }
   </style>
 </head>
 
 <body>
 
-<header class="site-header">
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">FURIOSO</a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="journalism.html" aria-current="page">Journalism</a>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="nav-logo">FURIOSO</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="journalism.html">Journalism</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
+      <h1>FURIOSO</h1>
+      <p class="tagline">
+        CULTURE IN HIGH CONTRAST.<br>
+        NO GLOSS. JUST GRIT.
+      </p>
     </div>
-  </nav>
-</header>
 
-<main>
-  <div class="article">
-    <div class="article-header">
-      <div class="article-label">Journalism</div>
-      <h1 class="article-title">Title of the piece goes here</h1>
-      <div class="article-meta">By FURIOSO · Location · Year</div>
+    <div class="hero-meta">
+      <span>FURIOSO.WORLD</span>
+      <span>SHOT IN REAL LIFE / NO FILTERS</span>
     </div>
 
-    <article>
-      <p>
-        This is where your opening paragraph will go. Write it strong. This
-        should read like The Atlantic — confident, restrained, intelligent.
-      </p>
+    <div class="scroll-indicator">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
 
-      <p>
-        Additional paragraphs go here. You can paste long-form writing directly
-        into this section later without changing any structure.
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-label">ABOUT</div>
+      <h2 class="section-title">Run-and-gun stories from the edges of the map.</h2>
+      <p class="section-body">
+        FURIOSO is a film-driven culture and geopolitics platform, built for people who are tired of
+        safe narratives. We move with a camera and a question: what does the world really look like
+        when you strip away the gloss?
+        <br><br>
+        No studios. No teleprompters. Just the noise of real streets, borderlands, backrooms, and
+        back alleys — documented through an imperfect lens.
       </p>
-
-      <blockquote>
-        A pull quote or central idea can live here.
-      </blockquote>
-
-      <p>
-        Continue the piece here.
-      </p>
-    </article>
-  </div>
-</main>
+    </div>
+  </section>
 
 </body>
 </html>
