@@ -1,292 +1,646 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FURIOSO — Culture in High Contrast</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FURIOSO — Haiti, or the Afterlife of Empire</title>
 
+  <!-- Type: serif for body, grotesk for UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300,400,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root{
+      --bg:#070707;
+      --paper:#0d0d0d;
+      --ink:#f4f4f2;
+      --muted:rgba(244,244,242,.72);
+      --faint:rgba(244,244,242,.12);
+      --line:rgba(244,244,242,.10);
+      --accent:#e8ff63;
+      --accent2:#ff3b81;
+      --max:1180px;
+      --measure:72ch;
+      --radius:18px;
+      --shadow:0 30px 80px rgba(0,0,0,.55);
     }
 
-    body {
-      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
-                   "Helvetica Neue", Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background: radial-gradient(1200px 600px at 18% -10%, rgba(232,255,99,.10), transparent 55%),
+                  radial-gradient(900px 500px at 92% 20%, rgba(255,59,129,.08), transparent 55%),
+                  linear-gradient(180deg, #050505, #070707 30%, #050505);
+      color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      overflow-x:hidden;
     }
 
-    /* ====== HEADER / NAV ====== */
-    .site-header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 50;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
-      backdrop-filter: blur(4px);
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,7,7,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:baseline; gap:10px; letter-spacing:.06em;
+      text-transform:uppercase;
+      font-weight:700;
+      font-size:13px;
+    }
+    .brand .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 18px rgba(232,255,99,.25);
+      display:inline-block;
+      transform: translateY(-1px);
+    }
+    .navmeta{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .pill{
+      border:1px solid var(--line);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.03);
+    }
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--ink);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      text-decoration:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(244,244,242,.18)}
+    .btn:active{transform: translateY(0)}
+
+    /* Progress bar */
+    .progress{
+      height:2px; background:transparent;
+      position:relative;
+    }
+    .progress > span{
+      position:absolute; left:0; top:0; height:2px; width:0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow:0 0 16px rgba(232,255,99,.18);
     }
 
-    .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.25rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* Layout */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:26px 18px 80px;
     }
 
-    .nav-logo {
-      font-size: 0.8rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #fff;
+    .hero{
+      padding:38px 0 24px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:22px;
+    }
+    .kicker{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .kicker strong{color:var(--ink); font-weight:700}
+    h1{
+      font-family: Fraunces, Georgia, "Times New Roman", serif;
+      font-weight:600;
+      line-height:1.03;
+      letter-spacing:-0.02em;
+      font-size: clamp(40px, 5.2vw, 72px);
+      margin:14px 0 10px;
+    }
+    .dek{
+      max-width: 80ch;
+      color:var(--muted);
+      font-size: clamp(16px, 1.7vw, 20px);
+      line-height:1.6;
+      margin-top:6px;
     }
 
-    .nav-links a {
-      margin-left: 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: rgba(255,255,255,0.8);
-      transition: opacity 0.2s ease;
+    .grid{
+      display:grid;
+      grid-template-columns: 280px 1fr 240px;
+      gap:28px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr; gap:18px}
+      .aside, .rail{position:static}
     }
 
-    .nav-links a:hover {
-      opacity: 1;
+    /* TOC / Aside */
+    .aside{
+      position:sticky; top:70px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.02);
+      padding:14px 14px 10px;
+    }
+    .aside h3{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+    .toc a{
+      display:block;
+      padding:10px 10px;
+      border-radius:12px;
+      color:var(--muted);
+      text-decoration:none;
+      border:1px solid transparent;
+      transition: background .12s ease, border-color .12s ease, color .12s ease;
+      font-size:13px;
+      line-height:1.25;
+    }
+    .toc a:hover{
+      background: rgba(255,255,255,.04);
+      border-color: rgba(244,244,242,.10);
+      color:var(--ink);
+    }
+    .toc a.active{
+      background: rgba(232,255,99,.08);
+      border-color: rgba(232,255,99,.22);
+      color:var(--ink);
     }
 
-    /* ====== HERO SECTION ====== */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      padding-top: 5rem; /* so header doesn't overlap */
-      isolation: isolate;
-      overflow: hidden;
+    /* Article */
+    article{
+      min-width:0;
+      max-width: var(--measure);
+      margin:0 auto;
+    }
+    .meta-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin: 0 0 18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .meta-row .sep{opacity:.35}
+
+    .lead{
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height:1.65;
+      color: rgba(244,244,242,.88);
+      margin: 10px 0 22px;
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)),
-        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
-        center/cover no-repeat fixed;
-      filter: grayscale(70%) contrast(1.2);
-      z-index: -2;
-      transform: scale(1.05);
+    p{
+      font-size: 18px;
+      line-height: 1.85;
+      color: rgba(244,244,242,.86);
+      margin: 0 0 18px;
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: -50px;
-      background-image: url("https://grainy-gradients.vercel.app/noise.png");
-      opacity: 0.35;
-      mix-blend-mode: soft-light;
-      z-index: -1;
-      pointer-events: none;
-      animation: grainShift 8s steps(10) infinite;
+    /* Drop cap for first paragraph */
+    .dropcap:first-letter{
+      float:left;
+      font-family: Fraunces, Georgia, serif;
+      font-weight:600;
+      font-size: 62px;
+      line-height: .85;
+      padding: 10px 10px 0 0;
+      color: var(--ink);
     }
 
-    @keyframes grainShift {
-      0% { transform: translate(0,0); }
-      25% { transform: translate(-10px, 8px); }
-      50% { transform: translate(6px, -12px); }
-      75% { transform: translate(-4px, 6px); }
-      100% { transform: translate(0,0); }
+    h2{
+      font-family: Fraunces, Georgia, serif;
+      font-weight:600;
+      letter-spacing:-0.01em;
+      font-size: clamp(22px, 2.3vw, 30px);
+      margin: 34px 0 14px;
     }
 
-    .hero-inner {
-      max-width: 720px;
-      animation: fadeIn 1.4s ease-out forwards;
-      opacity: 0;
+    hr{
+      border:0;
+      height:1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+      margin: 26px 0;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Pull quote */
+    .pull{
+      margin: 22px 0 26px;
+      border-left: 2px solid rgba(232,255,99,.55);
+      padding: 14px 16px;
+      background: rgba(255,255,255,.03);
+      border-radius: 14px;
+      position:relative;
+    }
+    .pull p{
+      margin:0;
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(20px, 2.2vw, 28px);
+      line-height:1.35;
+      color: rgba(244,244,242,.94);
+    }
+    .pull small{
+      display:block;
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
 
-    .brand-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 1.25rem;
+    /* Side rail */
+    .rail{
+      position:sticky; top:70px;
+      display:flex; flex-direction:column; gap:12px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.02);
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+    .card h4{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+    .mini{
+      color: rgba(244,244,242,.80);
+      font-size:13px;
+      line-height:1.55;
+    }
+    .share-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
-    h1 {
-      letter-spacing: 0.35em;
-      font-size: clamp(2.7rem, 8vw, 4.6rem);
-      margin-bottom: 1.5rem;
+    /* Footnotes */
+    .footnotes{
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top:1px solid var(--line);
+    }
+    .footnotes h3{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+    .footnotes ol{
+      padding-left:18px;
+      color:var(--muted);
+    }
+    .footnotes li{
+      margin: 0 0 10px;
+      line-height:1.6;
+      font-size:13px;
+    }
+    sup a{
+      color: var(--accent);
+      text-decoration:none;
+      border-bottom:1px solid rgba(232,255,99,.25);
+    }
+    sup a:hover{border-bottom-color: rgba(232,255,99,.55)}
+
+    /* Subtle “Dazed” grit */
+    .grain{
+      pointer-events:none;
+      position:fixed; inset:0;
+      opacity:.12;
+      mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      background-size: 260px 260px;
     }
 
-    .tagline {
-      font-size: clamp(0.85rem, 2.1vw, 1rem);
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      line-height: 2;
-      opacity: 0.9;
-      margin-bottom: 2.75rem;
-    }
+    /* Selection vibe */
+    ::selection{background: rgba(232,255,99,.25); color: var(--ink);}
 
-    .hero-meta {
-      position: absolute;
-      inset-inline: 2.5rem;
-      bottom: 1.75rem;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      opacity: 0.75;
-    }
-
-    .hero-meta span { white-space: nowrap; }
-
-    .scroll-indicator {
-      position: absolute;
-      left: 50%;
-      bottom: 1.5rem;
-      transform: translateX(-50%);
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 26px;
-      background: rgba(255,255,255,0.75);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .scroll-line::before {
-      content: "";
-      position: absolute;
-      top: -26px;
-      left: 0;
-      width: 100%;
-      height: 26px;
-      background: #fff;
-      animation: scrollDown 1.4s linear infinite;
-    }
-
-    @keyframes scrollDown {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(26px); }
-    }
-
-    /* ====== SECOND SECTION ====== */
-    .section {
-      padding: 5rem 1.75rem 5.5rem;
-      background: #050505;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .section-inner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-body {
-      font-size: 0.95rem;
-      line-height: 1.9;
-      opacity: 0.85;
-      max-width: 680px;
-    }
-
-    @media (max-width: 640px) {
-      .hero-meta { inset-inline: 1.5rem; font-size: 0.6rem; }
-      .nav { padding: 1rem 1.25rem; }
-      .nav-links a { margin-left: 1rem; }
+    /* Print-friendly */
+    @media print{
+      body{background:#fff;color:#000}
+      .topbar,.progress,.rail,.aside,.grain{display:none !important}
+      p,h1,h2{color:#000}
+      .wrap{padding:0}
+      article{max-width: 100%}
     }
   </style>
 </head>
 
 <body>
+  <div class="grain"></div>
 
-  <header class="site-header">
-    <nav class="nav">
-      <a href="index.html" class="nav-logo">FURIOSO</a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="journalism.html">Journalism</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>FURIOSO</span>
+        <span style="opacity:.35">/</span>
+        <span style="opacity:.75">Journalism</span>
       </div>
-    </nav>
+
+      <div class="navmeta">
+        <span class="pill" id="readingTime">— min read</span>
+        <a class="btn" href="#top" title="Back to top">↑ Top</a>
+        <button class="btn" id="copyLink" type="button" title="Copy link">⎘ Copy</button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
   </header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
-      <h1>FURIOSO</h1>
-      <p class="tagline">
-        CULTURE IN HIGH CONTRAST.<br>
-        NO GLOSS. JUST GRIT.
-      </p>
-    </div>
+  <main class="wrap" id="top">
+    <section class="hero">
+      <div class="kicker">
+        <span class="pill">Op-Ed</span>
+        <span class="pill">History / Finance / Power</span>
+        <span class="pill"><strong>FURIOSO</strong> — Culture in High Contrast</span>
+      </div>
 
-    <div class="hero-meta">
-      <span>FURIOSO.WORLD</span>
-      <span>SHOT IN REAL LIFE / NO FILTERS</span>
-    </div>
+      <h1>Haiti, or the Afterlife of Empire</h1>
+      <p class="dek">Colonialism did not die. It went offshore, learned the language of finance, and started charging interest.</p>
+    </section>
 
-    <div class="scroll-indicator">
-      <span>SCROLL</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
+    <section class="grid">
+      <!-- TOC -->
+      <aside class="aside">
+        <h3>On this page</h3>
+        <nav class="toc" id="toc">
+          <a href="#intro">Opening</a>
+          <a href="#crime1">The first crime</a>
+          <a href="#crime2">The second crime</a>
+          <a href="#crime3">The third crime</a>
+          <a href="#west">The West adapts</a>
+          <a href="#mutates">It mutates</a>
+          <a href="#question">The uncomfortable question</a>
+          <a href="#coda">Coda</a>
+          <a href="#notes">Notes</a>
+        </nav>
+      </aside>
 
-  <section class="section">
-    <div class="section-inner">
-      <div class="section-label">ABOUT</div>
-      <h2 class="section-title">Run-and-gun stories from the edges of the map.</h2>
-      <p class="section-body">
-        FURIOSO is a film-driven culture and geopolitics platform, built for people who are tired of
-        safe narratives. We move with a camera and a question: what does the world really look like
-        when you strip away the gloss?
-        <br><br>
-        No studios. No teleprompters. Just the noise of real streets, borderlands, backrooms, and
-        back alleys — documented through an imperfect lens.
-      </p>
-    </div>
-  </section>
+      <!-- Article -->
+      <article id="article">
+        <div class="meta-row">
+          <span class="pill">By FURIOSO</span>
+          <span class="sep">•</span>
+          <span class="pill" id="publishDate">Thu 18 Dec</span>
+          <span class="sep">•</span>
+          <span class="pill">Port-au-Prince / Paris / New York (in the margins)</span>
+        </div>
 
+        <section id="intro">
+          <p class="lead dropcap">
+            Colonialism did not die. It went offshore, learned the language of finance, and started charging interest.
+          </p>
+
+          <p>There is a lie we like to tell ourselves in the West. It is a comforting lie, dressed in the language of progress, legality, and time.</p>
+          <p>The lie goes something like this: colonialism ended. Slavery was abolished. Empires retreated. Flags were lowered. Nations were born. The past, however regrettable, is finished business.</p>
+          <p>But history doesn’t end. It compounds.</p>
+
+          <div class="pull">
+            <p>“But history doesn’t end. It compounds.”</p>
+            <small>Pull quote</small>
+          </div>
+
+          <p>If colonialism truly ended, Haiti would not look the way it does today.</p>
+        </section>
+
+        <hr />
+
+        <section id="crime1">
+          <h2>The first crime: slavery as an industry</h2>
+
+          <p>Haiti — once Saint-Domingue — was not just a colony. It was the colony.</p>
+          <p>By the late 18th century, it was the most profitable plantation economy on Earth. Sugar, coffee, indigo. Wealth poured into France at a pace that made European aristocrats salivate. That wealth was wrung from enslaved Africans worked to death and replaced as consumables.</p>
+          <p>This was not medieval bondage. This was industrialised slavery — racial, hereditary, mechanised, and legal. Human beings as capital assets. Death built into the business model.</p>
+          <p>France grew rich. Haiti bled.</p>
+        </section>
+
+        <hr />
+
+        <section id="crime2">
+          <h2>The second crime: freedom with a receipt</h2>
+
+          <p>Then something unprecedented happened.</p>
+          <p>The enslaved revolted — and won.</p>
+          <p>In 1804, Haiti became the first Black republic in the modern world and the only nation ever founded by a successful slave uprising. It shattered the moral architecture of empire. And empires do not forgive humiliation.</p>
+          <p>In 1825, France returned — not with chains, but with warships.</p>
+          <p>The terms were simple: Haiti could be recognised as a sovereign nation if it paid France 150 million francs to compensate former slave owners for their “lost property.” That property was human beings.<sup><a href="#fn1" id="ref1">1</a></sup></p>
+          <p>Unable to pay, Haiti borrowed — from French banks — at punishing interest.</p>
+
+          <div class="pull" style="border-left-color: rgba(255,59,129,.55);">
+            <p>Freedom was granted on credit.</p>
+            <small>Line that should sting</small>
+          </div>
+
+          <p>This was not restitution. It was extortion dressed as diplomacy.</p>
+        </section>
+
+        <hr />
+
+        <section id="crime3">
+          <h2>The third crime: debt as discipline</h2>
+
+          <p>What followed was not a single payment, but a century-long financial chokehold.</p>
+          <p>Haiti refinanced, rolled interest into new loans, paid commissions and penalties, and exported its national income to Parisian banking houses. The debt was not fully discharged until 1947 — within living memory.<sup><a href="#fn2" id="ref2">2</a></sup></p>
+          <p>Schools went unbuilt. Roads remained dirt. Institutions never matured. Wealth that should have compounded inward flowed outward instead.</p>
+          <p>By conservative estimates, Haiti transferred the equivalent of tens of billions of dollars in today’s value — not through theft, but through contracts.</p>
+          <p>Colonialism had learned paperwork.</p>
+        </section>
+
+        <hr />
+
+        <section id="west">
+          <h2>The West adapts</h2>
+
+          <p>France was not alone.</p>
+          <p>In the early 20th century, the United States occupied Haiti, seized its customs revenues, and handed financial control to American banks. National City Bank of New York — now Citibank — took its turn at the tap.<sup><a href="#fn3" id="ref3">3</a></sup></p>
+          <p>This was not slavery. It was not even formal colonialism.</p>
+          <p>It was geopolitics.</p>
+          <p>And geopolitics, when asymmetric and sustained, produces colonial outcomes whether it admits to them or not.</p>
+        </section>
+
+        <hr />
+
+        <section id="mutates">
+          <h2>Colonialism doesn’t vanish — it mutates</h2>
+
+          <p>By the mid-20th century, the West congratulated itself. Slavery abolished. Empires dissolved. The moral arc bent, supposedly, toward justice.</p>
+          <p>But what replaced empire was not equality — it was dependency.</p>
+          <p>Debt. Trade rules. Extractive markets. Weak states inheriting borders designed to fracture them. Institutions hollowed out before they could stand.</p>
+          <p>Colonialism no longer needed governors. It needed spreadsheets.</p>
+          <p>Today, Haiti is described as a “failed state,” as though failure emerged spontaneously — as though history simply happened to it.</p>
+          <p>This is the final insult: erasing causality.</p>
+        </section>
+
+        <hr />
+
+        <section id="question">
+          <h2>The uncomfortable question</h2>
+
+          <p>France no longer collects payments. The United States no longer occupies Port-au-Prince. The contracts are closed.</p>
+          <p>But the effects remain.</p>
+          <p>Haiti did not simply fall behind — it was held back, systematically, for over a century. While Western nations compounded wealth, Haiti serviced debt imposed for the crime of self-liberation.</p>
+          <p>So the question is not legal. International law protects the past. Banks merge. States disclaim continuity.</p>
+          <p>The question is moral.</p>
+
+          <div class="pull">
+            <p>If colonialism has merely changed form, does justice require more than acknowledgements and aid packages?</p>
+            <small>Where the piece turns</small>
+          </div>
+
+          <p>If wealth extracted under coercion helped build modern France, modern banks, modern power — does responsibility evaporate with time?</p>
+          <p>And if the answer is no — if nothing is owed — then what exactly does the West believe responsibility means?</p>
+        </section>
+
+        <hr />
+
+        <section id="coda">
+          <h2>Haiti paid for its freedom</h2>
+
+          <p>Haiti paid for its freedom.</p>
+          <p>The bill was never returned.</p>
+          <p>The interest, it seems, is still accruing.</p>
+          <p>History does not ask to be repaid. But it does demand to be recognised.</p>
+          <p>And recognition, sooner or later, always comes due.</p>
+        </section>
+
+        <section class="footnotes" id="notes">
+          <h3>Notes</h3>
+          <ol>
+            <li id="fn1">Replace with your preferred source link(s) for the 1825 indemnity figure + context. <a href="#ref1" style="color:var(--muted); text-decoration:none;">↩</a></li>
+            <li id="fn2">Replace with your preferred source link(s) for final discharge year / refinancing history. <a href="#ref2" style="color:var(--muted); text-decoration:none;">↩</a></li>
+            <li id="fn3">Replace with your preferred source link(s) for the U.S. occupation + National City Bank/Citibank details. <a href="#ref3" style="color:var(--muted); text-decoration:none;">↩</a></li>
+          </ol>
+        </section>
+      </article>
+
+      <!-- Rail -->
+      <aside class="rail">
+        <div class="card">
+          <h4>Share</h4>
+          <div class="share-row">
+            <button class="btn" id="shareTwitter" type="button">X</button>
+            <button class="btn" id="shareEmail" type="button">Email</button>
+            <button class="btn" id="print" type="button">Print</button>
+          </div>
+          <p class="mini" style="margin-top:10px; color:var(--muted);">
+            Tip: highlight text to screenshot—this layout is built for quotes.
+          </p>
+        </div>
+
+        <div class="card">
+          <h4>Key line</h4>
+          <p class="mini" id="keyLine">“Freedom was granted on credit.”</p>
+        </div>
+
+        <div class="card">
+          <h4>What this is</h4>
+          <p class="mini">
+            An op-ed layout built to feel like a magazine: serif body, sharp UI, and
+            just enough grit to keep it alive.
+          </p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    // Reading time
+    const article = document.getElementById('article');
+    const readingTimeEl = document.getElementById('readingTime');
+    const words = (article.innerText || '').trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 220));
+    readingTimeEl.textContent = `${minutes} min read`;
+
+    // Publish date (local)
+    const publishDateEl = document.getElementById('publishDate');
+    try {
+      const d = new Date();
+      publishDateEl.textContent = d.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' });
+    } catch (e) {}
+
+    // Scroll progress
+    const bar = document.getElementById('progressBar');
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
+      const scrollHeight = doc.scrollHeight - doc.clientHeight;
+      const p = scrollHeight ? (scrollTop / scrollHeight) * 100 : 0;
+      bar.style.width = `${p}%`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // TOC active section
+    const tocLinks = Array.from(document.querySelectorAll('#toc a'));
+    const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+    const io = new IntersectionObserver((entries) => {
+      const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      const id = `#${visible.target.id}`;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: [0.05, 0.12, 0.2, 0.3] });
+
+    sections.forEach(s => io.observe(s));
+
+    // Copy link
+    document.getElementById('copyLink').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const btn = document.getElementById('copyLink');
+        const old = btn.textContent;
+        btn.textContent = '✓ Copied';
+        setTimeout(() => (btn.textContent = old), 900);
+      } catch(e) {
+        alert('Could not copy link in this browser.');
+      }
+    });
+
+    // Share buttons
+    const title = document.title;
+    const url = window.location.href;
+
+    document.getElementById('shareTwitter').addEventListener('click', () => {
+      const text = encodeURIComponent(`Haiti, or the Afterlife of Empire — via FURIOSO`);
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(url)}`, '_blank');
+    });
+
+    document.getElementById('shareEmail').addEventListener('click', () => {
+      const subject = encodeURIComponent(title);
+      const body = encodeURIComponent(`Read this:\n\n${url}`);
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    });
+
+    document.getElementById('print').addEventListener('click', () => window.print());
+  </script>
 </body>
 </html>
