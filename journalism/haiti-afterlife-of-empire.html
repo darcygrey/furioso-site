@@ -108,6 +108,18 @@ p + .article-figure {
       text-decoration: none;
       color: var(--text-main);
     }
+    .nav-link {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+  padding: 0.35rem 0.35rem;
+}
+.nav-link:hover { opacity: 1; color: var(--text-main); }
+
 
     .nav-right {
       justify-self: end;
@@ -249,6 +261,7 @@ p + .article-figure {
     <div></div>
     <a href="../index.html" class="nav-logo-center">FURIOSO</a>
     <div class="nav-right">
+       <a href="../latest.html" class="nav-link">Latest</a>
       <button class="theme-toggle" aria-label="Toggle theme">
         <svg viewBox="0 0 24 24">
           <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
