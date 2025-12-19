@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Support FURIOSO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-main: #000;
+      --bg-secondary: #050505;
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.7);
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
+    body.light {
+      --bg-main: #f6f6f4;
+      --bg-secondary: #ffffff;
+      --text-main: #111111;
+      --text-muted: rgba(0,0,0,0.6);
+      --border-soft: rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
+      backdrop-filter: blur(4px);
+    }
+
+    body.light .site-header {
+      background: linear-gradient(to bottom, rgba(246,246,244,0.95), rgba(246,246,244,0));
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.35rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .nav-logo-center {
+      justify-self: center;
+      font-size: 1.22rem;
+      letter-spacing: 0.36em;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .nav-left { justify-self: start; }
+    .nav-right { justify-self: end; }
+
+    .nav-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-muted);
+      opacity: 0.85;
+    }
+    .nav-link:hover { opacity: 1; color: var(--text-main); }
+
+    /* ===== PAGE ===== */
+    main {
+      background: var(--bg-secondary);
+      padding: 8rem 1.75rem 6rem;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.1rem);
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+    }
+
+    .intro {
+      font-size: 1.08rem;
+      line-height: 1.95;
+      max-width: 70ch;
+      margin-bottom: 2.2rem;
+      opacity: 0.9;
+    }
+
+    p {
+      font-size: 1.02rem;
+      line-height: 1.95;
+      margin-bottom: 1.6rem;
+      max-width: 72ch;
+    }
+
+    h2 {
+      margin: 3rem 0 1.25rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    /* ===== SUPPORT BOX ===== */
+    .support-box {
+      margin-top: 3.5rem;
+      padding: 2.2rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+      max-width: 72ch;
+    }
+
+    body.light .support-box {
+      background: rgba(0,0,0,0.02);
+    }
+
+    .support-box h3 {
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .support-box p {
+      font-size: 0.98rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .support-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .support-btn {
+      border: 1px solid var(--border-soft);
+      padding: 0.7rem 1.2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-main);
+      border-radius: 999px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .support-btn:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    body.light .support-btn:hover {
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.14);
+    }
+
+    /* ===== FOOTER LINKS ===== */
+    .back-row {
+      margin-top: 4rem;
+      display: flex;
+      justify-content: space-between;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .back-row a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .back-row a:hover { color: var(--text-main); }
+
+    @media (max-width: 640px) {
+      main { padding-top: 7rem; }
+      .support-box { padding: 1.6rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="latest.html" class="nav-link">Latest</a>
+    </div>
+
+    <a href="index.html" class="nav-logo-center">FURIOSO</a>
+
+    <div class="nav-right">
+      <a href="support.html" class="nav-link">Support</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="wrap">
+
+    <h1>Why Support FURIOSO</h1>
+
+    <p class="intro">
+      FURIOSO exists to look where it would be easier not to.
+    </p>
+
+    <p>
+      This project was created out of a simple frustration: that much of what shapes our world is either flattened,
+      rushed, or deliberately softened. That history becomes spectacle. That geopolitics is reduced to noise.
+      That long memory is treated as inconvenience.
+    </p>
+
+    <p>
+      FURIOSO publishes essays, op-eds, and dispatches that sit with complexity rather than running from it.
+      Pieces that take time to write, time to read, and time to linger.
+    </p>
+
+    <p>
+      There are no click quotas here. No growth hacks. No obligation to please algorithms.
+      Just the work, and the reader.
+    </p>
+
+    <h2>Why membership matters</h2>
+
+    <p>
+      Independent journalism only survives if it is supported directly by the people who value it.
+      Not advertisers. Not platforms. Not institutional pressure.
+    </p>
+
+    <p>
+      Membership allows FURIOSO to remain slow, focused, and editorially independent.
+      It helps fund research, reporting time, archival work, and future projects — including long-form investigations,
+      film work, and print editions.
+    </p>
+
+    <h2>What supporters receive</h2>
+
+    <p>
+      This is not a paywall. It is a relationship.
+    </p>
+
+    <p>
+      Supporters may receive early access to certain pieces, occasional members-only dispatches,
+      downloadable editions, and invitations to future talks or screenings.
+      Most importantly, they help ensure this work continues.
+    </p>
+
+    <div class="support-box">
+      <h3>Support FURIOSO</h3>
+      <p>
+        If this work has meant something to you — if it has informed you, unsettled you, or stayed with you —
+        you can help sustain it.
+      </p>
+
+      <div class="support-actions">
+        <!-- Replace with Stripe / payment link later -->
+        <a href="#" class="support-btn">£5 / Month</a>
+        <a href="#" class="support-btn">£50 / Year</a>
+      </div>
+    </div>
+
+    <div class="back-row">
+      <a href="latest.html">← Back to Latest</a>
+      <a href="index.html">Home →</a>
+    </div>
+
+  </section>
+</main>
+
+</body>
+</html>
