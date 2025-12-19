@@ -4,24 +4,40 @@
   <meta charset="UTF-8" />
   <title>Latest — FURIOSO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Inherit your existing styles */
-    body {
-      font-family: "Montserrat", system-ui, sans-serif;
-      background: var(--bg-main, #000);
-      color: var(--text-main, #fff);
-      padding-top: 80px;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-main: #000;
+      --bg-secondary: #050505;
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.7);
+      --border-soft: rgba(255,255,255,0.08);
     }
 
     body.light {
       --bg-main: #f6f6f4;
-      --text-main: #111;
+      --bg-secondary: #ffffff;
+      --text-main: #111111;
+      --text-muted: rgba(0,0,0,0.6);
+      --border-soft: rgba(0,0,0,0.08);
     }
 
+    body {
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
     .site-header {
       position: fixed;
       top: 0;
@@ -56,7 +72,22 @@
 
     .nav-right {
       justify-self: end;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
     }
+
+    .nav-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-muted);
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+      padding: 0.35rem 0.35rem;
+    }
+    .nav-link:hover { opacity: 1; color: var(--text-main); }
 
     .theme-toggle {
       background: none;
@@ -65,6 +96,7 @@
       opacity: 0.6;
       padding: 0.4rem;
     }
+    .theme-toggle:hover { opacity: 1; }
 
     .theme-toggle svg {
       width: 20px;
@@ -74,76 +106,220 @@
       fill: none;
     }
 
-    /* Latest Posts Layout */
-    .latest-wrapper {
+    /* ===== HERO ===== */
+    .latest-hero {
+      position: relative;
+      min-height: 62vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 2rem;
+      padding-top: 6rem;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .latest-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.20), rgba(0,0,0,0.96)),
+        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(70%) contrast(1.15);
+      z-index: -2;
+      transform: scale(1.05);
+    }
+
+    body.light .latest-hero::before {
+      background:
+        linear-gradient(to bottom, rgba(246,246,244,0.20), rgba(246,246,244,0.92)),
+        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(28%) contrast(1.05);
+    }
+
+    .hero-inner {
+      width: 100%;
+      max-width: 900px;
+      padding-bottom: 1.25rem;
+    }
+
+    .kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      letter-spacing: 0.08em;
+      font-size: clamp(2.1rem, 5vw, 3.2rem);
+      line-height: 1.08;
+      margin-bottom: 1rem;
+    }
+
+    .deck {
+      font-size: 1rem;
+      line-height: 1.85;
+      opacity: 0.88;
+      max-width: 70ch;
+    }
+
+    .meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    /* ===== LATEST LIST ===== */
+    main {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+      padding: 4.5rem 1.75rem 6rem;
+    }
+
+    .wrap {
       max-width: 900px;
       margin: 0 auto;
-      padding: 2rem;
     }
 
-    .latest-heading {
-      font-size: 2.5rem;
+    .section-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      margin-bottom: 2rem;
-      color: #c00;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      opacity: 0.7;
+      margin-bottom: 1.2rem;
     }
 
-    .post-entry {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 1.5rem;
+    .latest-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
     }
 
-    .post-entry img {
-      width: 160px;
-      height: 90px;
+    .card {
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: 14px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    body.light .card { background: rgba(0,0,0,0.02); }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.04);
+    }
+    body.light .card:hover {
+      border-color: rgba(0,0,0,0.14);
+      background: rgba(0,0,0,0.035);
+    }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 16 / 7;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius: 4px;
-      flex-shrink: 0;
-      filter: grayscale(40%);
+      filter: grayscale(55%) contrast(1.15);
+      transform: scale(1.02);
     }
 
-    .post-content {
-      flex: 1;
+    body.light .card-media img {
+      filter: grayscale(25%) contrast(1.05);
     }
 
-    .post-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
+    .card-body {
+      padding: 1.4rem 1.4rem 1.25rem;
     }
 
-    .post-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted, rgba(255,255,255,0.7));
-      margin-bottom: 0.6rem;
-    }
-
-    .post-meta {
-      font-size: 0.72rem;
-      color: var(--text-muted, rgba(255,255,255,0.5));
+    .card-kicker {
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      opacity: 0.7;
+      margin-bottom: 0.7rem;
+      color: var(--text-muted);
     }
 
-    body.light .post-subtitle,
-    body.light .post-meta {
-      color: rgba(0,0,0,0.6);
+    .card-title {
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+      max-width: 55ch;
     }
+
+    .card-deck {
+      font-size: 0.98rem;
+      line-height: 1.85;
+      opacity: 0.86;
+      max-width: 70ch;
+      margin-bottom: 0.9rem;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.70rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.55rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+    }
+
+    /* ===== FOOTER LINKS ===== */
+    .back-row {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .back-row a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .back-row a:hover { color: var(--text-main); }
 
     @media (max-width: 640px) {
-      .post-entry {
-        flex-direction: column;
-      }
-
-      .post-entry img {
-        width: 100%;
-        height: auto;
-      }
+      .nav { padding: 1rem 1.25rem; }
+      .latest-hero { min-height: 56vh; }
+      .card-body { padding: 1.15rem 1.1rem 1.05rem; }
+      .card-title { font-size: 1.06rem; }
     }
   </style>
 </head>
@@ -155,6 +331,8 @@
     <div></div>
     <a href="index.html" class="nav-logo-center">FURIOSO</a>
     <div class="nav-right">
+      <!-- Optional: link back to journalism page if you want -->
+      <a class="nav-link" href="journalism.html">Journalism</a>
       <button class="theme-toggle" aria-label="Toggle theme">
         <svg viewBox="0 0 24 24">
           <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
@@ -164,44 +342,76 @@
   </nav>
 </header>
 
-<main class="latest-wrapper">
-  <h1 class="latest-heading">Latest</h1>
-
-  <div class="post-entry">
-    <img src="https://via.placeholder.com/160x90" alt="">
-    <div class="post-content">
-      <div class="post-title">Avatar Wants to Please Only Its Fans</div>
-      <div class="post-subtitle">Fire and Ash is a thrilling installment to a franchise that’s given up on attracting newcomers.</div>
-      <div class="post-meta">David Sims · 10:38 AM ET</div>
+<section class="latest-hero">
+  <div class="hero-inner">
+    <div class="kicker">Latest · Dispatches</div>
+    <h1>Latest</h1>
+    <p class="deck">
+      The newest pieces from FURIOSO — essays, op-eds, reports. The world as it is, and the world underneath it.
+    </p>
+    <div class="meta">
+      <span>FURIOSO</span>
+      <span>Updated · 2025</span>
+      <span>Rolling feed</span>
     </div>
   </div>
+</section>
 
-  <div class="post-entry">
-    <img src="https://via.placeholder.com/160x90" alt="">
-    <div class="post-content">
-      <div class="post-title">How to Sell a Color</div>
-      <div class="post-subtitle">Pantone found a way to market something already available in nature.</div>
-      <div class="post-meta">Ellen Cushing · 10:30 AM ET</div>
-    </div>
-  </div>
+<main>
+  <section class="wrap">
+    <div class="section-title">Most Recent</div>
 
-  <div class="post-entry">
-    <img src="https://via.placeholder.com/160x90" alt="">
-    <div class="post-content">
-      <div class="post-title">The Truth About Immigration That MAGA Doesn’t Acknowledge</div>
-      <div class="post-subtitle">American families rely on immigrants to take care of their children.</div>
-      <div class="post-meta">Olga Khazan · 9:40 AM ET</div>
-    </div>
-  </div>
+    <div class="latest-grid">
 
-  <div class="post-entry">
-    <img src="https://via.placeholder.com/160x90" alt="">
-    <div class="post-content">
-      <div class="post-title">Photos of the Week: London Fog, Scooter Blankets, Giant Snowman</div>
-      <div class="post-subtitle">Flamingos in Venice, flooding in Washington, and cherry blossoms in China.</div>
-      <div class="post-meta">Alan Taylor · 9:00 AM ET</div>
+      <!-- ===== FEATURED ARTICLE (Haiti) ===== -->
+      <!-- IMPORTANT: update href to match your article file path -->
+      <a class="card" href="journalism/haiti-afterlife-of-empire.html">
+        <div class="card-media">
+          <!-- Use your generated banner image OR keep placeholder -->
+          <!-- If you upload your banner image into your project, replace src with a relative path -->
+          <img src="https://www.theinspiredeye.net/wp-content/uploads/2020/05/haiti-street-photography-3.jpg" alt="Haiti, or the Afterlife of Empire">
+        </div>
+        <div class="card-body">
+          <div class="card-kicker">Journalism · Op-Ed</div>
+          <div class="card-title">Haiti, or the Afterlife of Empire</div>
+          <div class="card-deck">
+            Colonialism did not die. It went offshore, learned the language of finance, and started charging interest.
+          </div>
+          <div class="card-meta">
+            <span class="pill">2025</span>
+            <span class="pill">Read · 8–12 min</span>
+            <span class="pill">Featured</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ===== TEMPLATE CARD (copy/paste for new articles) ===== -->
+      <!--
+      <a class="card" href="journalism/your-article-file.html">
+        <div class="card-media">
+          <img src="YOUR_IMAGE_URL_OR_RELATIVE_PATH.jpg" alt="Article title">
+        </div>
+        <div class="card-body">
+          <div class="card-kicker">Journalism · Report</div>
+          <div class="card-title">Your Article Title</div>
+          <div class="card-deck">
+            One sentence standfirst / deck goes here.
+          </div>
+          <div class="card-meta">
+            <span class="pill">2025</span>
+            <span class="pill">Read · 5–7 min</span>
+          </div>
+        </div>
+      </a>
+      -->
+
     </div>
-  </div>
+
+    <div class="back-row">
+      <a href="journalism.html">← Back to Journalism</a>
+      <a href="index.html">Home →</a>
+    </div>
+  </section>
 </main>
 
 <script>
@@ -209,6 +419,7 @@
   const body = document.body;
   const icon = toggle.querySelector('path');
 
+  // Load saved theme
   if (localStorage.getItem('theme') === 'light') {
     body.classList.add('light');
     icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
@@ -216,6 +427,7 @@
 
   toggle.addEventListener('click', () => {
     body.classList.toggle('light');
+
     if (body.classList.contains('light')) {
       localStorage.setItem('theme', 'light');
       icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
