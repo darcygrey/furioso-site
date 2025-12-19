@@ -1,1 +1,231 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Latest — FURIOSO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Inherit your existing styles */
+    body {
+      font-family: "Montserrat", system-ui, sans-serif;
+      background: var(--bg-main, #000);
+      color: var(--text-main, #fff);
+      padding-top: 80px;
+    }
+
+    body.light {
+      --bg-main: #f6f6f4;
+      --text-main: #111;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
+      backdrop-filter: blur(4px);
+    }
+
+    body.light .site-header {
+      background: linear-gradient(to bottom, rgba(246,246,244,0.95), rgba(246,246,244,0));
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.35rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .nav-logo-center {
+      justify-self: center;
+      font-size: 1.05rem;
+      letter-spacing: 0.42em;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .nav-right {
+      justify-self: end;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 0.4rem;
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-main);
+      stroke-width: 2.2;
+      fill: none;
+    }
+
+    /* Latest Posts Layout */
+    .latest-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .latest-heading {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      color: #c00;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .post-entry {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 1.5rem;
+    }
+
+    .post-entry img {
+      width: 160px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+      filter: grayscale(40%);
+    }
+
+    .post-content {
+      flex: 1;
+    }
+
+    .post-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .post-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted, rgba(255,255,255,0.7));
+      margin-bottom: 0.6rem;
+    }
+
+    .post-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted, rgba(255,255,255,0.5));
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    body.light .post-subtitle,
+    body.light .post-meta {
+      color: rgba(0,0,0,0.6);
+    }
+
+    @media (max-width: 640px) {
+      .post-entry {
+        flex-direction: column;
+      }
+
+      .post-entry img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <div></div>
+    <a href="index.html" class="nav-logo-center">FURIOSO</a>
+    <div class="nav-right">
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main class="latest-wrapper">
+  <h1 class="latest-heading">Latest</h1>
+
+  <div class="post-entry">
+    <img src="https://via.placeholder.com/160x90" alt="">
+    <div class="post-content">
+      <div class="post-title">Avatar Wants to Please Only Its Fans</div>
+      <div class="post-subtitle">Fire and Ash is a thrilling installment to a franchise that’s given up on attracting newcomers.</div>
+      <div class="post-meta">David Sims · 10:38 AM ET</div>
+    </div>
+  </div>
+
+  <div class="post-entry">
+    <img src="https://via.placeholder.com/160x90" alt="">
+    <div class="post-content">
+      <div class="post-title">How to Sell a Color</div>
+      <div class="post-subtitle">Pantone found a way to market something already available in nature.</div>
+      <div class="post-meta">Ellen Cushing · 10:30 AM ET</div>
+    </div>
+  </div>
+
+  <div class="post-entry">
+    <img src="https://via.placeholder.com/160x90" alt="">
+    <div class="post-content">
+      <div class="post-title">The Truth About Immigration That MAGA Doesn’t Acknowledge</div>
+      <div class="post-subtitle">American families rely on immigrants to take care of their children.</div>
+      <div class="post-meta">Olga Khazan · 9:40 AM ET</div>
+    </div>
+  </div>
+
+  <div class="post-entry">
+    <img src="https://via.placeholder.com/160x90" alt="">
+    <div class="post-content">
+      <div class="post-title">Photos of the Week: London Fog, Scooter Blankets, Giant Snowman</div>
+      <div class="post-subtitle">Flamingos in Venice, flooding in Washington, and cherry blossoms in China.</div>
+      <div class="post-meta">Alan Taylor · 9:00 AM ET</div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const toggle = document.querySelector('.theme-toggle');
+  const body = document.body;
+  const icon = toggle.querySelector('path');
+
+  if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light');
+    icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('light');
+    if (body.classList.contains('light')) {
+      localStorage.setItem('theme', 'light');
+      icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+    } else {
+      localStorage.setItem('theme', 'dark');
+      icon.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+    }
+  });
+</script>
+
+</body>
+</html>
