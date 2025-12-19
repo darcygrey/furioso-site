@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Support FURIOSO</title>
+  <title>Support — FURIOSO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800&display=swap" rel="stylesheet">
+  <!-- Add 800/900 so logo + headings can hit harder -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,7 +38,7 @@
       overflow-x: hidden;
     }
 
-    /* ===== HEADER ===== */
+    /* ===== HEADER (MATCHES latest.html) ===== */
     .site-header {
       position: fixed;
       top: 0;
@@ -46,7 +47,6 @@
       background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
       backdrop-filter: blur(4px);
     }
-
     body.light .site-header {
       background: linear-gradient(to bottom, rgba(246,246,244,0.95), rgba(246,246,244,0));
     }
@@ -60,18 +60,21 @@
       align-items: center;
     }
 
+    .nav-left { justify-self: start; }
+    .nav-right { justify-self: end; display: flex; gap: 0.75rem; align-items: center; }
+
+    /* Keep the same logo feel but slightly stronger like you wanted */
     .nav-logo-center {
       justify-self: center;
-      font-size: 1.05rem;
+      font-size: 1.18rem;
       letter-spacing: 0.36em;
-      font-weight: 500;
+      font-weight: 800;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--text-main);
+      line-height: 1;
+      text-shadow: 0 0 0.6px currentColor, 0 0 0.6px currentColor;
     }
-
-    .nav-left { justify-self: start; }
-    .nav-right { justify-self: end; }
 
     .nav-link {
       font-size: 0.72rem;
@@ -80,42 +83,145 @@
       text-decoration: none;
       color: var(--text-muted);
       opacity: 0.85;
+      transition: opacity 0.2s ease, color 0.2s ease;
+      padding: 0.35rem 0.35rem;
+      white-space: nowrap;
     }
     .nav-link:hover { opacity: 1; color: var(--text-main); }
 
-    /* ===== PAGE ===== */
-    main {
-      background: var(--bg-secondary);
-      padding: 8rem 1.75rem 6rem;
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 0.4rem;
+    }
+    .theme-toggle:hover { opacity: 1; }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-main);
+      stroke-width: 2.2;
+      fill: none;
     }
 
-    .wrap {
-      max-width: 820px;
-      margin: 0 auto;
+    /* ===== HERO (same structure as latest.html) ===== */
+    .support-hero {
+      position: relative;
+      min-height: 62vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 2rem;
+      padding-top: 6rem;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .support-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.20), rgba(0,0,0,0.96)),
+        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(70%) contrast(1.15);
+      z-index: -2;
+      transform: scale(1.05);
+    }
+
+    body.light .support-hero::before {
+      background:
+        linear-gradient(to bottom, rgba(246,246,244,0.20), rgba(246,246,244,0.92)),
+        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(28%) contrast(1.05);
+    }
+
+    .hero-inner {
+      width: 100%;
+      max-width: 900px;
+      padding-bottom: 1.25rem;
+    }
+
+    .kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
     }
 
     h1 {
-      font-size: clamp(2.1rem, 5vw, 3.1rem);
       letter-spacing: 0.08em;
-      margin-bottom: 1.2rem;
+      font-size: clamp(2.1rem, 5vw, 3.2rem);
+      line-height: 1.08;
+      margin-bottom: 1rem;
     }
 
-    .intro {
-      font-size: 1.08rem;
-      line-height: 1.95;
+    .deck {
+      font-size: 1rem;
+      line-height: 1.85;
+      opacity: 0.88;
       max-width: 70ch;
-      margin-bottom: 2.2rem;
-      opacity: 0.9;
     }
 
-    p {
-      font-size: 1.02rem;
-      line-height: 1.95;
-      margin-bottom: 1.6rem;
+    .meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.55rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+    }
+
+    /* ===== CONTENT ===== */
+    main {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+      padding: 4.5rem 1.75rem 6rem;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 1.4rem;
+    }
+
+    /* A tighter editorial column inside the 900 wrap */
+    .prose {
       max-width: 72ch;
     }
 
-    h2 {
+    .prose p {
+      font-size: 1.02rem;
+      line-height: 1.95;
+      margin-bottom: 1.6rem;
+    }
+
+    .prose h2 {
       margin: 3rem 0 1.25rem;
       font-size: 0.95rem;
       letter-spacing: 0.28em;
@@ -123,68 +229,223 @@
       opacity: 0.75;
     }
 
-    /* ===== SUPPORT BOX ===== */
-    .support-box {
-      margin-top: 3.5rem;
-      padding: 2.2rem;
+    /* ===== INTERACTIVE MODULES ===== */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.2rem;
+      align-items: start;
+      margin-top: 2.2rem;
+    }
+
+    .card {
       border: 1px solid var(--border-soft);
-      border-radius: 14px;
       background: rgba(255,255,255,0.02);
-      max-width: 72ch;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    body.light .card { background: rgba(0,0,0,0.02); }
+
+    .card-inner { padding: 1.35rem 1.35rem 1.25rem; }
+
+    .card-kicker {
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
     }
 
-    body.light .support-box {
-      background: rgba(0,0,0,0.02);
+    .card-title {
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      line-height: 1.25;
+      margin-bottom: 0.7rem;
     }
 
-    .support-box h3 {
-      font-size: 1.1rem;
-      letter-spacing: 0.08em;
+    .card-text {
+      font-size: 0.98rem;
+      line-height: 1.85;
+      opacity: 0.86;
       margin-bottom: 1rem;
     }
 
-    .support-box p {
-      font-size: 0.98rem;
-      margin-bottom: 1.25rem;
+    /* Icon styling */
+    .i {
+      width: 18px; height: 18px;
+      display: inline-block;
+      opacity: 0.9;
     }
+    .i svg { width: 100%; height: 100%; stroke: var(--text-main); stroke-width: 2.2; fill: none; }
 
-    .support-actions {
-      display: flex;
+    /* ===== SUPPORT TIERS ===== */
+    .tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
-      flex-wrap: wrap;
       margin-top: 1.2rem;
     }
 
-    .support-btn {
+    .tier {
       border: 1px solid var(--border-soft);
-      padding: 0.7rem 1.2rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+      padding: 1.2rem 1.1rem 1.15rem;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    body.light .tier { background: rgba(0,0,0,0.02); }
+
+    .tier:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.04);
+    }
+    body.light .tier:hover {
+      border-color: rgba(0,0,0,0.14);
+      background: rgba(0,0,0,0.035);
+    }
+
+    .tier.selected {
+      border-color: rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.06);
+    }
+    body.light .tier.selected {
+      border-color: rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.06);
+    }
+
+    .tier-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .tier-name {
+      font-size: 0.78rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .tier-price {
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+
+    .tier-desc {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      opacity: 0.85;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border-soft);
+      padding: 0.78rem 1.25rem;
       font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--text-main);
       border-radius: 999px;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
     }
 
-    .support-btn:hover {
+    .btn:hover {
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.18);
+      transform: translateY(-1px);
     }
-
-    body.light .support-btn:hover {
+    body.light .btn:hover {
       background: rgba(0,0,0,0.05);
       border-color: rgba(0,0,0,0.14);
     }
 
-    /* ===== FOOTER LINKS ===== */
+    .btn-ghost {
+      color: var(--text-muted);
+      border-color: var(--border-soft);
+      opacity: 0.95;
+    }
+
+    .fineprint {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-top: 0.9rem;
+      max-width: 72ch;
+    }
+
+    /* ===== FAQ (accordion) ===== */
+    .faq {
+      margin-top: 2rem;
+      max-width: 72ch;
+    }
+
+    details {
+      border-top: 1px solid var(--border-soft);
+      padding: 1rem 0;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.86rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    .chev {
+      width: 18px; height: 18px; opacity: 0.8;
+    }
+    .chev svg { width: 100%; height: 100%; stroke: var(--text-main); stroke-width: 2.2; fill: none; }
+
+    details[open] summary { color: var(--text-main); opacity: 0.9; }
+    details[open] .chev { transform: rotate(180deg); }
+
+    .faq p {
+      margin-top: 0.85rem;
+      font-size: 0.98rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+    }
+
+    /* ===== FOOTER LINKS (same pattern) ===== */
     .back-row {
-      margin-top: 4rem;
+      margin-top: 3rem;
       display: flex;
       justify-content: space-between;
-      max-width: 820px;
+      max-width: 900px;
       margin-left: auto;
       margin-right: auto;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 1.6rem;
     }
 
     .back-row a {
@@ -193,13 +454,25 @@
       font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      transition: color 0.2s ease, opacity 0.2s ease;
     }
 
     .back-row a:hover { color: var(--text-main); }
 
+    @media (max-width: 860px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .tiers { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 640px) {
-      main { padding-top: 7rem; }
-      .support-box { padding: 1.6rem; }
+      .nav { padding: 1rem 1.25rem; }
+      .support-hero { min-height: 56vh; }
+      .card-inner { padding: 1.15rem 1.1rem 1.05rem; }
+      .card-title { font-size: 1.06rem; }
+      .back-row { flex-direction: column; gap: 0.9rem; align-items: flex-start; }
     }
   </style>
 </head>
@@ -216,72 +489,224 @@
 
     <div class="nav-right">
       <a href="support.html" class="nav-link">Support</a>
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
+        </svg>
+      </button>
     </div>
   </nav>
 </header>
 
+<section class="support-hero">
+  <div class="hero-inner">
+    <div class="kicker">Support · Membership</div>
+    <h1>Support FURIOSO</h1>
+    <p class="deck">
+      This isn’t a paywall. It’s a relationship — a way to keep the work slow, independent, and unbothered by algorithms.
+    </p>
+    <div class="meta">
+      <span class="pill">Independent</span>
+      <span class="pill">Reader-supported</span>
+      <span class="pill">Rolling archive</span>
+    </div>
+  </div>
+</section>
+
 <main>
   <section class="wrap">
+    <div class="section-title">Why this exists</div>
 
-    <h1>Why Support FURIOSO</h1>
+    <div class="grid-2">
+      <!-- Left: Editorial prose -->
+      <div class="card">
+        <div class="card-inner prose">
+          <div class="card-kicker">
+            <span class="i" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 19V5m0 0h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6m0-14l3 3m-3-3l3-3"/></svg>
+            </span>
+            Mission
+          </div>
+          <div class="card-title">FURIOSO exists to look where it would be easier not to.</div>
 
-    <p class="intro">
-      FURIOSO exists to look where it would be easier not to.
-    </p>
+          <p>
+            This project was born out of a simple frustration: that much of what shapes our world is either flattened,
+            rushed, or deliberately softened. That history becomes spectacle. That geopolitics is reduced to noise.
+            That long memory is treated as inconvenience.
+          </p>
 
-    <p>
-      This project was created out of a simple frustration: that much of what shapes our world is either flattened,
-      rushed, or deliberately softened. That history becomes spectacle. That geopolitics is reduced to noise.
-      That long memory is treated as inconvenience.
-    </p>
+          <p>
+            FURIOSO publishes essays, op-eds, and dispatches that sit with complexity rather than running from it —
+            pieces that take time to write, time to read, and time to linger.
+          </p>
 
-    <p>
-      FURIOSO publishes essays, op-eds, and dispatches that sit with complexity rather than running from it.
-      Pieces that take time to write, time to read, and time to linger.
-    </p>
-
-    <p>
-      There are no click quotas here. No growth hacks. No obligation to please algorithms.
-      Just the work, and the reader.
-    </p>
-
-    <h2>Why membership matters</h2>
-
-    <p>
-      Independent journalism only survives if it is supported directly by the people who value it.
-      Not advertisers. Not platforms. Not institutional pressure.
-    </p>
-
-    <p>
-      Membership allows FURIOSO to remain slow, focused, and editorially independent.
-      It helps fund research, reporting time, archival work, and future projects — including long-form investigations,
-      film work, and print editions.
-    </p>
-
-    <h2>What supporters receive</h2>
-
-    <p>
-      This is not a paywall. It is a relationship.
-    </p>
-
-    <p>
-      Supporters may receive early access to certain pieces, occasional members-only dispatches,
-      downloadable editions, and invitations to future talks or screenings.
-      Most importantly, they help ensure this work continues.
-    </p>
-
-    <div class="support-box">
-      <h3>Support FURIOSO</h3>
-      <p>
-        If this work has meant something to you — if it has informed you, unsettled you, or stayed with you —
-        you can help sustain it.
-      </p>
-
-      <div class="support-actions">
-        <!-- Replace with Stripe / payment link later -->
-        <a href="#" class="support-btn">£5 / Month</a>
-        <a href="#" class="support-btn">£50 / Year</a>
+          <p>
+            There are no click quotas here. No growth hacks. No obligation to please algorithms.
+            Just the work, and the reader.
+          </p>
+        </div>
       </div>
+
+      <!-- Right: Visual / interactive highlights -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-kicker">
+            <span class="i" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2a4 4 0 0 1 7 2c0 6.5-7 11-7 11z"/></svg>
+            </span>
+            What support protects
+          </div>
+
+          <div class="card-title">Depth over speed. Trust over traffic.</div>
+
+          <p class="card-text">
+            Support keeps FURIOSO independent — and allows the work to remain slow, research-led, and editorially honest.
+          </p>
+
+          <div class="meta" style="margin-top: 0;">
+            <span class="pill">
+              <span class="i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14M8 8h8M8 12h8M8 16h6"/></svg>
+              </span>
+              Research time
+            </span>
+            <span class="pill">
+              <span class="i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 7h16M6 7v14m12-14v14M8 11h8M8 15h8"/></svg>
+              </span>
+              Archival work
+            </span>
+            <span class="pill">
+              <span class="i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9-9 9-9-9z"/></svg>
+              </span>
+              Long-form series
+            </span>
+          </div>
+
+          <p class="fineprint">
+            No tricks. No popups. No “urgent” countdown timers. Just a clean way to keep publishing.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 3rem;">Choose your support</div>
+
+    <!-- Interactive tiers -->
+    <div class="tiers" id="tiers">
+      <div class="tier selected" data-plan="monthly" data-price="£5/month" data-link="#">
+        <div class="tier-top">
+          <div class="tier-name">Member</div>
+          <div class="tier-price">£5<span style="opacity:.7;font-weight:700;">/mo</span></div>
+        </div>
+        <div class="tier-desc">The clean baseline. Helps keep the archive alive and the work independent.</div>
+      </div>
+
+      <div class="tier" data-plan="yearly" data-price="£50/year" data-link="#">
+        <div class="tier-top">
+          <div class="tier-name">Patron</div>
+          <div class="tier-price">£50<span style="opacity:.7;font-weight:700;">/yr</span></div>
+        </div>
+        <div class="tier-desc">Best value. Supports deeper reporting cycles and longer investigations.</div>
+      </div>
+
+      <div class="tier" data-plan="founding" data-price="£150/year" data-link="#">
+        <div class="tier-top">
+          <div class="tier-name">Founding</div>
+          <div class="tier-price">£150<span style="opacity:.7;font-weight:700;">/yr</span></div>
+        </div>
+        <div class="tier-desc">For people who want this to exist loudly. Early invites, print drops, and thanks.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 1.1rem;">
+      <div class="card-inner">
+        <div class="card-kicker">
+          <span class="i" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+          </span>
+          Support
+        </div>
+
+        <div class="card-title" id="selectedTitle">Selected: Member</div>
+        <p class="card-text" id="selectedText">
+          You’re choosing the clean baseline. This keeps the work independent, slow, and unbothered by algorithms.
+        </p>
+
+        <div class="cta-row">
+          <!-- Replace data-link values on tiers with Stripe URLs later -->
+          <a class="btn" id="supportBtn" href="#">
+            <span class="i" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2a4 4 0 0 1 7 2c0 6.5-7 11-7 11z"/></svg>
+            </span>
+            Continue — £5/month
+          </a>
+
+          <a class="btn btn-ghost" href="latest.html">
+            <span class="i" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            </span>
+            Read first
+          </a>
+        </div>
+
+        <p class="fineprint">
+          You can cancel anytime. Your support goes directly into publishing — research time, writing time, and keeping FURIOSO independent.
+        </p>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 3rem;">FAQ</div>
+
+    <div class="faq">
+      <details>
+        <summary>
+          Is this a paywall?
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </summary>
+        <p>
+          No. Most work remains publicly readable. Membership is about keeping the project independent and sustainable — and occasionally receiving early access or extras.
+        </p>
+      </details>
+
+      <details>
+        <summary>
+          What do members get?
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </summary>
+        <p>
+          Early access to some pieces, occasional members-only dispatches, downloadable editions, and invitations to future talks or screenings as they develop.
+        </p>
+      </details>
+
+      <details>
+        <summary>
+          Where does the money go?
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </summary>
+        <p>
+          Research time, reporting time, archival work, publishing costs, and future long-form projects — including film work and print editions.
+        </p>
+      </details>
+
+      <details>
+        <summary>
+          Can I support without subscribing?
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </summary>
+        <p>
+          Yes. Add a one-time support link when you’re ready (Stripe “payment link” works well). For now, subscriptions are the cleanest baseline.
+        </p>
+      </details>
     </div>
 
     <div class="back-row">
@@ -291,6 +716,67 @@
 
   </section>
 </main>
+
+<script>
+  // Theme toggle (matches your other pages)
+  const toggle = document.querySelector('.theme-toggle');
+  const body = document.body;
+  const icon = toggle.querySelector('path');
+
+  if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light');
+    icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('light');
+
+    if (body.classList.contains('light')) {
+      localStorage.setItem('theme', 'light');
+      icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+    } else {
+      localStorage.setItem('theme', 'dark');
+      icon.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+    }
+  });
+
+  // Tier selector interactivity
+  const tiers = document.querySelectorAll('.tier');
+  const selectedTitle = document.getElementById('selectedTitle');
+  const selectedText = document.getElementById('selectedText');
+  const supportBtn = document.getElementById('supportBtn');
+
+  const copy = {
+    monthly: {
+      title: 'Selected: Member',
+      text: 'You’re choosing the clean baseline. This keeps the work independent, slow, and unbothered by algorithms.'
+    },
+    yearly: {
+      title: 'Selected: Patron',
+      text: 'Best value. This supports deeper reporting cycles — the kind that require time, research, and calm patience.'
+    },
+    founding: {
+      title: 'Selected: Founding',
+      text: 'For people who want this to exist loudly. This helps fund long investigations and future film / print work.'
+    }
+  };
+
+  tiers.forEach(t => {
+    t.addEventListener('click', () => {
+      tiers.forEach(x => x.classList.remove('selected'));
+      t.classList.add('selected');
+
+      const plan = t.dataset.plan;
+      const price = t.dataset.price;
+      const link = t.dataset.link;
+
+      selectedTitle.textContent = copy[plan].title;
+      selectedText.textContent = copy[plan].text;
+      supportBtn.textContent = `Continue — ${price}`;
+      supportBtn.setAttribute('href', link || '#');
+    });
+  });
+</script>
 
 </body>
 </html>
