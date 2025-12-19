@@ -39,7 +39,7 @@
     }
 
     /* ===== HEADER ===== */
-   /* ===== HEADER (MATCHES latest.html) ===== */
+    /* ===== HEADER (MATCHES latest.html) ===== */
     .site-header {
       position: fixed;
       top: 0;
@@ -61,10 +61,10 @@
       align-items: center;
     }
 
-    .nav-left { justify-self: start; }
+    .nav-left { justify-self: start; display: flex; align-items: center; }
     .nav-right { justify-self: end; display: flex; gap: 0.75rem; align-items: center; }
 
-    /* Keep the same logo feel but slightly stronger like you wanted */
+    /* ✅ BIGGER + BOLDER FURIOSO */
     .nav-logo-center {
       justify-self: center;
       font-size: 1.05rem;
@@ -74,7 +74,10 @@
       text-decoration: none;
       color: var(--text-main);
       line-height: 1;
-      text-shadow: 0 0 0.6px currentColor, 0 0 0.6px currentColor;
+      padding: 0.2rem 0;
+      text-shadow:
+        0 0 0.6px currentColor,
+        0 0 0.6px currentColor;
     }
 
     .nav-link {
@@ -107,57 +110,92 @@
       fill: none;
     }
 
-    /* ✅ BIGGER + BOLDER FURIOSO */
-    .nav-logo-center {
-      justify-self: center;
-      font-size: 1.05rem;       /* was 1.05rem */
-      letter-spacing: 0.36em;   /* slightly tighter for bold */
-      font-weight: 500;         /* was 500 */
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--text-main);
-      line-height: 1;
-      padding: 0.2rem 0;
-      /* subtle extra “ink” without glow */
-      text-shadow:
-        0 0 0.6px currentColor,
-        0 0 0.6px currentColor;
+    /* ===== DROPDOWN MENU (LEFT BURGER) ===== */
+    .menu-wrap { position: relative; display: flex; align-items: center; }
+
+    .menu-toggle{
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.75;
+      padding: 0.45rem;
+      transition: opacity .2s ease;
+    }
+    .menu-toggle:hover{ opacity: 1; }
+
+    .burger{
+      width: 22px;
+      height: 16px;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .burger span{
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: var(--text-main);
+      border-radius: 999px;
+      opacity: 0.95;
+      transform-origin: center;
+      transition: transform .2s ease, opacity .2s ease;
     }
 
-    .nav-right {
-      justify-self: end;
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
+    .menu-wrap.open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .menu-wrap.open .burger span:nth-child(2){ opacity: 0; }
+    .menu-wrap.open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-panel{
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 210px;
+      background: rgba(10,10,10,0.92);
+      border: 1px solid var(--border-soft);
+      backdrop-filter: blur(10px);
+      padding: 0.55rem;
+      display: grid;
+      gap: 0.25rem;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 999;
     }
 
-    .nav-link {
+    body.light .menu-panel{ background: rgba(255,255,255,0.92); }
+
+    .menu-wrap.open .menu-panel{
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .menu-item{
+      display: block;
+      padding: 0.7rem 0.7rem;
       font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--text-muted);
-      opacity: 0.85;
-      transition: opacity 0.2s ease, color 0.2s ease;
-      padding: 0.35rem 0.35rem;
+      border-radius: 10px;
+      transition: background .15s ease, color .15s ease, opacity .15s ease;
+      opacity: 0.95;
+      white-space: nowrap;
     }
-    .nav-link:hover { opacity: 1; color: var(--text-main); }
 
-    .theme-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      opacity: 0.6;
-      padding: 0.4rem;
+    .menu-item:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      opacity: 1;
     }
-    .theme-toggle:hover { opacity: 1; }
 
-    .theme-toggle svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--text-main);
-      stroke-width: 2.2;
-      fill: none;
+    body.light .menu-item:hover{ background: rgba(0,0,0,0.06); }
+
+    @media (max-width: 640px){
+      .menu-panel{ min-width: 200px; }
+      .menu-item{ padding: 0.85rem 0.8rem; }
     }
 
     /* ===== HERO ===== */
@@ -296,13 +334,9 @@
       transform: scale(1.02);
     }
 
-    body.light .card-media img {
-      filter: grayscale(25%) contrast(1.05);
-    }
+    body.light .card-media img { filter: grayscale(25%) contrast(1.05); }
 
-    .card-body {
-      padding: 1.4rem 1.4rem 1.25rem;
-    }
+    .card-body { padding: 1.4rem 1.4rem 1.25rem; }
 
     .card-kicker {
       font-size: 0.68rem;
@@ -388,15 +422,28 @@
 
 <header class="site-header">
   <nav class="nav">
+    <!-- LEFT: Burger dropdown menu (replaces Latest link) -->
     <div class="nav-left">
-      <a href="latest.html" class="nav-link">Latest</a>
+      <div class="menu-wrap">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
+          <span class="burger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
+          <a class="menu-item" role="menuitem" href="latest.html">Latest</a>
+          <a class="menu-item" role="menuitem" href="support.html">Support</a>
+        </div>
+      </div>
     </div>
 
+    <!-- CENTER: Logo -->
     <a href="index.html" class="nav-logo-center">FURIOSO</a>
 
+    <!-- RIGHT: Theme toggle (Support removed as per new header pattern) -->
     <div class="nav-right">
-      <a href="support.html" class="nav-link">Support</a>
-      <button class="theme-toggle" aria-label="Toggle theme">
+      <button class="theme-toggle" aria-label="Toggle theme" type="button">
         <svg viewBox="0 0 24 24">
           <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
         </svg>
@@ -404,7 +451,6 @@
     </div>
   </nav>
 </header>
-
 
 <section class="latest-hero">
   <div class="hero-inner">
@@ -427,7 +473,7 @@
 
     <div class="latest-grid">
 
-        <a class="card" href="journalism/who-decides-what-a-failed-state-is.html">
+      <a class="card" href="journalism/who-decides-what-a-failed-state-is.html">
         <div class="card-media">
           <img src="https://content.magnumphotos.com/wp-content/uploads/2020/01/ECN1989002W00003-24-overlay.jpg" alt="Who decides what a failed state is?">
         </div>
@@ -491,25 +537,64 @@
 </main>
 
 <script>
-  const toggle = document.querySelector('.theme-toggle');
-  const body = document.body;
-  const icon = toggle.querySelector('path');
+  document.addEventListener('DOMContentLoaded', () => {
+    // ===== THEME TOGGLE =====
+    const toggle = document.querySelector('.theme-toggle');
+    const body = document.body;
+    const icon = toggle?.querySelector('path');
 
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light');
-    icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-  }
-
-  toggle.addEventListener('click', () => {
-    body.classList.toggle('light');
-
-    if (body.classList.contains('light')) {
-      localStorage.setItem('theme', 'light');
-      icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-    } else {
-      localStorage.setItem('theme', 'dark');
-      icon.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light');
+      icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
     }
+
+    toggle?.addEventListener('click', () => {
+      body.classList.toggle('light');
+
+      if (body.classList.contains('light')) {
+        localStorage.setItem('theme', 'light');
+        icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+      } else {
+        localStorage.setItem('theme', 'dark');
+        icon?.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+      }
+    });
+
+    // ===== DROPDOWN MENU =====
+    const menuWrap = document.querySelector('.menu-wrap');
+    const menuBtn  = document.querySelector('.menu-toggle');
+    const menuPanel = document.getElementById('site-menu');
+
+    if (!menuWrap || !menuBtn || !menuPanel) return;
+
+    function closeMenu() {
+      menuWrap.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.setAttribute('aria-hidden', 'true');
+    }
+
+    function openMenu() {
+      menuWrap.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuPanel.setAttribute('aria-hidden', 'false');
+    }
+
+    menuBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = menuWrap.classList.contains('open');
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    menuPanel.addEventListener('click', (e) => e.stopPropagation());
+
+    document.addEventListener('click', (e) => {
+      if (!menuWrap.contains(e.target)) closeMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
   });
 </script>
 
