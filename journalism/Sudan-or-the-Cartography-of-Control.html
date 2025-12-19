@@ -1,1 +1,481 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sudan, or the Cartography of Control — FURIOSO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-main: #000;
+      --bg-secondary: #050505;
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.7);
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
+    body.light {
+      --bg-main: #f6f6f4;
+      --bg-secondary: #ffffff;
+      --text-main: #111111;
+      --text-muted: rgba(0,0,0,0.6);
+      --border-soft: rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== EDITORIAL IMAGES ===== */
+    .article-figure {
+      margin: 3.5rem auto;
+      max-width: 900px;
+    }
+
+    .article-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: grayscale(30%) contrast(1.05);
+    }
+
+    .article-figure figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .article-figure.inline { max-width: 72ch; }
+
+    .article-figure + p,
+    p + .article-figure { margin-top: 3rem; }
+
+    @media (max-width: 640px) {
+      .article-figure { margin: 2.5rem auto; }
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
+      backdrop-filter: blur(4px);
+    }
+
+    body.light .site-header {
+      background: linear-gradient(to bottom, rgba(246,246,244,0.95), rgba(246,246,244,0));
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.35rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .nav-left { justify-self: start; }
+    .nav-right { justify-self: end; display: flex; align-items: center; gap: 0.8rem; }
+
+    .nav-logo-center {
+      justify-self: center;
+      font-size: 1.05rem;
+      letter-spacing: 0.42em;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    /* Top nav link */
+    .nav-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-muted);
+      opacity: 0.85;
+      transition: opacity 0.2s ease, color 0.2s ease;
+      padding: 0.35rem 0.35rem;
+    }
+    .nav-link:hover { opacity: 1; color: var(--text-main); }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 0.4rem;
+    }
+    .theme-toggle:hover { opacity: 1; }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-main);
+      stroke-width: 2.2;
+      fill: none;
+    }
+
+    /* ===== HERO ===== */
+    .article-hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 2rem;
+      padding-top: 6rem;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .article-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.95)),
+        /* Swap this URL for your Sudan banner when ready */
+        url("https://images.unsplash.com/photo-1542317854-ec2c2b3a7b25?auto=format&fit=crop&w=2400&q=60")
+        center/cover no-repeat fixed;
+      filter: grayscale(65%) contrast(1.15);
+      z-index: -2;
+      transform: scale(1.05);
+    }
+
+    body.light .article-hero::before {
+      background:
+        linear-gradient(to bottom, rgba(246,246,244,0.15), rgba(246,246,244,0.92)),
+        url("https://images.unsplash.com/photo-1542317854-ec2c2b3a7b25?auto=format&fit=crop&w=2400&q=60")
+        center/cover no-repeat fixed;
+      filter: grayscale(25%) contrast(1.05);
+    }
+
+    .hero-inner {
+      width: 100%;
+      max-width: 900px;
+      padding-bottom: 1.25rem;
+    }
+
+    .kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      letter-spacing: 0.08em;
+      font-size: clamp(2.1rem, 5vw, 3.2rem);
+      line-height: 1.08;
+      margin-bottom: 1rem;
+    }
+
+    .deck {
+      font-size: 1rem;
+      line-height: 1.85;
+      opacity: 0.88;
+      max-width: 70ch;
+    }
+
+    .meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    /* ===== ARTICLE BODY ===== */
+    main {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+      padding: 4.5rem 1.75rem 6rem;
+    }
+
+    .article {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .article p {
+      font-size: 1.02rem;
+      line-height: 1.95;
+      margin-bottom: 1.6rem;
+      max-width: 72ch;
+    }
+
+    .article p:first-of-type { font-size: 1.08rem; }
+
+    .article h2 {
+      margin: 3rem 0 1.25rem;
+      font-size: 1.05rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      max-width: 72ch;
+    }
+
+    /* ===== BOTTOM NAV (FIX) ===== */
+    .back-row {
+      max-width: 72ch;
+      margin-top: 3.5rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .back-row a {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-muted);
+      opacity: 0.85;
+      padding: 0.35rem 0.15rem;
+      transition: opacity 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .back-row a:hover { opacity: 1; color: var(--text-main); }
+    .back-row a:visited { color: var(--text-muted); }
+
+    @media (max-width: 640px) {
+      .nav { padding: 1rem 1.25rem; }
+      .article-hero { min-height: 86vh; }
+
+      .back-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .back-row a { white-space: normal; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="../latest.html" class="nav-link">Latest</a>
+    </div>
+
+    <a href="../index.html" class="nav-logo-center">FURIOSO</a>
+
+    <div class="nav-right">
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<section class="article-hero">
+  <div class="hero-inner">
+    <div class="kicker">Journalism · Op-Ed</div>
+    <h1>Sudan, or the Cartography of Control</h1>
+    <p class="deck">
+      Some countries are invaded with armies. Others are invaded with maps.
+    </p>
+    <div class="meta">
+      <span>FURIOSO</span>
+      <span>2025</span>
+      <span>Read · 8–12 min</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <article class="article">
+
+    <p>There is a particular kind of violence that doesn’t look like violence at all. It arrives wearing a tie. It speaks in administrative English. It uses the word <em>stability</em> the way a priest uses the word <em>salvation</em>. And when it is done, it leaves behind a country that looks intact on paper—borders drawn, capital named, flag raised—while the internal machinery has been engineered to fail.</p>
+
+    <p>Sudan is one of the clearest examples of what happens when an empire doesn’t just take land. It takes the future.</p>
+
+    <p>Because Sudan’s story isn’t only about colonialism as theft. It’s about colonialism as design: a blueprint for dependence, a system of managed fracture, a state built less to thrive than to be governed.</p>
+
+    <p>And hovering above all of it—silent, relentless, ancient—runs the Nile.</p>
+
+    <figure class="article-figure inline">
+      <img src="https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1800&q=60" alt="The Nile and its banks">
+      <figcaption>The river that makes countries valuable.</figcaption>
+    </figure>
+
+    <h2>The river that makes countries valuable</h2>
+
+    <p>Sudan’s tragedy is often described like weather: as if it’s a permanent climate of conflict, a cultural inevitability, a place that simply can’t stop collapsing. This is the lie of the “failed state” label. It treats failure as a personality trait.</p>
+
+    <p>But Sudan’s geography is not neutral. The Nile does not merely pass through Sudan; it assigns Sudan a role.</p>
+
+    <p>Rivers in a desert are not scenery. They are leverage.</p>
+
+    <p>The Nile is water, yes. But in imperial logic, water becomes control—control of agriculture, trade, settlement, borders, and the most intimate thing of all: whether a society can reliably feed itself. Control of the Nile is control of life at scale.</p>
+
+    <p>Which is why Sudan has never just been Sudan. It has been a corridor, a buffer, and a valve.</p>
+
+    <figure class="article-figure inline">
+      <img src="https://images.unsplash.com/photo-1587502536263-9298d611b1b5?auto=format&fit=crop&w=1800&q=60" alt="Desert landscape near the Nile">
+      <figcaption>Water as leverage.</figcaption>
+    </figure>
+
+    <h2>Condominium: the polite word for domination</h2>
+
+    <p>The British didn’t colonise Sudan like they colonised a profit engine. Sudan wasn’t Saint-Domingue. It wasn’t built to mint wealth in London. It was built to secure something else.</p>
+
+    <p>Sudan mattered because Egypt mattered. And Egypt mattered because the Suez mattered. And the Suez mattered because empire is a machine, and machines need routes.</p>
+
+    <p>So Sudan became strategic territory—managed territory—a country shaped around someone else’s priorities.</p>
+
+    <p>Under the Anglo-Egyptian Condominium, Sudan was governed with that classic imperial trick: rule it “together,” but never let it rule itself. Build just enough infrastructure to move power and extract compliance. Keep the rest administratively thin. Teach people to obey systems rather than own them.</p>
+
+    <p>This is how you produce a state that can be controlled without being built.</p>
+
+    <h2>Divide it, then call the division natural</h2>
+
+    <p>One of colonialism’s most enduring achievements is convincing people their fractures are ancestral when they are often manufactured.</p>
+
+    <p>Sudan inherited borders that were never meant to express a unified nationhood. They were meant to contain a region. To simplify governance. To keep a lid on complexity. To ensure that when independence arrived, it would arrive carrying internal contradictions like explosives.</p>
+
+    <p>The logic was simple:</p>
+
+    <p>Centralise power in a manageable hub. Invest selectively. Encourage a hierarchy that keeps some groups close to the capital and others permanently peripheral. Administer difference rather than integrate it.</p>
+
+    <p>This isn’t unique to Sudan. But Sudan is what happens when that approach is applied to a vast territory with deep diversity and an empire’s patience for conflict.</p>
+
+    <p>The outcome is predictable: a centre that hoards resources, and margins that become sites of rebellion, punishment, neglect, rebellion again. A country that spends its political energy trying to hold itself together instead of building wealth.</p>
+
+    <p>A state designed for governance, not development.</p>
+
+    <figure class="article-figure inline">
+      <img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1800&q=60" alt="A map-like texture, borders and lines">
+      <figcaption>Some borders are instructions.</figcaption>
+    </figure>
+
+    <h2>The Nile as the invisible border</h2>
+
+    <p>Now to the question beneath the question—the uncomfortable one.</p>
+
+    <p>Has Sudan been kept underdeveloped for a reason?</p>
+
+    <p>If you mean a single cigarette-smoking villain in a back room, probably not. History rarely works like cinema.</p>
+
+    <p>But if you mean structural incentive, then yes: Sudan’s underdevelopment has been convenient for the people who need it weak.</p>
+
+    <p>Because the Nile creates an upstream/downstream relationship that is never equal. Downstream states fear what upstream states might do with the water. Upstream states resent being told their resources are essentially owned by someone else’s historical agreements.</p>
+
+    <p>This is not moral drama. It is hydrology. And hydrology becomes politics the moment you build a nation on a river.</p>
+
+    <p>Egypt, as a downstream state, has long treated Nile security as existential. A strong, sovereign Sudan with stable governance and ambitious water policy becomes a variable Egypt cannot fully control. A fragmented Sudan is tragic—but predictable. Predictability is a form of power.</p>
+
+    <p>This doesn’t require a conspiracy. It requires only that states behave like states.</p>
+
+    <p>And colonialism’s gift to geopolitics is exactly this: it leaves behind structures where certain outcomes are “accidental” in name but consistent in effect.</p>
+
+    <h2>Geopolitics: colonialism with cleaner language</h2>
+
+    <p>In the modern era, no one wants to be called a coloniser. It’s gauche. It ruins the press. So colonialism doesn’t announce itself. It arrives as “security cooperation,” “stabilisation,” “counterterrorism,” “regional order,” “aid conditionality,” “debt restructuring,” “investment.”</p>
+
+    <p>And Sudan, sitting where it sits, is always being “managed.”</p>
+
+    <p>Because Sudan isn’t just Sudan. It’s a hinge between worlds: North Africa and sub-Saharan Africa, the Red Sea and the interior, Arab identity and African identity, Mediterranean empires and Sahel realities.</p>
+
+    <p>The world does not look at Sudan and see a single people trying to build a future. It sees a strategic territory that must not fall into the wrong hands.</p>
+
+    <p>This is where modern colonialism hides: not in flags, but in priorities.</p>
+
+    <figure class="article-figure inline">
+      <img src="https://images.unsplash.com/photo-1520975958225-3f61d9f6ad2b?auto=format&fit=crop&w=1800&q=60" alt="Aerial view of a river cutting through land">
+      <figcaption>Power follows the waterline.</figcaption>
+    </figure>
+
+    <h2>A country that never gets a quiet decade</h2>
+
+    <p>Wealth requires compounding. Compounding requires stability. Stability requires institutions. Institutions require time—boring time, unglamorous time, time without catastrophe.</p>
+
+    <p>Sudan has not been allowed that kind of time.</p>
+
+    <p>Coups, civil wars, internal displacement, the long nightmare of Darfur, the secession of South Sudan, militarised politics, foreign influence, economic strangulation—each crisis interrupts the possibility of compounding and replaces it with survival.</p>
+
+    <p>And every interruption creates new dependence: on aid, on external security arrangements, on emergency finance, on export commodities, on powerful neighbours.</p>
+
+    <p>This is the loop. Colonialism plants it. Geopolitics keeps it watered.</p>
+
+    <h2>The question that won’t behave</h2>
+
+    <p>If Sudan’s fractures were intensified by colonial design—if its institutions were left thin by choice—if its strategic geography has been exploited by external priorities—then what does responsibility look like now?</p>
+
+    <p>Is responsibility a history lesson? A museum plaque? A solemn speech?</p>
+
+    <p>Or is it material?</p>
+
+    <p>Is there a moral obligation—on former imperial powers, on regional powers, on global powers that continue to treat Sudan as strategic terrain—to invest not in “stability operations” but in the conditions that allow a country to compound wealth?</p>
+
+    <p>And the nastiest question of all:</p>
+
+    <p>If Sudan ever became stable, sovereign, and economically confident—able to control its future and negotiate as an equal—would the people with the most leverage over it actually want that?</p>
+
+    <p>Or would they prefer the familiar version of Sudan: broken enough to manage, desperate enough to bargain, strategic enough to matter, unstable enough to excuse intervention?</p>
+
+    <p>The Nile keeps flowing. The borders remain. And history—patient, unsentimental—keeps watching.</p>
+
+    <div class="back-row">
+      <a href="../latest.html">Back to latest</a>
+      <a href="../index.html">Home</a>
+    </div>
+
+  </article>
+</main>
+
+<script>
+  const toggle = document.querySelector('.theme-toggle');
+  const body = document.body;
+  const icon = toggle.querySelector('path');
+
+  if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light');
+    icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('light');
+
+    if (body.classList.contains('light')) {
+      localStorage.setItem('theme', 'light');
+      icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+    } else {
+      localStorage.setItem('theme', 'dark');
+      icon.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+    }
+  });
+</script>
+
+</body>
+</html>
