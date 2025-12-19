@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,17 +9,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-main: #000;
+      --bg-secondary: #050505;
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.7);
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
     /* Inherit your existing styles */
     body {
       font-family: "Montserrat", system-ui, sans-serif;
       background: var(--bg-main, #000);
       color: var(--text-main, #fff);
       padding-top: 80px;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     body.light {
       --bg-main: #f6f6f4;
+      --bg-secondary: #ffffff;
       --text-main: #111;
+      --text-muted: rgba(0,0,0,0.6);
+      --border-soft: rgba(0,0,0,0.08);
     }
 
     .site-header {
@@ -45,6 +59,9 @@
       align-items: center;
     }
 
+    .nav-left { justify-self: start; display: flex; align-items: center; }
+    .nav-right { justify-self: end; display: flex; align-items: center; gap: 0.8rem; }
+
     .nav-logo-center {
       justify-self: center;
       font-size: 1.05rem;
@@ -55,10 +72,6 @@
       color: var(--text-main);
     }
 
-    .nav-right {
-      justify-self: end;
-    }
-
     .theme-toggle {
       background: none;
       border: none;
@@ -66,6 +79,7 @@
       opacity: 0.6;
       padding: 0.4rem;
     }
+    .theme-toggle:hover { opacity: 1; }
 
     .theme-toggle svg {
       width: 20px;
@@ -73,6 +87,93 @@
       stroke: var(--text-main);
       stroke-width: 2.2;
       fill: none;
+    }
+
+    /* ===== DROPDOWN MENU (LEFT BURGER) ===== */
+    .menu-wrap { position: relative; display: flex; align-items: center; }
+
+    .menu-toggle{
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.75;
+      padding: 0.45rem;
+      transition: opacity .2s ease;
+    }
+    .menu-toggle:hover{ opacity: 1; }
+
+    .burger{
+      width: 22px;
+      height: 16px;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .burger span{
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: var(--text-main);
+      border-radius: 999px;
+      opacity: 0.95;
+      transform-origin: center;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .menu-wrap.open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .menu-wrap.open .burger span:nth-child(2){ opacity: 0; }
+    .menu-wrap.open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-panel{
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 210px;
+      background: rgba(10,10,10,0.92);
+      border: 1px solid var(--border-soft);
+      backdrop-filter: blur(10px);
+      padding: 0.55rem;
+      display: grid;
+      gap: 0.25rem;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 999;
+    }
+
+    body.light .menu-panel{
+      background: rgba(255,255,255,0.92);
+    }
+
+    .menu-wrap.open .menu-panel{
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .menu-item{
+      display: block;
+      padding: 0.7rem 0.7rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-muted);
+      border-radius: 10px;
+      transition: background .15s ease, color .15s ease, opacity .15s ease;
+      opacity: 0.95;
+      white-space: nowrap;
+    }
+
+    .menu-item:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      opacity: 1;
+    }
+
+    body.light .menu-item:hover{
+      background: rgba(0,0,0,0.06);
     }
 
     /* Latest Posts Layout */
@@ -99,6 +200,10 @@
       padding-bottom: 1.5rem;
     }
 
+    body.light .post-entry {
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
     .post-entry img {
       width: 160px;
       height: 90px;
@@ -108,9 +213,7 @@
       filter: grayscale(40%);
     }
 
-    .post-content {
-      flex: 1;
-    }
+    .post-content { flex: 1; }
 
     .post-title {
       font-size: 1.15rem;
@@ -137,6 +240,8 @@
     }
 
     @media (max-width: 640px) {
+      .nav { padding: 1rem 1.25rem; }
+
       .post-entry {
         flex-direction: column;
       }
@@ -153,10 +258,28 @@
 
 <header class="site-header">
   <nav class="nav">
-    <div></div>
+    <!-- LEFT: Burger dropdown menu -->
+    <div class="nav-left">
+      <div class="menu-wrap">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
+          <span class="burger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
+          <a class="menu-item" role="menuitem" href="latest.html">Latest</a>
+          <a class="menu-item" role="menuitem" href="support.html">Support</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: Logo -->
     <a href="index.html" class="nav-logo-center">FURIOSO</a>
+
+    <!-- RIGHT: Theme toggle -->
     <div class="nav-right">
-      <button class="theme-toggle" aria-label="Toggle theme">
+      <button class="theme-toggle" aria-label="Toggle theme" type="button">
         <svg viewBox="0 0 24 24">
           <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
         </svg>
@@ -206,24 +329,64 @@
 </main>
 
 <script>
-  const toggle = document.querySelector('.theme-toggle');
-  const body = document.body;
-  const icon = toggle.querySelector('path');
+  document.addEventListener('DOMContentLoaded', () => {
+    // ===== THEME TOGGLE =====
+    const toggle = document.querySelector('.theme-toggle');
+    const body = document.body;
+    const icon = toggle?.querySelector('path');
 
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light');
-    icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-  }
-
-  toggle.addEventListener('click', () => {
-    body.classList.toggle('light');
-    if (body.classList.contains('light')) {
-      localStorage.setItem('theme', 'light');
-      icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-    } else {
-      localStorage.setItem('theme', 'dark');
-      icon.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light');
+      icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
     }
+
+    toggle?.addEventListener('click', () => {
+      body.classList.toggle('light');
+
+      if (body.classList.contains('light')) {
+        localStorage.setItem('theme', 'light');
+        icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+      } else {
+        localStorage.setItem('theme', 'dark');
+        icon?.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+      }
+    });
+
+    // ===== DROPDOWN MENU =====
+    const menuWrap = document.querySelector('.menu-wrap');
+    const menuBtn  = document.querySelector('.menu-toggle');
+    const menuPanel = document.getElementById('site-menu');
+
+    if (!menuWrap || !menuBtn || !menuPanel) return;
+
+    function closeMenu() {
+      menuWrap.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.setAttribute('aria-hidden', 'true');
+    }
+
+    function openMenu() {
+      menuWrap.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuPanel.setAttribute('aria-hidden', 'false');
+    }
+
+    menuBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = menuWrap.classList.contains('open');
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    menuPanel.addEventListener('click', (e) => e.stopPropagation());
+
+    document.addEventListener('click', (e) => {
+      if (!menuWrap.contains(e.target)) closeMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
   });
 </script>
 
