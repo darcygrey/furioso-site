@@ -158,7 +158,7 @@
     .menu-panel{
       position: absolute;
       top: calc(100% + 0.75rem);
-      left: 0; /* LEFT aligned now */
+      left: 0;
       min-width: 210px;
       background: rgba(10,10,10,0.92);
       border: 1px solid var(--border-soft);
@@ -170,6 +170,7 @@
       transform: translateY(-6px);
       pointer-events: none;
       transition: opacity .18s ease, transform .18s ease;
+      z-index: 999;
     }
 
     body.light .menu-panel{
@@ -350,14 +351,11 @@
 
 <header class="site-header">
   <nav class="nav">
-    <!-- LEFT: Burger dropdown menu -->
     <div class="nav-left">
       <div class="menu-wrap">
-        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
           <span class="burger" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
           </span>
         </button>
 
@@ -368,12 +366,10 @@
       </div>
     </div>
 
-    <!-- CENTER: Logo -->
     <a href="../index.html" class="nav-logo-center">FURIOSO</a>
 
-    <!-- RIGHT: Theme toggle -->
     <div class="nav-right">
-      <button class="theme-toggle" aria-label="Toggle theme">
+      <button class="theme-toggle" aria-label="Toggle theme" type="button">
         <svg viewBox="0 0 24 24">
           <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
         </svg>
@@ -385,110 +381,128 @@
 <section class="article-hero">
   <div class="hero-inner">
     <div class="kicker">Journalism · Op-Ed</div>
-    <h1>Sudan, or the Cartography of Control</h1>
+    <h1>Who Decides What a “Failed State” Is?</h1>
     <p class="deck">
-      Some countries are invaded with armies. Others are invaded with maps.
+      The difference between a “crisis” and a “failure” is often just who is doing the naming.
     </p>
     <div class="meta">
       <span>FURIOSO</span>
       <span>2025</span>
-      <span>Read · 8–12 min</span>
+      <span>Read · 6–9 min</span>
     </div>
   </div>
 </section>
 
 <main>
   <article class="article">
-  <p>Sudan is one of those places the world keeps pointing at—usually with a grimace, sometimes with a shrug, occasionally with a slur—without ever admitting how much of the mess was built upstream, drafted in distant offices, and then continuously re-made by the people holding the steering wheel inside the country, too.</p>
+    <p>There is a quiet rule in global politics that rarely gets stated outright, but everyone seems to understand it instinctively: some countries are allowed to fail slowly, privately, and with dignity, while others are declared broken the moment their fractures become visible.</p>
 
-  <p>When Donald Trump reportedly used the phrase “shithole countries” in a 2018 immigration meeting—comments widely reported as aimed at Haiti and “African countries,” among others—he wasn’t offering analysis; he was offering a verdict.</p>
+    <p>When a Western economy buckles, it is called a crisis. A cycle. A shock. Something unfortunate but temporary. When a post-colonial state falters, it is called a failure of culture, governance, or capacity. The distinction is not analytical; it is moral. One collapse is contextualised. The other is condemned.</p>
 
-  <p>But verdicts have a way of becoming lazy explanations. Sudan’s suffering gets filed under a single word—Africa—and then the file is closed. If you actually want to answer the question “why is Sudan suffering?”, you have to keep the file open long enough to watch the layers stack: colonial design, post-independence power grabs, resource politics, regional rivalries, and a state repeatedly pulled apart by men who preferred the spoils of control to the slow boredom of building institutions.</p>
+    <p>The language does the work before the facts ever arrive. “Failed state.” “Corruption.” “Instability.” These are not neutral descriptors; they are verdicts disguised as diagnosis. Once applied, they narrow the field of empathy and expand the range of acceptable neglect. They turn complex political histories into character flaws. They allow suffering to be treated not as a consequence of systems, but as evidence of inferiority.</p>
 
-  <p>Start with the basic architecture. Modern Sudan was shaped under the Anglo-Egyptian Condominium declared in 1899: a joint sovereignty on paper, with British power doing the real governing, and Egypt bound into the arrangement in a way that would echo long after independence.</p>
-
- <figure class="article-figure inline">
-      <img src="https://www.magnumphotos.com/wp-content/uploads/2025/12/MG1435571_.jpg" alt="The Nile and its banks">
-    </figure>
-
-  <p>This wasn’t just a flag over a map, it was a system that organised the country for extraction and manageability, not cohesion. A classic move was to govern different regions differently, hardening internal divisions rather than healing them. British “Southern Policy” and related “closed districts” approaches in the early twentieth century—sold at times as protection, administration, or order—helped entrench a political and cultural split between north and south that would later turn combustible.</p>
-
-  <p>And across the same period, big development projects weren’t neutral gifts; they were engineered around imperial needs and export logic—cotton, revenue, control—rather than broad-based local prosperity. The Gezira irrigation scheme, inaugurated in the 1920s with colonial-era dam and canal infrastructure, is often described in the historical record as a cornerstone of cotton production for export.</p>
-
-  <p>Then comes the Nile—the river that behaves like a bloodstream and a border guard at the same time. Water in northeastern Africa is not just a natural resource; it’s a political instrument, and Sudan sits in the middle of a long argument where power has often flowed toward Cairo. The 1929 and 1959 Nile Waters agreements are frequently cited in scholarship and reporting as key moments that formalised Egypt’s dominant share and influence, shaping what upstream states could do and when.</p>
-
-  <p>Add to that the unresolved Egypt–Sudan border disputes—most famously around the Hala’ib Triangle, tied to competing boundary lines drawn in the late 19th and early 20th centuries—and you get a northern frontier that is never purely “a line,” but a constant political pressure point.</p>
-
-  <p><em>Sovereign Limits</em></p>
-    
-     <figure class="article-figure inline">
-      <img src="https://www.magnumphotos.com/wp-content/uploads/2024/11/MG1270951_.jpg" alt="Aerial view of a river cutting through land">
-    </figure>
-
-    
-
-  <p>None of this alone “kept Sudan underdeveloped,” because countries aren’t machines with one lever—but it did help shape a regional geometry where Sudan’s sovereignty has repeatedly had to negotiate with stronger neighbours over water, borders, and security.</p>
-
-  <p>But if colonialism wrote the rough draft, Sudan’s post-independence leadership has revised it with brutal enthusiasm. The country’s modern political story is crowded with coups, short civilian interludes, military dominance, and the chronic habit of ruling by emergency rather than consent—patterns that drain a state’s capacity even in peacetime.</p>
-
-  <p>By the time Omar al-Bashir’s regime fell in 2019 after mass protests, Sudan had already endured decades of civil wars, international isolation, and the violent centre-periphery politics that erupted catastrophically in places like Darfur. Those dynamics didn’t emerge from nowhere; they were fed by uneven development, identity politics, the militarisation of the state, and the deliberate outsourcing of violence to armed groups that could be denied when convenient.</p>
-
-  <p>That outsourcing matters because it leads directly to the nightmare Sudan is living through now. The war that began in April 2023 between the Sudanese Armed Forces and the Rapid Support Forces has shredded infrastructure, public services, and any remaining sense that the centre can hold, producing mass displacement and a humanitarian catastrophe that agencies have described as among the world’s worst.</p>
-
-  <p>The RSF didn’t appear out of mist; it grew out of earlier militia structures tied to Darfur’s violence—an example of how a state that governs through armed proxies eventually discovers the proxies want the state. And once that happens, you don’t get “underdevelopment” as an abstract statistic; you get electricity grids destroyed, hospitals looted, water systems collapsing, universities emptied, and an economy that can’t breathe because the roads and ports and banks are no longer a national bloodstream—they’re trophies.</p>
-
-  <p>Zoom out and you see the other trap: even when Sudan has had moments where the international system seemed ready to help it stabilise—debt relief pathways, re-engagement, tentative investment—those openings have been fragile and political, and internal takeovers have repeatedly slammed the door.</p>
-
-  <p>In other words: foreign policy and finance can matter, but the domestic power struggle often decides whether the help becomes a foundation or just another interlude before collapse.</p>
     <figure class="article-figure inline">
-      <img src="https://www.magnumphotos.com/wp-content/uploads/2025/12/MG1435556_.jpg" alt="A map-like texture, borders and lines">
+      <img src="https://www.magnumphotos.com/wp-content/uploads/2017/11/cs_mg_0137.jpg" alt="A crowded street scene under harsh light">
     </figure>
 
-  <p>So who is to blame?</p>
+    <p>Take debt. When Western states borrow beyond sustainability, the story is one of stimulus, recovery, and growth. When poorer states do the same—often under pressure, often to service earlier debts—they are disciplined. Austerity is imposed not as a policy choice but as a moral lesson. Schools and hospitals are trimmed to reassure bond markets. Food subsidies are slashed to restore “confidence.” The social cost is treated as unfortunate but necessary, as though the population itself were an expendable line item.</p>
 
-  <p>If you’re looking for a clean villain, you won’t get one without lying. Colonial rule shaped borders, governance habits, regional inequalities, and an export-oriented economy, while embedding Sudan in a Nile politics ecosystem where Egypt has long held formidable leverage.</p>
+    <p>Or take time. Time is not evenly distributed in global politics. Some countries are given centuries to industrialise, centralise power, and build institutions through trial, error, and violence. Others are expected to emerge from colonial extraction, arbitrary borders, and resource dependency fully formed, stable, and functional—preferably within a decade. When they fail to meet that expectation, the failure is framed not as predictable, but as proof.</p>
 
-  <p>That history matters because it loads the dice: it makes some futures easier than others. But Sudan’s leaders—and armed elites—also made choices, repeatedly, to prioritise control over competence, coercion over consent, and extraction over institution-building.</p>
+    <p>Even war is interpreted differently depending on geography. When violence erupts in Europe, it is an emergency. When it erupts in Africa or the Middle East, it is a continuation—of chaos, of tribalism, of ancient hatred. The implication is that some regions are simply more prone to disorder, as though history there moves in circles rather than lines, incapable of progress, immune to resolution.</p>
 
-  <p>And regional and global actors have their own fingerprints: the arms, the money, the strategic courtships, the selective outrage, the aid that arrives late, the diplomacy that treats civilians as a footnote.</p>
+    <figure class="article-figure inline">
+      <img src="https://www.magnumphotos.com/wp-content/uploads/2017/11/cs_mg_0124.jpg" alt="A blurred figure near a wall, documentary style">
+    </figure>
 
-  <p>Trump’s insult, in that light, is less a diagnosis than a symptom: a powerful country looking at the wreckage—some of which its own system has helped produce in different ways around the world—and calling the wreckage proof of inferiority rather than evidence of history, politics, and human decisions colliding.</p>
+    <p>What rarely gets examined is how much of the so-called instability is actively maintained. Arms do not drift into conflict zones by accident. Money does not circulate without channels. Political strongmen do not rise without patrons, recognition, and strategic tolerance. Yet responsibility dissolves once violence becomes inconvenient. The same actors who quietly benefit from access, influence, or resources suddenly speak the language of tragedy and distance.</p>
 
-  <p>Sudan is suffering because it has been engineered and re-engineered under pressure: first by imperial management, then by postcolonial militarisation, then by resource and identity conflicts, and now by a war between rival centres of armed power.</p>
+    <p>Failure, in this sense, is not evenly punished. Some states collapse upward. Banks are rescued. Corporations are stabilised. Entire financial systems are propped up because their failure would be intolerable. Other states collapse downward, their institutions hollowed out, their labour exported, their borders policed not to protect lives but to prevent movement. The difference is not competence. It is leverage.</p>
 
-  <p>It is suffering because a river that should be shared becomes a negotiating weapon, because borders drawn for administration become borders defended for pride, because development becomes a project for exports rather than citizens, and because every time a civil life tries to emerge—teachers, doctors, small businesses, students—the state keeps being dragged back into the gun’s grammar.</p>
+    <p>The international system is built less like a safety net and more like a sorting mechanism. It distinguishes between those worth saving and those to be managed. Between crises that demand intervention and crises that can be absorbed quietly by populations with little geopolitical weight. Between suffering that is tragic and suffering that is routine.</p>
 
-  <p>If you want a fair ending to this story, it starts with refusing the single-cause answer. Colonialism is part of the explanation. So is governance. So is war. So is geopolitics.</p>
+    <p>This is why the phrase “failed state” persists despite its emptiness. It does not explain anything. It absolves. It shifts attention away from the historical scaffolding—colonial extraction, Cold War militarisation, debt regimes, trade imbalances—and places the burden squarely on the present, as though the past were irrelevant or expired. It invites spectatorship rather than accountability.</p>
 
-  <p>Sudan is not a “shithole”; it is a country caught in the long aftermath of decisions—some made abroad, many made at home—where ordinary people keep paying compound interest on the ambitions of men with uniforms and the patience of empires.</p>
-    
-     <div class="back-row">
+    <figure class="article-figure inline">
+      <img src="https://www.magnumphotos.com/wp-content/uploads/2017/11/cs_mg_0109.jpg" alt="A stark, high-contrast scene suggestive of borders">
+    </figure>
+
+    <p>What gets lost in this framing is the most obvious truth: states do not fail in isolation. They fail in context. They fail within systems that reward some behaviours and punish others. They fail under pressures that are external as often as internal. And when they do, the cost is not borne by abstractions like “governance” or “institutions,” but by people—teachers whose salaries evaporate, doctors whose hospitals lose power, families whose futures narrow year by year.</p>
+
+    <p>To ask why some countries get to fail quietly is to ask who controls the narrative of legitimacy. Who decides what is forgivable. Who gets patience, restructuring, and recovery—and who gets lectures, sanctions, and silence.</p>
+
+    <p>It is also to recognise that the line between stability and collapse is thinner than we pretend. Many of the countries most confident in their permanence are sustained by the same forces—debt, extraction, inequality—that have already torn others apart. The difference is not immunity. It is timing.</p>
+
+    <p>If Furioso has a role to play, it is not in cataloguing disasters, but in interrogating the grammar that explains them away. In refusing the lazy comfort of single-cause answers. In reminding readers that failure is rarely accidental, rarely local, and almost never deserved.</p>
+
+    <p>Because once you see how unevenly the world distributes forgiveness, it becomes much harder to believe that collapse is a personal flaw rather than a structural outcome—and much harder to look at suffering as something that simply happens “over there.”</p>
+
+    <div class="back-row">
       <a href="../latest.html">Back to latest</a>
       <a href="../index.html">Home</a>
     </div>
-</article>
+  </article>
 </main>
 
 <script>
-  const toggle = document.querySelector('.theme-toggle');
-  const body = document.body;
-  const icon = toggle.querySelector('path');
+  document.addEventListener('DOMContentLoaded', () => {
+    // ===== THEME TOGGLE =====
+    const toggle = document.querySelector('.theme-toggle');
+    const body = document.body;
+    const icon = toggle?.querySelector('path');
 
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light');
-    icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-  }
-
-  toggle.addEventListener('click', () => {
-    body.classList.toggle('light');
-
-    if (body.classList.contains('light')) {
-      localStorage.setItem('theme', 'light');
-      icon.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-    } else {
-      localStorage.setItem('theme', 'dark');
-      icon.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light');
+      icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
     }
+
+    toggle?.addEventListener('click', () => {
+      body.classList.toggle('light');
+
+      if (body.classList.contains('light')) {
+        localStorage.setItem('theme', 'light');
+        icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+      } else {
+        localStorage.setItem('theme', 'dark');
+        icon?.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
+      }
+    });
+
+    // ===== DROPDOWN MENU =====
+    const menuWrap = document.querySelector('.menu-wrap');
+    const menuBtn  = document.querySelector('.menu-toggle');
+    const menuPanel = document.getElementById('site-menu');
+
+    if (!menuWrap || !menuBtn || !menuPanel) return;
+
+    function closeMenu() {
+      menuWrap.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.setAttribute('aria-hidden', 'true');
+    }
+
+    function openMenu() {
+      menuWrap.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuPanel.setAttribute('aria-hidden', 'false');
+    }
+
+    menuBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = menuWrap.classList.contains('open');
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    menuPanel.addEventListener('click', (e) => e.stopPropagation());
+
+    document.addEventListener('click', (e) => {
+      if (!menuWrap.contains(e.target)) closeMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
   });
 </script>
 
