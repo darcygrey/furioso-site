@@ -106,15 +106,15 @@
       fill: none;
     }
 
-    /* ===== HERO (same structure as latest.html) ===== */
+    /* ===== HERO (TIGHTENED) ===== */
     .support-hero {
       position: relative;
-      min-height: 62vh;
+      min-height: 46vh;          /* reduced height */
       display: flex;
       align-items: flex-end;
       justify-content: center;
       padding: 2rem;
-      padding-top: 6rem;
+      padding-top: 4.3rem;       /* pulls content closer to fixed nav */
       isolation: isolate;
       overflow: hidden;
     }
@@ -140,10 +140,11 @@
       filter: grayscale(28%) contrast(1.05);
     }
 
+    /* tightened vertical rhythm inside hero */
     .hero-inner {
       width: 100%;
       max-width: 900px;
-      padding-bottom: 1.25rem;
+      padding-bottom: 0.8rem; /* was 1.25rem */
     }
 
     .kicker {
@@ -151,7 +152,7 @@
       letter-spacing: 0.28em;
       text-transform: uppercase;
       opacity: 0.75;
-      margin-bottom: 1rem;
+      margin-bottom: 0.7rem; /* was 1rem */
       color: var(--text-muted);
     }
 
@@ -159,7 +160,7 @@
       letter-spacing: 0.08em;
       font-size: clamp(2.1rem, 5vw, 3.2rem);
       line-height: 1.08;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem; /* was 1rem */
     }
 
     .deck {
@@ -178,7 +179,7 @@
       opacity: 0.7;
       color: var(--text-muted);
       flex-wrap: wrap;
-      margin-top: 1rem;
+      margin-top: 0.65rem; /* was 1rem */
     }
 
     .pill {
@@ -211,9 +212,7 @@
     }
 
     /* A tighter editorial column inside the 900 wrap */
-    .prose {
-      max-width: 72ch;
-    }
+    .prose { max-width: 72ch; }
 
     .prose p {
       font-size: 1.02rem;
@@ -469,7 +468,7 @@
 
     @media (max-width: 640px) {
       .nav { padding: 1rem 1.25rem; }
-      .support-hero { min-height: 56vh; }
+      .support-hero { min-height: 42vh; padding-top: 4.1rem; } /* tightened for mobile */
       .card-inner { padding: 1.15rem 1.1rem 1.05rem; }
       .card-title { font-size: 1.06rem; }
       .back-row { flex-direction: column; gap: 0.9rem; align-items: flex-start; }
