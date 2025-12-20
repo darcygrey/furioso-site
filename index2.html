@@ -35,6 +35,41 @@
       --border-soft: rgba(255,255,255,0.10);
       --border-strong: rgba(255,255,255,0.18);
 
+      /* ==========================
+   Bucklane Script — Logo F
+   ========================== */
+@font-face{
+  font-family: "BucklaneScript";
+  src: url("fonts/BucklaneScript.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bottom-left logo mark (F) */
+.hero-mark{
+  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+  font-size: 2.8rem;              /* logo-like */
+  line-height: 1;
+  letter-spacing: 0;              /* script fonts hate spacing */
+  text-transform: none;
+  color: var(--text-main);
+  opacity: 0.92;
+  transform: translateY(2px);     /* slight optical alignment */
+  user-select: none;
+}
+
+/* Light mode tweak (optional but nicer) */
+body.light .hero-mark{
+  opacity: 0.85;
+}
+
+/* Responsive sizing */
+@media (max-width: 740px){
+  .hero-mark{ font-size: 2.35rem; }
+}
+
+
       /* Accents */
       --glow: rgba(255,255,255,0.12);
       --shadow: 0 18px 50px rgba(0,0,0,0.55);
@@ -1455,7 +1490,7 @@
   </div>
 
   <div class="hero-meta" aria-hidden="true">
-    <span>FURIOSO.WORLD</span>
+    <span class="hero-mark" aria-label="Furioso">F</span>
     <span>SHOT IN REAL LIFE / NO FILTERS</span>
   </div>
 </section>
