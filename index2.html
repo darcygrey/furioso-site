@@ -2,566 +2,1105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Support — FURIOSO</title>
+  <title>FURIOSO — Culture in High Contrast</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="description" content="Independent dispatches on culture, geopolitics, and documentary image-making." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* ==========================
+       FURIOSO — v3 magazine leap
+       Adds: editorial front grid, topic chips, search modal,
+             newsletter, manifesto, series list, reading-list rail,
+             toast, back-to-top, better footer utility.
+       ========================== */
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-    :root {
-      --bg-main: #000;
-      --bg-secondary: #050505;
+    :root{
+      /* Core palette */
+      --bg-main: #050505;
+      --bg-secondary: #0b0b0b;
+      --panel: rgba(255,255,255,0.03);
+      --panel-2: rgba(255,255,255,0.05);
+
       --text-main: #ffffff;
-      --text-muted: rgba(255,255,255,0.7);
-      --border-soft: rgba(255,255,255,0.08);
+      --text-muted: rgba(255,255,255,0.72);
+      --text-faint: rgba(255,255,255,0.54);
+      --border-soft: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.18);
+
+      /* Accents */
+      --glow: rgba(255,255,255,0.12);
+      --shadow: 0 18px 50px rgba(0,0,0,0.55);
+      --shadow-soft: 0 10px 26px rgba(0,0,0,0.35);
+
+      /* Radii + spacing */
+      --r-xl: 22px;
+      --r-lg: 18px;
+      --r-md: 14px;
+      --r-sm: 12px;
+
+      /* Type rhythm */
+      --lh-body: 1.92;
+      --lh-tight: 1.15;
+
+      /* Container */
+      --container: 1120px;
+      --gutter: clamp(1rem, 3vw, 2rem);
+
+      /* Motion */
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --dur-fast: 140ms;
+      --dur: 220ms;
+      --dur-slow: 520ms;
     }
 
-    body.light {
-      --bg-main: #f6f6f4;
+    body.light{
+      --bg-main: #f7f6f3;
       --bg-secondary: #ffffff;
+      --panel: rgba(0,0,0,0.03);
+      --panel-2: rgba(0,0,0,0.045);
+
       --text-main: #111111;
-      --text-muted: rgba(0,0,0,0.6);
-      --border-soft: rgba(0,0,0,0.08);
+      --text-muted: rgba(0,0,0,0.64);
+      --text-faint: rgba(0,0,0,0.50);
+      --border-soft: rgba(0,0,0,0.10);
+      --border-strong: rgba(0,0,0,0.16);
+
+      --glow: rgba(0,0,0,0.08);
+      --shadow: 0 18px 50px rgba(0,0,0,0.12);
+      --shadow-soft: 0 10px 26px rgba(0,0,0,0.08);
     }
 
-    body {
-      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
-                   "Helvetica Neue", Arial, sans-serif;
+    body{
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg-main);
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ===== HEADER ===== */
-    .site-header {
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    button, input { font: inherit; }
+
+    /* Accessibility */
+    :focus-visible{
+      outline: 2px solid rgba(255,255,255,0.55);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+    body.light :focus-visible{ outline-color: rgba(0,0,0,0.45); }
+
+    @media (prefers-reduced-motion: reduce){
+      html { scroll-behavior: auto; }
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ==========================
+       Header / Nav
+       ========================== */
+    .site-header{
       position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 50;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0));
-      backdrop-filter: blur(4px);
+      inset: 0 0 auto 0;
+      z-index: 80;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.78), rgba(0,0,0,0));
+      backdrop-filter: blur(10px);
     }
-    body.light .site-header {
-      background: linear-gradient(to bottom, rgba(246,246,244,0.95), rgba(246,246,244,0));
+    body.light .site-header{
+      background: linear-gradient(to bottom, rgba(247,246,243,0.92), rgba(247,246,243,0));
     }
+    .site-header.scrolled{
+      background: rgba(8,8,8,0.82);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    body.light .site-header.scrolled{ background: rgba(255,255,255,0.86); }
 
-    .nav {
-      max-width: 1200px;
+    .nav{
+      max-width: var(--container);
       margin: 0 auto;
-      padding: 1.35rem 2rem;
+      padding: 1.05rem var(--gutter);
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
+      gap: 0.75rem;
     }
 
-    .nav-left { justify-self: start; }
-    .nav-right { justify-self: end; display: flex; gap: 0.75rem; align-items: center; }
+    .nav-left, .nav-right{ display:flex; align-items:center; }
+    .nav-left{ justify-content:flex-start; gap: 0.55rem; }
+    .nav-right{ justify-content:flex-end; gap: 0.55rem; }
 
-    .nav-logo-center {
+    .nav-logo-center{
       justify-self: center;
-      font-size: 1.05rem;
-      letter-spacing: 0.36em;
-      font-weight: 500;
-      text-transform: uppercase;
       text-decoration: none;
       color: var(--text-main);
-      line-height: 1;
-      text-shadow: 0 0 0.6px currentColor, 0 0 0.6px currentColor;
+      letter-spacing: 0.46em;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 1.05rem;
+      position: relative;
+      padding: 0.35rem 0.1rem;
+      user-select: none;
     }
+    .nav-logo-center::after{
+      content:"";
+      position:absolute;
+      left: 10%;
+      right: 10%;
+      bottom: -2px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-soft), transparent);
+      opacity: 0;
+      transform: translateY(3px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+    .nav-logo-center:hover::after{ opacity: 1; transform: translateY(0); }
 
-    .nav-link {
+    .nav-link{
+      text-decoration: none;
       font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      text-decoration: none;
       color: var(--text-muted);
-      opacity: 0.85;
-      transition: opacity 0.2s ease, color 0.2s ease;
-      padding: 0.35rem 0.35rem;
+      padding: 0.55rem 0.6rem;
+      border-radius: 999px;
+      transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+      opacity: 0.96;
       white-space: nowrap;
     }
-    .nav-link:hover { opacity: 1; color: var(--text-main); }
-
-    .theme-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      opacity: 0.6;
-      padding: 0.4rem;
+    .nav-link:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      opacity: 1;
     }
-    .theme-toggle:hover { opacity: 1; }
+    body.light .nav-link:hover{ background: rgba(0,0,0,0.06); }
 
-    .theme-toggle svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--text-main);
-      stroke-width: 2.2;
-      fill: none;
-    }
-
-    /* ===== HERO ===== */
-    .support-hero {
-      position: relative;
-      min-height: 34vh;
-      display: flex;
-      align-items: flex-end;
+    .icon-btn{
+      appearance:none;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor:pointer;
+      padding: 0.55rem;
+      border-radius: 999px;
+      opacity: 0.92;
+      transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      padding: 2rem;
-      padding-top: 3.9rem;
+    }
+    .icon-btn:hover{
+      opacity: 1;
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.06);
+      border-color: var(--border-soft);
+    }
+    body.light .icon-btn:hover{ background: rgba(0,0,0,0.06); }
+
+    .icon-btn svg{
+      width: 20px; height: 20px;
+      stroke: var(--text-main);
+      stroke-width: 2.3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Dropdown */
+    .menu-wrap{ position: relative; display:flex; align-items:center; }
+    .burger{ width: 22px; height: 16px; display: inline-flex; flex-direction: column; justify-content: space-between; }
+    .burger span{
+      display:block; height:2px; width:100%;
+      background: var(--text-main);
+      border-radius: 999px;
+      opacity: 0.95;
+      transform-origin: center;
+      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    }
+    .menu-wrap.open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .menu-wrap.open .burger span:nth-child(2){ opacity: 0; }
+    .menu-wrap.open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-panel{
+      position:absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 240px;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: rgba(10,10,10,0.86);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      padding: 0.55rem;
+      display: grid;
+      gap: 0.25rem;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+      z-index: 999;
+    }
+    body.light .menu-panel{ background: rgba(255,255,255,0.90); }
+
+    .menu-wrap.open .menu-panel{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .menu-item{
+      display:block;
+      text-decoration:none;
+      padding: 0.8rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+      white-space: nowrap;
+    }
+    .menu-item:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      transform: translateX(2px);
+    }
+    body.light .menu-item:hover{ background: rgba(0,0,0,0.06); }
+
+    /* ==========================
+       Hero
+       ========================== */
+    .hero{
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: calc(6rem + 2vh) var(--gutter) 4.25rem;
       isolation: isolate;
       overflow: hidden;
     }
 
-    .support-hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.20), rgba(0,0,0,0.96)),
-        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        radial-gradient(1200px 520px at 50% 20%, rgba(255,255,255,0.10), transparent 60%),
+        linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.92)),
+        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
         center/cover no-repeat fixed;
-      filter: grayscale(70%) contrast(1.15);
+      filter: grayscale(72%) contrast(1.18);
+      transform: scale(1.06);
       z-index: -2;
-      transform: scale(1.05);
     }
-
-    body.light .support-hero::before {
+    body.light .hero::before{
       background:
-        linear-gradient(to bottom, rgba(246,246,244,0.20), rgba(246,246,244,0.92)),
-        url("https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg")
+        radial-gradient(1200px 520px at 50% 20%, rgba(0,0,0,0.05), transparent 60%),
+        linear-gradient(to bottom, rgba(247,246,243,0.18), rgba(247,246,243,0.93)),
+        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
         center/cover no-repeat fixed;
-      filter: grayscale(28%) contrast(1.05);
+      filter: grayscale(24%) contrast(1.05);
     }
 
-    .hero-inner {
-      width: 100%;
-      max-width: 900px;
-      padding-bottom: 0.8rem;
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background-image: url("https://grainy-gradients.vercel.app/noise.png");
+      opacity: 0.32;
+      mix-blend-mode: soft-light;
+      z-index: -1;
+      pointer-events:none;
+      animation: grainShift 9s steps(10) infinite;
     }
 
-    .kicker {
+    @keyframes grainShift{
+      0%{ transform: translate(0,0); }
+      25%{ transform: translate(-10px, 8px); }
+      50%{ transform: translate(6px, -12px); }
+      75%{ transform: translate(-4px, 6px); }
+      100%{ transform: translate(0,0); }
+    }
+
+    .hero-inner{
+      max-width: 820px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp var(--dur-slow) var(--ease) forwards;
+      animation-delay: 80ms;
+    }
+    @keyframes fadeUp{ to{ opacity: 1; transform: translateY(0); } }
+
+    .brand-tag{
       font-size: 0.72rem;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
-      opacity: 0.75;
-      margin-bottom: 0.7rem;
+      opacity: 0.80;
       color: var(--text-muted);
+      margin-bottom: 1.15rem;
     }
 
-    h1 {
-      letter-spacing: 0.08em;
-      font-size: clamp(2.1rem, 5vw, 3.2rem);
-      line-height: 1.08;
-      margin-bottom: 0.75rem;
+    h1{
+      letter-spacing: 0.38em;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 8vw, 4.9rem);
+      line-height: 1.02;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.45);
     }
+    body.light h1{ text-shadow: none; }
 
-    .deck {
-      font-size: 1rem;
-      line-height: 1.85;
-      opacity: 0.88;
-      max-width: 70ch;
+    .tagline{
+      font-size: clamp(0.86rem, 2.1vw, 1.02rem);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      line-height: 2.05;
+      opacity: 0.94;
+      color: rgba(255,255,255,0.92);
     }
+    body.light .tagline{ color: rgba(0,0,0,0.78); }
 
-    .meta {
-      display: flex;
+    .hero-meta{
+      position:absolute;
+      left: var(--gutter);
+      right: var(--gutter);
+      bottom: 1.6rem;
+      display:flex;
+      justify-content: space-between;
       gap: 1rem;
+      flex-wrap: wrap;
       font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      opacity: 0.7;
       color: var(--text-muted);
-      flex-wrap: wrap;
-      margin-top: 0.65rem;
+      opacity: 0.88;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.35rem 0.55rem;
-      border: 1px solid var(--border-soft);
-      border-radius: 999px;
-    }
-
-    /* ===== CONTENT ===== */
-    main {
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-soft);
-      padding: 4.5rem 1.75rem 6rem;
-    }
-
-    .wrap {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 0.82rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 1.4rem;
-    }
-
-    .prose { max-width: 72ch; }
-
-    .prose p {
-      font-size: 1.02rem;
-      line-height: 1.95;
-      margin-bottom: 1.6rem;
-    }
-
-    /* ===== MODULE LAYOUTS ===== */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1.2rem;
-      align-items: start;
-      margin-top: 2.2rem;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1.1rem;
-    }
-
-    .card {
-      border: 1px solid var(--border-soft);
-      background: rgba(255,255,255,0.02);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-    body.light .card { background: rgba(0,0,0,0.02); }
-
-    .card-inner { padding: 1.35rem 1.35rem 1.25rem; }
-
-    .card-kicker {
-      font-size: 0.68rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 0.7rem;
-      color: var(--text-muted);
+    .hero-cta{
+      margin-top: 2.1rem;
       display: flex;
-      align-items: center;
-      gap: 0.55rem;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-
-    .card-title {
-      font-size: 1.15rem;
-      letter-spacing: 0.06em;
-      line-height: 1.25;
-      margin-bottom: 0.7rem;
-    }
-
-    .card-text {
-      font-size: 0.98rem;
-      line-height: 1.85;
-      opacity: 0.86;
-      margin-bottom: 1rem;
-    }
-
-    .i {
-      width: 18px; height: 18px;
-      display: inline-block;
-      opacity: 0.9;
-    }
-    .i svg { width: 100%; height: 100%; stroke: var(--text-main); stroke-width: 2.2; fill: none; }
-
-    /* ===== SUPPORT TIERS ===== */
-    .tiers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1.2rem;
-    }
-
-    .tier {
+    .btn{
+      appearance:none;
       border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.02);
-      padding: 1.2rem 1.1rem 1.15rem;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      cursor: pointer;
-      user-select: none;
-    }
-    body.light .tier { background: rgba(0,0,0,0.02); }
-
-    .tier:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.04);
-    }
-    body.light .tier:hover {
-      border-color: rgba(0,0,0,0.14);
-      background: rgba(0,0,0,0.035);
-    }
-
-    .tier.selected {
-      border-color: rgba(255,255,255,0.24);
       background: rgba(255,255,255,0.06);
-    }
-    body.light .tier.selected {
-      border-color: rgba(0,0,0,0.18);
-      background: rgba(0,0,0,0.06);
-    }
-
-    .tier-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.8rem;
-      margin-bottom: 0.85rem;
-    }
-
-    .tier-name {
-      font-size: 0.78rem;
-      letter-spacing: 0.26em;
-      text-transform: uppercase;
-      opacity: 0.85;
-    }
-
-    .tier-price {
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      font-size: 1.05rem;
-      white-space: nowrap;
-    }
-
-    .tier-desc {
-      font-size: 0.95rem;
-      line-height: 1.65;
-      opacity: 0.85;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.9rem;
-      margin-top: 1.2rem;
-    }
-
-    .btn {
-      border: 1px solid var(--border-soft);
-      padding: 0.78rem 1.25rem;
+      color: var(--text-main);
+      cursor:pointer;
+      padding: 0.85rem 1.05rem;
+      border-radius: 999px;
+      text-decoration:none;
       font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      text-decoration: none;
-      color: var(--text-main);
-      border-radius: 999px;
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-      display: inline-flex;
-      align-items: center;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
       gap: 0.55rem;
     }
-
-    .btn:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.18);
-      transform: translateY(-1px);
+    .btn:hover{ transform: translateY(-2px); background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
+    .btn:active{ transform: translateY(0); }
+    body.light .btn{
+      background: rgba(0,0,0,0.04);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
     }
-    body.light .btn:hover {
-      background: rgba(0,0,0,0.05);
-      border-color: rgba(0,0,0,0.14);
-    }
+    body.light .btn:hover{ background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.14); }
 
-    .btn-ghost {
-      color: var(--text-muted);
-      border-color: var(--border-soft);
+    .btn-ghost{ background: transparent; box-shadow: none; }
+    .btn-ghost:hover{ background: rgba(255,255,255,0.06); }
+    body.light .btn-ghost:hover{ background: rgba(0,0,0,0.06); }
+
+    /* Small helper text */
+    .micro{
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-faint);
       opacity: 0.95;
     }
 
-    .fineprint {
-      font-size: 0.86rem;
-      line-height: 1.7;
+    /* ==========================
+       Section shells
+       ========================== */
+    .section-shell{
+      padding: 4.25rem var(--gutter);
+      border-top: 1px solid var(--border-soft);
+      background: var(--bg-secondary);
+    }
+    .shell-inner{ max-width: var(--container); margin: 0 auto; }
+    .shell-top{
+      display:flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .shell-label{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
       color: var(--text-muted);
-      margin-top: 0.9rem;
-      max-width: 72ch;
+      opacity: 0.86;
+    }
+    .shell-title{
+      font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      margin-top: 0.35rem;
     }
 
-    /* ===== LISTS / PERKS ===== */
-    .list {
-      display: grid;
-      gap: 0.65rem;
-      margin-top: 0.85rem;
-    }
-    .li {
-      display: flex;
-      gap: 0.75rem;
-      align-items: flex-start;
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      line-height: 1.75;
-    }
-    .tick {
-      width: 18px; height: 18px;
-      margin-top: 2px;
-      opacity: 0.9;
-      flex: 0 0 auto;
-    }
-    .tick svg { width: 100%; height: 100%; stroke: var(--text-main); stroke-width: 2.2; fill: none; }
-
-    /* ===== NEWSLETTER / INPUTS ===== */
-    .field-row {
-      display: flex;
-      gap: 0.75rem;
+    /* ==========================
+       Topic Chips (NEW)
+       ========================== */
+    .chip-row{
+      display:flex;
       flex-wrap: wrap;
+      gap: 0.55rem;
       margin-top: 0.9rem;
     }
-    .input {
-      flex: 1 1 240px;
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--panel);
+      color: var(--text-muted);
+      text-decoration:none;
+      font-size: 0.70rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color: var(--border-strong);
+      background: var(--panel-2);
+      color: var(--text-main);
+    }
+    .chip svg{ width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.2; fill: none; }
+
+    /* ==========================
+       Featured
+       ========================== */
+    .feature{
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 30%), var(--bg-secondary);
+    }
+    .feature-link{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      text-decoration:none;
+      color: inherit;
+      padding: 1.85rem;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--border-soft);
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+      overflow:hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .feature-link::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(680px 260px at 20% 10%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(540px 240px at 85% 20%, rgba(255,255,255,0.05), transparent 60%);
+      opacity: 0.82;
+      z-index:-1;
+      pointer-events:none;
+    }
+    body.light .feature-link::before{
+      background:
+        radial-gradient(680px 260px at 20% 10%, rgba(0,0,0,0.05), transparent 60%),
+        radial-gradient(540px 240px at 85% 20%, rgba(0,0,0,0.03), transparent 60%);
+    }
+
+    .feature-link:hover{
+      transform: translateY(-3px);
+      background: var(--panel-2);
+      border-color: var(--border-strong);
+    }
+
+    .feature-kicker{
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.88;
+      margin-bottom: 0.9rem;
+    }
+    .feature-title{
+      font-size: clamp(1.65rem, 3.2vw, 2.45rem);
+      line-height: var(--lh-tight);
+      margin-bottom: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+    .feature-dek{
+      font-size: 0.98rem;
+      line-height: 1.85;
+      opacity: 0.92;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      max-width: 62ch;
+    }
+    .feature-meta{
+      display:flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      opacity: 0.95;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.6rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+    }
+    body.light .pill{ background: rgba(0,0,0,0.02); }
+
+    .feature-media{
+      border-radius: var(--r-lg);
+      overflow:hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.30);
+      aspect-ratio: 4/3;
+      position: relative;
+    }
+    .feature-media::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.35), transparent 55%);
+      pointer-events:none;
+    }
+    body.light .feature-media::after{ background: linear-gradient(to top, rgba(0,0,0,0.20), transparent 55%); }
+    .feature-media img{
+      width:100%; height:100%;
+      object-fit: cover;
+      filter: grayscale(40%) contrast(1.1);
+      transform: scale(1.02);
+    }
+
+    /* ==========================
+       Latest Carousel
+       ========================== */
+    .latest-carousel{
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 4rem var(--gutter) 4.5rem;
+    }
+    .latest-inner{ max-width: var(--container); margin: 0 auto; }
+    .latest-actions{ display:flex; gap: 0.6rem; align-items:center; }
+
+    .carousel-btn{
+      appearance:none;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      opacity: 0.95;
+      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 44px;
+      min-height: 40px;
+    }
+    body.light .carousel-btn{ background: rgba(0,0,0,0.03); }
+    .carousel-btn:hover{ opacity: 1; transform: translateY(-1px); background: rgba(255,255,255,0.06); border-color: var(--border-strong); }
+    body.light .carousel-btn:hover{ background: rgba(0,0,0,0.06); border-color: var(--border-strong); }
+    .carousel-btn:active{ transform: translateY(0); }
+
+    .carousel-viewport{ position: relative; }
+    .carousel-viewport::before,
+    .carousel-viewport::after{
+      content:"";
+      position:absolute;
+      top: 0; bottom: 0;
+      width: 44px;
+      pointer-events:none;
+      z-index: 6;
+    }
+    .carousel-viewport::before{ left: 0; background: linear-gradient(to right, var(--bg-secondary), rgba(0,0,0,0)); }
+    .carousel-viewport::after{ right: 0; background: linear-gradient(to left, var(--bg-secondary), rgba(0,0,0,0)); }
+    body.light .carousel-viewport::before{ background: linear-gradient(to right, var(--bg-secondary), rgba(255,255,255,0)); }
+    body.light .carousel-viewport::after{ background: linear-gradient(to left, var(--bg-secondary), rgba(255,255,255,0)); }
+
+    .carousel-track{
+      display:grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(340px, 1fr);
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 0.4rem 0.35rem 0.75rem;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .carousel-track::-webkit-scrollbar{ display:none; }
+
+    .carousel-card{
+      scroll-snap-align: start;
+      border: 1px solid var(--border-soft);
+      background: var(--panel);
+      border-radius: var(--r-lg);
+      overflow:hidden;
+      text-decoration:none;
+      color: inherit;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+      position: relative;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+    }
+    body.light .carousel-card{ box-shadow: 0 14px 36px rgba(0,0,0,0.08); }
+
+    .carousel-card:hover{
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      background: var(--panel-2);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.26);
+    }
+    body.light .carousel-card:hover{ box-shadow: 0 18px 46px rgba(0,0,0,0.12); }
+
+    .carousel-media{
+      aspect-ratio: 16/9;
+      background:#000;
+      overflow:hidden;
+      position: relative;
+    }
+    .carousel-media::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.42), transparent 55%);
+      pointer-events:none;
+    }
+    body.light .carousel-media::after{ background: linear-gradient(to top, rgba(0,0,0,0.22), transparent 55%); }
+    .carousel-media img{
+      width:100%; height:100%;
+      object-fit: cover;
+      filter: grayscale(52%) contrast(1.12);
+      transform: scale(1.03);
+    }
+    body.light .carousel-media img{ filter: grayscale(24%) contrast(1.05); }
+
+    .carousel-body{ padding: 1.2rem 1.15rem 1.1rem; }
+    .carousel-kicker{
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.86;
+      margin-bottom: 0.65rem;
+      color: var(--text-muted);
+    }
+    .carousel-h{
+      font-size: 1.08rem;
+      letter-spacing: 0.05em;
+      line-height: 1.28;
+      margin-bottom: 0.55rem;
+      max-width: 55ch;
+    }
+    .carousel-dek{
+      font-size: 0.95rem;
+      line-height: 1.86;
+      opacity: 0.92;
+      color: var(--text-muted);
+      margin-bottom: 0.95rem;
+      max-width: 70ch;
+    }
+    .carousel-meta{
+      display:flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      font-size: 0.70rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      opacity: 0.98;
+    }
+
+    .dots{
+      display:flex;
+      gap: 0.52rem;
+      justify-content: center;
+      margin-top: 1.1rem;
+      opacity: 0.92;
+    }
+    .dot{
+      width: 7px; height: 7px;
+      border-radius: 999px;
       border: 1px solid var(--border-soft);
       background: transparent;
-      color: var(--text-main);
-      border-radius: 999px;
-      padding: 0.78rem 1rem;
-      font-size: 0.95rem;
-      outline: none;
+      transition: transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+      opacity: 0.55;
     }
-    .input::placeholder { color: var(--text-muted); }
-    body.light .input { background: rgba(0,0,0,0.02); }
+    .dot.active{ background: var(--text-main); opacity: 0.9; transform: scale(1.18); }
 
-    .small {
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: var(--text-muted);
-      margin-top: 0.75rem;
-      max-width: 72ch;
+    /* ==========================
+       Editorial Front Grid (NEW)
+       ========================== */
+    .front{
+      padding: 4.25rem var(--gutter) 4.75rem;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 24%), var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+    }
+    .front-inner{ max-width: var(--container); margin: 0 auto; }
+
+    .front-grid{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.4rem;
+      align-items: start;
+      margin-top: 1.25rem;
     }
 
-    /* ===== IMPACT BAR ===== */
-    .impact {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.9rem;
-      margin-top: 0.25rem;
-    }
-    .bar {
+    .lead-card{
       border: 1px solid var(--border-soft);
-      border-radius: 999px;
-      padding: 0.55rem 0.65rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.9rem;
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      letter-spacing: 0.06em;
+      border-radius: var(--r-xl);
+      overflow:hidden;
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      text-decoration:none;
+      color: inherit;
+      position: relative;
+      transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
-    .bar strong { color: var(--text-main); letter-spacing: 0.1em; font-weight: 700; }
-    .bar .mini {
-      opacity: 0.8;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
+    .lead-card:hover{
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      background: var(--panel-2);
+      box-shadow: var(--shadow);
+    }
+
+    .lead-media{
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow:hidden;
+      background:#000;
+    }
+    .lead-media::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%);
+      pointer-events:none;
+    }
+    body.light .lead-media::after{
+      background: linear-gradient(to top, rgba(0,0,0,0.35), transparent 60%);
+    }
+    .lead-media img{
+      width:100%; height:100%;
+      object-fit: cover;
+      filter: grayscale(50%) contrast(1.12);
+      transform: scale(1.02);
+    }
+    body.light .lead-media img{ filter: grayscale(22%) contrast(1.05); }
+
+    .lead-body{ padding: 1.35rem 1.3rem 1.25rem; }
+    .lead-kicker{
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    /* ===== QUOTES / SUPPORTER WALL ===== */
-    .quote {
-      padding: 1.15rem 1.15rem 1.05rem;
-      border-radius: 14px;
-      border: 1px solid var(--border-soft);
-      background: rgba(255,255,255,0.02);
       color: var(--text-muted);
-      line-height: 1.85;
-      font-size: 0.98rem;
+      opacity: 0.9;
+      margin-bottom: 0.75rem;
     }
-    body.light .quote { background: rgba(0,0,0,0.02); }
-    .quote .who {
-      margin-top: 0.8rem;
+    .lead-title{
+      font-size: clamp(1.35rem, 2.9vw, 2.05rem);
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.85rem;
+      max-width: 42ch;
+    }
+    .lead-dek{
+      font-size: 0.98rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      opacity: 0.92;
+      max-width: 68ch;
+      margin-bottom: 1rem;
+    }
+    .lead-meta{
+      display:flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
       font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      opacity: 0.85;
-      color: var(--text-muted);
+      color: var(--text-faint);
     }
 
-    /* ===== FAQ ===== */
-    .faq {
-      margin-top: 2rem;
-      max-width: 72ch;
-    }
-
-    details {
-      border-top: 1px solid var(--border-soft);
-      padding: 1rem 0;
-    }
-
-    summary {
-      list-style: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .rail{
+      display:grid;
       gap: 1rem;
-      font-size: 0.86rem;
-      letter-spacing: 0.14em;
+      position: sticky;
+      top: 88px;
+    }
+    .rail-card{
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-lg);
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      padding: 1.15rem 1.1rem;
+    }
+
+    .rail-title{
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--text-muted);
+      opacity: 0.9;
+      margin-bottom: 0.9rem;
     }
 
-    summary::-webkit-details-marker { display: none; }
-
-    .chev {
-      width: 18px; height: 18px; opacity: 0.8;
-      transition: transform 0.18s ease;
+    .mini-list{ display:grid; gap: 0.8rem; }
+    .mini{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      align-items: start;
+      text-decoration:none;
+      color: inherit;
+      padding: 0.65rem 0.6rem;
+      border-radius: 14px;
+      transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
     }
-    .chev svg { width: 100%; height: 100%; stroke: var(--text-main); stroke-width: 2.2; fill: none; }
+    .mini:hover{ background: rgba(255,255,255,0.05); transform: translateX(2px); }
+    body.light .mini:hover{ background: rgba(0,0,0,0.05); }
 
-    details[open] summary { color: var(--text-main); opacity: 0.9; }
-    details[open] .chev { transform: rotate(180deg); }
-
-    .faq p {
-      margin-top: 0.85rem;
-      font-size: 0.98rem;
-      line-height: 1.85;
+    .mini h4{
+      font-size: 0.95rem;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.3rem;
+    }
+    .mini p{
+      font-size: 0.88rem;
+      line-height: 1.7;
       color: var(--text-muted);
+      opacity: 0.9;
     }
-
-    /* ===== BACK ROW ===== */
-    .back-row {
-      margin-top: 3rem;
-      display: flex;
-      justify-content: space-between;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      border-top: 1px solid var(--border-soft);
-      padding-top: 1.6rem;
-    }
-
-    .back-row a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 0.72rem;
+    .mini .mini-meta{
+      font-size: 0.68rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      transition: color 0.2s ease, opacity 0.2s ease;
+      color: var(--text-faint);
+      white-space: nowrap;
+      padding-top: 0.2rem;
     }
 
-    .back-row a:hover { color: var(--text-main); }
+    /* ==========================
+       Manifesto / Mission (NEW)
+       ========================== */
+    .manifesto{
+      padding: 4.75rem var(--gutter);
+      border-top: 1px solid var(--border-soft);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 24%), var(--bg-secondary);
+    }
+    .manifesto-inner{
+      max-width: var(--container);
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6rem;
+      align-items: start;
+    }
+    .manifesto-card{
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-xl);
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      padding: 1.6rem 1.5rem;
+    }
+    .manifesto-h{
+      font-size: 0.75rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .manifesto-p{
+      font-size: 1.02rem;
+      line-height: 1.95;
+      color: var(--text-muted);
+      opacity: 0.95;
+      max-width: 70ch;
+    }
+    .manifesto-quote{
+      margin-top: 1.15rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--border-soft);
+      font-size: 0.98rem;
+      line-height: 1.9;
+      color: var(--text-muted);
+      opacity: 0.95;
+    }
 
-    /* ===== GLOBAL SITE FOOTER ===== */
+    /* ==========================
+       Newsletter (NEW)
+       ========================== */
+    .newsletter{
+      padding: 4.75rem var(--gutter) 5.25rem;
+      border-top: 1px solid var(--border-soft);
+      background: var(--bg-secondary);
+    }
+    .newsletter-inner{
+      max-width: var(--container);
+      margin: 0 auto;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-xl);
+      background: radial-gradient(900px 260px at 15% 10%, rgba(255,255,255,0.06), transparent 60%),
+                  radial-gradient(700px 240px at 85% 20%, rgba(255,255,255,0.04), transparent 60%),
+                  var(--panel);
+      box-shadow: var(--shadow-soft);
+      padding: 1.85rem 1.65rem;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.5rem;
+      align-items: center;
+      overflow:hidden;
+      position: relative;
+    }
+    body.light .newsletter-inner{
+      background: radial-gradient(900px 260px at 15% 10%, rgba(0,0,0,0.05), transparent 60%),
+                  radial-gradient(700px 240px at 85% 20%, rgba(0,0,0,0.03), transparent 60%),
+                  var(--panel);
+    }
+
+    .newsletter-k{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.9;
+      margin-bottom: 0.7rem;
+    }
+    .newsletter-h{
+      font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .newsletter-p{
+      font-size: 0.96rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      opacity: 0.95;
+      max-width: 65ch;
+    }
+
+    .form-row{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.7rem;
+      align-items: center;
+      margin-top: 0.9rem;
+    }
+    .input{
+      width: 100%;
+      padding: 0.95rem 1.05rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(0,0,0,0.25);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    body.light .input{ background: rgba(255,255,255,0.7); }
+    .input::placeholder{ color: var(--text-faint); }
+    .input:focus{ border-color: var(--border-strong); background: rgba(0,0,0,0.30); }
+    body.light .input:focus{ background: rgba(255,255,255,0.9); }
+
+    .btn-solid{
+      border-color: var(--border-strong);
+      background: rgba(255,255,255,0.12);
+    }
+    body.light .btn-solid{ background: rgba(0,0,0,0.06); }
+
+    .form-note{
+      margin-top: 0.7rem;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text-faint);
+      opacity: 0.95;
+    }
+
+    /* ==========================
+       About
+       ========================== */
+    .about{
+      padding: 5rem var(--gutter) 5.25rem;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%), var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+    }
+    .about-inner{ max-width: 920px; margin: 0 auto; }
+    .about-label{
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.86;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+    .about-title{
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      margin-bottom: 1.4rem;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+    }
+    .about-body{
+      font-size: 0.98rem;
+      line-height: var(--lh-body);
+      opacity: 0.95;
+      color: var(--text-muted);
+      max-width: 74ch;
+      margin-bottom: 1.2rem;
+    }
+    .about-actions{ display:flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.25rem; }
+
+    /* ==========================
+       Footer
+       ========================== */
     footer.site-footer{
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-soft);
-      padding: 3.5rem 1.75rem 2.5rem;
+      padding: 3.75rem var(--gutter) 2.5rem;
     }
     .footer-inner{
-      max-width: 1050px;
+      max-width: var(--container);
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
       gap: 2rem;
       align-items: start;
     }
@@ -569,18 +1108,18 @@
       font-size: 0.8rem;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      opacity: 0.9;
-      margin-bottom: 0.85rem;
+      opacity: 0.95;
+      margin-bottom: 0.9rem;
     }
     .footer-note{
-      font-size: 0.92rem;
-      line-height: 1.85;
-      opacity: 0.85;
-      max-width: 62ch;
+      font-size: 0.94rem;
+      line-height: 1.9;
+      opacity: 0.92;
+      max-width: 64ch;
       color: var(--text-muted);
     }
     .footer-links{
-      display: grid;
+      display:grid;
       gap: 0.55rem;
       justify-items: end;
     }
@@ -590,21 +1129,22 @@
       text-transform: uppercase;
       text-decoration: none;
       color: var(--text-muted);
-      opacity: 0.9;
+      opacity: 0.92;
       padding: 0.25rem 0.1rem;
-      transition: opacity .15s ease, color .15s ease;
+      transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
       white-space: nowrap;
     }
     .footer-links a:hover{
       opacity: 1;
       color: var(--text-main);
+      transform: translateX(2px);
     }
     .footer-bottom{
-      max-width: 1050px;
+      max-width: var(--container);
       margin: 2rem auto 0;
       padding-top: 1.25rem;
       border-top: 1px solid var(--border-soft);
-      display: flex;
+      display:flex;
       justify-content: space-between;
       gap: 1rem;
       flex-wrap: wrap;
@@ -612,7 +1152,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-muted);
-      opacity: 0.85;
+      opacity: 0.92;
     }
     .footer-bottom a{
       color: inherit;
@@ -620,51 +1160,245 @@
       border-bottom: 1px solid rgba(255,255,255,0.18);
       padding-bottom: 2px;
     }
-    body.light .footer-bottom a{
-      border-bottom: 1px solid rgba(0,0,0,0.22);
+    body.light .footer-bottom a{ border-bottom-color: rgba(0,0,0,0.18); }
+
+    /* ==========================
+       Reveal animations
+       ========================== */
+    .reveal{
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+    }
+    .reveal.is-visible{ opacity: 1; transform: translateY(0); }
+
+    /* ==========================
+       Modal: Search (NEW)
+       ========================== */
+    .modal{
+      position: fixed;
+      inset: 0;
+      display:none;
+      place-items: center;
+      z-index: 200;
+      padding: 1.25rem;
+    }
+    .modal.open{ display:grid; }
+    .modal-backdrop{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(10px);
+    }
+    body.light .modal-backdrop{ background: rgba(0,0,0,0.45); }
+
+    .modal-card{
+      position: relative;
+      width: min(760px, 92vw);
+      border-radius: var(--r-xl);
+      border: 1px solid var(--border-soft);
+      background: rgba(12,12,12,0.86);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    body.light .modal-card{ background: rgba(255,255,255,0.92); }
+
+    .modal-top{
+      padding: 1.1rem 1.1rem 0.9rem;
+      border-bottom: 1px solid var(--border-soft);
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .modal-title{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .modal-body{ padding: 1.05rem 1.1rem 1.2rem; }
+    .search-input{
+      width: 100%;
+      padding: 1rem 1.1rem;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: rgba(0,0,0,0.25);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    body.light .search-input{ background: rgba(255,255,255,0.7); }
+    .search-input:focus{ border-color: var(--border-strong); background: rgba(0,0,0,0.32); }
+    body.light .search-input:focus{ background: rgba(255,255,255,0.92); }
+
+    .results{
+      margin-top: 0.9rem;
+      display:grid;
+      gap: 0.5rem;
+      max-height: 46vh;
+      overflow:auto;
+      padding-right: 0.25rem;
+    }
+    .result{
+      text-decoration:none;
+      color: inherit;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      padding: 0.85rem 0.9rem;
+      transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+    }
+    body.light .result{ background: rgba(0,0,0,0.03); }
+    .result:hover{
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-1px);
+      border-color: var(--border-strong);
+    }
+    body.light .result:hover{ background: rgba(0,0,0,0.045); }
+
+    .result .rk{
+      font-size: 0.66rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+    }
+    .result .rh{
+      font-size: 0.95rem;
+      line-height: 1.35;
+      margin-bottom: 0.3rem;
+    }
+    .result .rd{
+      font-size: 0.86rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      opacity: 0.95;
     }
 
-    @media (max-width: 860px) {
-      .grid-2 { grid-template-columns: 1fr; }
+    /* ==========================
+       Toast (NEW)
+       ========================== */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(16px);
+      z-index: 250;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+      max-width: min(680px, 92vw);
     }
-
-    @media (max-width: 800px) {
-      .grid-3 { grid-template-columns: 1fr; }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
     }
+    .toast-inner{
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: rgba(12,12,12,0.88);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow-soft);
+      padding: 0.8rem 1rem;
+      display:flex;
+      gap: 0.75rem;
+      align-items:center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    body.light .toast-inner{ background: rgba(255,255,255,0.92); }
 
+    /* ==========================
+       Back to top (NEW)
+       ========================== */
+    .to-top{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 150;
+      display:none;
+    }
+    .to-top.show{ display:block; }
+    .to-top .icon-btn{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-soft);
+    }
+    body.light .to-top .icon-btn{ background: rgba(0,0,0,0.04); }
+
+    /* ==========================
+       Responsive
+       ========================== */
+    @media (max-width: 980px){
+      .front-grid{ grid-template-columns: 1fr; }
+      .rail{ position: static; }
+      .manifesto-inner{ grid-template-columns: 1fr; }
+      .newsletter-inner{ grid-template-columns: 1fr; }
+    }
     @media (max-width: 740px){
       .footer-inner{ grid-template-columns: 1fr; }
       .footer-links{ justify-items: start; }
+      .shell-top{ align-items: flex-start; }
+      .nav-link{ display:none; }
+      .hero-meta{ justify-content:center; text-align:center; }
     }
-
-    @media (max-width: 720px) {
-      .tiers { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .nav { padding: 1rem 1.25rem; }
-      .support-hero { min-height: 42vh; padding-top: 4.1rem; }
-      .card-inner { padding: 1.15rem 1.1rem 1.05rem; }
-      .card-title { font-size: 1.06rem; }
-      .back-row { flex-direction: column; gap: 0.9rem; align-items: flex-start; }
+    @media (max-width: 640px){
+      .carousel-track{ grid-auto-columns: minmax(78vw, 1fr); }
+      .carousel-viewport::before,
+      .carousel-viewport::after{ width: 14px; }
+      .hero-meta{ flex-direction: column; align-items: center; text-align:center; }
+      .form-row{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
 
-<header class="site-header">
-  <nav class="nav">
+<header class="site-header" id="siteHeader">
+  <nav class="nav" aria-label="Primary">
+    <!-- LEFT: Burger dropdown -->
     <div class="nav-left">
-      <a href="latest.html" class="nav-link">Latest</a>
+      <div class="menu-wrap">
+        <button class="icon-btn menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
+          <span class="burger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
+          <a class="menu-item" role="menuitem" href="latest.html">Latest</a>
+          <a class="menu-item" role="menuitem" href="journalism.html">Journalism</a>
+          <a class="menu-item" role="menuitem" href="support.html">Support</a>
+          <a class="menu-item" role="menuitem" href="#front">Front Page</a>
+          <a class="menu-item" role="menuitem" href="#manifesto">Manifesto</a>
+          <a class="menu-item" role="menuitem" href="#newsletter">Newsletter</a>
+          <a class="menu-item" role="menuitem" href="#about">About</a>
+        </div>
+      </div>
+
+      <!-- NEW: Search button -->
+      <button class="icon-btn" id="openSearch" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.5 18a7.5 7.5 0 1 1 0-15a7.5 7.5 0 0 1 0 15z"/>
+          <path d="M16.8 16.8L21 21"/>
+        </svg>
+      </button>
     </div>
 
-    <a href="index.html" class="nav-logo-center">FURIOSO</a>
+    <!-- CENTER: Logo -->
+    <a href="index.html" class="nav-logo-center" aria-label="FURIOSO Home">FURIOSO</a>
 
+    <!-- RIGHT: Support + Theme toggle -->
     <div class="nav-right">
-      <a href="support.html" class="nav-link">Support</a>
-      <button class="theme-toggle" aria-label="Toggle theme" type="button">
-        <svg viewBox="0 0 24 24">
+      <a class="nav-link" href="support.html">Support</a>
+
+      <button class="icon-btn theme-toggle" aria-label="Toggle theme" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
         </svg>
       </button>
@@ -672,563 +1406,353 @@
   </nav>
 </header>
 
-<section class="support-hero">
+<section class="hero" aria-label="Hero">
   <div class="hero-inner">
-    <div class="kicker">Support · Membership</div>
-    <h1>Support FURIOSO</h1>
-    <p class="deck">
-      This isn’t a paywall. It’s a relationship — a way to keep the work slow, independent, and unbothered by algorithms.
-    </p>
-    <div class="meta">
-      <span class="pill">Independent</span>
-      <span class="pill">Reader-supported</span>
-      <span class="pill">Rolling archive</span>
+    <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
+    <h1>FURIOSO</h1>
+    <p class="tagline">CULTURE IN HIGH CONTRAST.<br>NO GLOSS. JUST GRIT.</p>
+
+    <div class="hero-cta" aria-label="Primary actions">
+      <a class="btn" href="latest.html">
+        <span>Read Latest</span>
+      </a>
+      <button class="btn btn-ghost" id="openSearch2" type="button">
+        <span>Search</span>
+      </button>
+      <a class="btn btn-ghost" href="#manifesto">
+        <span>Why we exist</span>
+      </a>
+    </div>
+
+    <!-- NEW: Topic chips -->
+    <div class="chip-row" aria-label="Topics">
+      <a class="chip" href="journalism.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12"/><path d="M6 12h12"/><path d="M6 17h10"/></svg>
+        Journalism
+      </a>
+      <a class="chip" href="latest.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l3 2"/><path d="M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0"/></svg>
+        Dispatches
+      </a>
+      <a class="chip" href="#front">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+        Front Page
+      </a>
+      <a class="chip" href="#newsletter">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6l8-6"/></svg>
+        Newsletter
+      </a>
+      <a class="chip" href="support.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-9-9a5 5 0 0 1 9-2a5 5 0 0 1 9 2c-2 4.6-9 9-9 9z"/></svg>
+        Support
+      </a>
+    </div>
+
+    <div class="micro" style="margin-top:1.15rem;">
+      Tip: press <strong style="letter-spacing:0.12em;">/</strong> to search · press <strong style="letter-spacing:0.12em;">Esc</strong> to close
+    </div>
+  </div>
+
+  <div class="hero-meta" aria-hidden="true">
+    <span>FURIOSO.WORLD</span>
+    <span>SHOT IN REAL LIFE / NO FILTERS</span>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section-shell feature" aria-label="Featured">
+  <div class="shell-inner reveal">
+    <div class="shell-top">
+      <div>
+        <div class="shell-label">Featured · Op-Ed</div>
+        <div class="shell-title">Start here</div>
+      </div>
+    </div>
+
+    <a class="feature-link" href="journalism/haiti-afterlife-of-empire.html">
+      <div>
+        <div class="feature-kicker">Journalism · Featured Op-Ed</div>
+        <h2 class="feature-title">Haiti, or the Afterlife of Empire</h2>
+        <p class="feature-dek">
+          Colonial debt, modern extraction, and the way history keeps collecting interest.
+        </p>
+        <div class="feature-meta">
+          <span class="pill">Read</span>
+          <span class="pill">8–12 min</span>
+          <span class="pill">Dispatch System</span>
+        </div>
+      </div>
+
+      <div class="feature-media">
+        <img loading="lazy" decoding="async"
+          src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
+          alt="Haiti editorial image">
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- LATEST -->
+<section class="latest-carousel" aria-label="Latest articles">
+  <div class="latest-inner reveal">
+    <div class="shell-top">
+      <div>
+        <div class="shell-label">Latest · Dispatches</div>
+        <div class="shell-title">Browse the newest pieces</div>
+      </div>
+
+      <div class="latest-actions" aria-hidden="false">
+        <button class="carousel-btn" type="button" data-carousel-prev aria-label="Previous">‹</button>
+        <button class="carousel-btn" type="button" data-carousel-next aria-label="Next">›</button>
+      </div>
+    </div>
+
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="latestTrack" tabindex="0" aria-label="Latest carousel (use arrow keys)">
+        <a class="carousel-card" href="journalism/who-decides-what-a-failed-state-is.html" data-title="Who decides what a failed state is" data-kicker="Journalism · Op-Ed" data-dek="Some countries are allowed to fail slowly, privately, and with dignity. Others are declared broken the moment their fractures become visible.">
+          <div class="carousel-media">
+            <img loading="lazy" decoding="async"
+              src="https://content.magnumphotos.com/wp-content/uploads/2020/01/ECN1989002W00003-24-overlay.jpg"
+              alt="Who decides what a failed state is?">
+          </div>
+          <div class="carousel-body">
+            <div class="carousel-kicker">Journalism · Op-Ed</div>
+            <div class="carousel-h">Who decides what a failed state is</div>
+            <div class="carousel-dek">
+              Some countries are allowed to fail slowly, privately, and with dignity. Others are declared broken the moment their fractures become visible.
+            </div>
+            <div class="carousel-meta">
+              <span class="pill">2025</span>
+              <span class="pill">Read · 8–12 min</span>
+              <span class="pill">Featured</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="carousel-card" href="journalism/Sudan-or-the-Cartography-of-Control.html" data-title="Sudan, or the Cartography of Control" data-kicker="Journalism · Op-Ed" data-dek="Some countries are invaded with armies. Others are invaded with maps — and the Nile keeps the receipts.">
+          <div class="carousel-media">
+            <img loading="lazy" decoding="async"
+              src="https://www.magnumphotos.com/wp-content/uploads/2024/11/MG1270907_.jpg"
+              alt="Sudan, or the Cartography of Control">
+          </div>
+          <div class="carousel-body">
+            <div class="carousel-kicker">Journalism · Op-Ed</div>
+            <div class="carousel-h">Sudan, or the Cartography of Control</div>
+            <div class="carousel-dek">
+              Some countries are invaded with armies. Others are invaded with maps — and the Nile keeps the receipts.
+            </div>
+            <div class="carousel-meta">
+              <span class="pill">2025</span>
+              <span class="pill">Read · 8–12 min</span>
+              <span class="pill">Featured</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="carousel-card" href="journalism/haiti-afterlife-of-empire.html" data-title="Haiti, or the Afterlife of Empire" data-kicker="Journalism · Op-Ed" data-dek="Colonialism did not die. It went offshore, learned the language of finance, and started charging interest.">
+          <div class="carousel-media">
+            <img loading="lazy" decoding="async"
+              src="https://www.theinspiredeye.net/wp-content/uploads/2020/05/haiti-street-photography-3.jpg"
+              alt="Haiti, or the Afterlife of Empire">
+          </div>
+          <div class="carousel-body">
+            <div class="carousel-kicker">Journalism · Op-Ed</div>
+            <div class="carousel-h">Haiti, or the Afterlife of Empire</div>
+            <div class="carousel-dek">
+              Colonialism did not die. It went offshore, learned the language of finance, and started charging interest.
+            </div>
+            <div class="carousel-meta">
+              <span class="pill">2025</span>
+              <span class="pill">Read · 8–12 min</span>
+              <span class="pill">Featured</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="dots" id="carouselDots" aria-label="Carousel pagination" role="tablist"></div>
+  </div>
+</section>
+
+<!-- FRONT PAGE GRID (NEW) -->
+<section class="front" id="front" aria-label="Front page">
+  <div class="front-inner reveal">
+    <div class="shell-top">
+      <div>
+        <div class="shell-label">Front Page · Editorial</div>
+        <div class="shell-title">A cleaner way to enter the world</div>
+      </div>
+      <div class="micro">Curated · not endless</div>
+    </div>
+
+    <div class="front-grid">
+      <!-- LEAD -->
+      <a class="lead-card" href="journalism/haiti-afterlife-of-empire.html">
+        <div class="lead-media">
+          <img loading="lazy" decoding="async"
+               src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
+               alt="Front page lead story image">
+        </div>
+        <div class="lead-body">
+          <div class="lead-kicker">The Week’s Lead</div>
+          <h3 class="lead-title">Haiti, or the Afterlife of Empire</h3>
+          <p class="lead-dek">
+            A field guide to how power survives the funeral of empire: debt as discipline, extraction as policy, and the way “aid” becomes a ledger.
+          </p>
+          <div class="lead-meta">
+            <span class="pill">Op-Ed</span>
+            <span class="pill">8–12 min</span>
+            <span class="pill">Culture / Power</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- RAIL -->
+      <aside class="rail" aria-label="Editorial rail">
+        <div class="rail-card">
+          <div class="rail-title">Reading List</div>
+          <div class="mini-list">
+            <a class="mini" href="journalism/Sudan-or-the-Cartography-of-Control.html">
+              <div>
+                <h4>Sudan, or the Cartography of Control</h4>
+                <p>Maps don’t just describe borders. They produce them.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+
+            <a class="mini" href="journalism/who-decides-what-a-failed-state-is.html">
+              <div>
+                <h4>Who decides what a failed state is</h4>
+                <p>Failure isn’t always collapse. Sometimes it’s branding.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+
+            <a class="mini" href="journalism/haiti-afterlife-of-empire.html">
+              <div>
+                <h4>Haiti, or the Afterlife of Empire</h4>
+                <p>History didn’t end. It learned finance.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="rail-card">
+          <div class="rail-title">Series</div>
+          <div class="mini-list">
+            <a class="mini" href="journalism.html">
+              <div>
+                <h4>Afterlife of Empire</h4>
+                <p>Where power goes when it stops wearing a flag.</p>
+              </div>
+              <div class="mini-meta">new</div>
+            </a>
+            <a class="mini" href="journalism.html">
+              <div>
+                <h4>Cartography</h4>
+                <p>Maps, borders, and the aesthetics of control.</p>
+              </div>
+              <div class="mini-meta">new</div>
+            </a>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
-<main>
-  <section class="wrap">
-
-    <!-- ========== SECTION: WHY ========== -->
-    <div class="section-title">Why this exists</div>
-
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-inner prose">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M6 19V5m0 0h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6m0-14l3 3m-3-3l3-3"/></svg>
-            </span>
-            Mission
-          </div>
-          <div class="card-title">FURIOSO exists to look where it would be easier not to.</div>
-
-          <p>
-            This project was born out of a simple frustration: that much of what shapes our world is either flattened,
-            rushed, or deliberately softened. That history becomes spectacle. That geopolitics is reduced to noise.
-            That long memory is treated as inconvenience.
-          </p>
-
-          <p>
-            FURIOSO publishes essays, op-eds, and dispatches that sit with complexity rather than running from it —
-            pieces that take time to write, time to read, and time to linger.
-          </p>
-
-          <p>
-            There are no click quotas here. No growth hacks. No obligation to please algorithms.
-            Just the work, and the reader.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2a4 4 0 0 1 7 2c0 6.5-7 11-7 11z"/></svg>
-            </span>
-            What support protects
-          </div>
-
-          <div class="card-title">Depth over speed. Trust over traffic.</div>
-
-          <p class="card-text">
-            Support keeps FURIOSO independent — and allows the work to remain slow, research-led, and editorially honest.
-          </p>
-
-          <div class="impact" aria-label="Impact">
-            <div class="bar">
-              <span class="mini">Writing</span>
-              <span><strong>Long-form</strong> essays without deadlines that kill nuance.</span>
-            </div>
-            <div class="bar">
-              <span class="mini">Research</span>
-              <span><strong>Source-led</strong> work — not hot takes.</span>
-            </div>
-            <div class="bar">
-              <span class="mini">Archive</span>
-              <span><strong>Rolling</strong> library you can return to.</span>
-            </div>
-          </div>
-
-          <p class="fineprint">
-            No tricks. No popups. No “urgent” countdown timers. Just a clean way to keep publishing.
-          </p>
-        </div>
-      </div>
+<!-- MANIFESTO (NEW) -->
+<section class="manifesto" id="manifesto" aria-label="Manifesto">
+  <div class="manifesto-inner reveal">
+    <div class="manifesto-card">
+      <div class="manifesto-h">Manifesto</div>
+      <p class="manifesto-p">
+        FURIOSO is built for readers who don’t want noise — they want signal. We publish slow, high-contrast dispatches:
+        reporting that treats culture as evidence, not entertainment; geopolitics as lived reality, not distant theatre.
+      </p>
+      <p class="manifesto-quote">
+        The goal is not to be “balanced”. The goal is to be accurate, sourced, and brave enough to name the mechanism.
+      </p>
     </div>
 
-    <!-- ========== SECTION: WHAT MEMBERS GET (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">What membership actually includes</div>
-
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14M8 8h8M8 12h8M8 16h6"/></svg>
-            </span>
-            Perks (real ones)
-          </div>
-          <div class="card-title">Small, human, and useful.</div>
-          <div class="list" role="list">
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              Early access to select pieces when the reporting cycle runs long.
-            </div>
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              Occasional members-only dispatches: notes, references, and cut-room floor fragments.
-            </div>
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              Downloadable “editions” (PDF-style) for long reads & offline.
-            </div>
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              Invitations to future talks/screenings when they become real.
-            </div>
-          </div>
-          <p class="small">
-            This is not a content prison. Most work stays public. Membership is how you keep the machine quiet.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
-            </span>
-            Editorial promise
-          </div>
-          <div class="card-title">What you’re funding is restraint.</div>
-          <p class="card-text">
-            No outrage treadmill. No dopamine formatting. No “content calendar” that forces the world into neat posts.
-            Just pieces that earn their own length.
-          </p>
-
-          <div class="list" role="list">
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              Slow research cycles — sources, context, dates, receipts.
-            </div>
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              Editorial clarity — fewer pieces, better ones.
-            </div>
-            <div class="li" role="listitem">
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-              A site that stays clean — fast, minimal, readable.
-            </div>
-          </div>
-        </div>
+    <div class="manifesto-card">
+      <div class="manifesto-h">How to read us</div>
+      <p class="manifesto-p">
+        Start with the front page. Follow a series. Use search when you’re hunting a theme. If you value this work, keep it alive:
+        support funds time — time funds reporting — reporting funds understanding.
+      </p>
+      <div class="about-actions">
+        <a class="btn btn-solid" href="support.html"><span>Support FURIOSO</span></a>
+        <a class="btn btn-ghost" href="journalism.html"><span>Browse Journalism</span></a>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- ========== SECTION: CHOOSE SUPPORT (EXISTING) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">Choose your support</div>
-
-    <div class="tiers" id="tiers">
-      <div class="tier selected" data-plan="monthly" data-price="£5/month" data-link="#">
-        <div class="tier-top">
-          <div class="tier-name">Member</div>
-          <div class="tier-price">£5<span style="opacity:.7;font-weight:700;">/mo</span></div>
-        </div>
-        <div class="tier-desc">The clean baseline. Helps keep the archive alive and the work independent.</div>
-      </div>
-
-      <div class="tier" data-plan="yearly" data-price="£50/year" data-link="#">
-        <div class="tier-top">
-          <div class="tier-name">Patron</div>
-          <div class="tier-price">£50<span style="opacity:.7;font-weight:700;">/yr</span></div>
-        </div>
-        <div class="tier-desc">Best value. Supports deeper reporting cycles and longer investigations.</div>
-      </div>
-
-      <div class="tier" data-plan="founding" data-price="£150/year" data-link="#">
-        <div class="tier-top">
-          <div class="tier-name">Founding</div>
-          <div class="tier-price">£150<span style="opacity:.7;font-weight:700;">/yr</span></div>
-        </div>
-        <div class="tier-desc">For people who want this to exist loudly. Early invites, print drops, and thanks.</div>
-      </div>
+<!-- NEWSLETTER (NEW) -->
+<section class="newsletter" id="newsletter" aria-label="Newsletter">
+  <div class="newsletter-inner reveal">
+    <div>
+      <div class="newsletter-k">Newsletter</div>
+      <h3 class="newsletter-h">One dispatch. Once a week. No spam.</h3>
+      <p class="newsletter-p">
+        Get a single curated email: what we published, why it matters, and one link we’re thinking about.
+        No algorithm. No feed. Just a drop in your inbox.
+      </p>
+      <div class="form-note">This is a front-end placeholder. Hook it to your email platform later (Mailchimp, Buttondown, ConvertKit, etc.).</div>
     </div>
 
-    <div class="card" style="margin-top: 1.1rem;">
-      <div class="card-inner">
-        <div class="card-kicker">
-          <span class="i" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2a4 4 0 0 1 7 2c0 6.5-7 11-7 11z"/></svg>
-          </span>
-          Support
-        </div>
-
-        <div class="card-title" id="selectedTitle">Selected: Member</div>
-        <p class="card-text" id="selectedText">
-          You’re choosing the clean baseline. This keeps the work independent, slow, and unbothered by algorithms.
-        </p>
-
-        <div class="cta-row">
-          <a class="btn" id="supportBtn" href="#">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2a4 4 0 0 1 7 2c0 6.5-7 11-7 11z"/></svg>
-            </span>
-            Continue — £5/month
-          </a>
-
-          <a class="btn btn-ghost" href="latest.html">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-            </span>
-            Read first
-          </a>
-        </div>
-
-        <p class="fineprint">
-          You can cancel anytime. Your support goes directly into publishing — research time, writing time, and keeping FURIOSO independent.
-        </p>
+    <form id="newsletterForm" novalidate>
+      <div class="form-row">
+        <input class="input" id="email" type="email" placeholder="Your email address" autocomplete="email" required />
+        <button class="btn btn-solid" type="submit">
+          <span>Subscribe</span>
+        </button>
       </div>
+      <div class="form-note">By subscribing you agree to receive emails from FURIOSO. Unsubscribe anytime.</div>
+    </form>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about" aria-label="About FURIOSO">
+  <div class="about-inner reveal">
+    <div class="about-label">ABOUT</div>
+    <h2 class="about-title">Run-and-gun stories from the edges of the map.</h2>
+    <p class="about-body">
+      FURIOSO covers global culture through the lens of power—conflict, history, money, borders, media—and how all of it leaks into music,
+      fashion, language, food, and the way people live. Long reads. Sharp reporting. Documentary imagery. The aim isn’t hot takes. It’s understanding.
+    </p>
+    <p class="about-body">
+      Built independent. Designed to feel like a magazine. Written to sound like a human being with skin in the game.
+    </p>
+
+    <div class="about-actions">
+      <a class="btn btn-solid" href="latest.html"><span>Start reading</span></a>
+      <button class="btn btn-ghost" id="copyLink" type="button"><span>Copy site link</span></button>
     </div>
-
-    <!-- ========== SECTION: ONE-TIME SUPPORT (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">Prefer one-time support?</div>
-
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 3v18M5 7h14M5 17h14"/></svg>
-            </span>
-            One-time
-          </div>
-          <div class="card-title">A clean contribution, no subscription.</div>
-          <p class="card-text">
-            Add a one-time link when you’re ready (Stripe payment links work beautifully).
-            Until then, these buttons are placeholders you can wire up.
-          </p>
-          <div class="cta-row">
-            <a class="btn" href="#" id="oneTimeSmall">
-              <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2a4 4 0 0 1 7 2c0 6.5-7 11-7 11z"/></svg></span>
-              Give £10
-            </a>
-            <a class="btn btn-ghost" href="#" id="oneTimeMedium">Give £25</a>
-            <a class="btn btn-ghost" href="#" id="oneTimeLarge">Give £50</a>
-          </div>
-          <p class="small">
-            Tip: use three Stripe payment links, then replace the <code>href</code> values above.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/></svg>
-            </span>
-            Gift membership
-          </div>
-          <div class="card-title">Support someone else’s reading.</div>
-          <p class="card-text">
-            If you want, add a “gift” checkout later. For now this is wired as a simple email capture so you can follow up.
-          </p>
-
-          <form id="giftForm" class="field-row" autocomplete="on">
-            <input class="input" type="email" name="email" placeholder="Email to send gift details to" required>
-            <button class="btn" type="submit">
-              <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l7-7 9 9-7 7-9-9z"/></svg></span>
-              Request
-            </button>
-          </form>
-          <p class="small" id="giftMsg" aria-live="polite"></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== SECTION: NEWSLETTER (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">Get the dispatch (no spam)</div>
-
-    <div class="card">
-      <div class="card-inner">
-        <div class="card-kicker">
-          <span class="i" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 8h16"/></svg>
-          </span>
-          Newsletter
-        </div>
-        <div class="card-title">One email when something is worth reading.</div>
-        <p class="card-text">
-          A simple dispatch: new essays, occasional notes, and nothing algorithmic.
-          (This is front-end only — wire it to your email service later.)
-        </p>
-
-        <form id="newsletterForm" class="field-row" autocomplete="on">
-          <input class="input" type="email" name="email" placeholder="Your email" required>
-          <button class="btn" type="submit">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-6-8-2z"/></svg></span>
-            Subscribe
-          </button>
-        </form>
-        <p class="small" id="newsletterMsg" aria-live="polite"></p>
-      </div>
-    </div>
-
-    <!-- ========== SECTION: ROADMAP (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">What you’re helping build</div>
-
-    <div class="grid-3" aria-label="Roadmap">
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"/></svg></span>
-            Next
-          </div>
-          <div class="card-title">A cleaner archive.</div>
-          <p class="card-text">Better tagging, reading lists, and a calm way to find older work without doom-scrolling.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l9 4-9 4-9-4 9-4zM3 10l9 4 9-4M3 18l9 4 9-4"/></svg></span>
-            Upcoming
-          </div>
-          <div class="card-title">Print drops.</div>
-          <p class="card-text">Occasional physical editions: one piece, one object, properly made. No merch treadmill.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
-            Longer
-          </div>
-          <div class="card-title">Series & film work.</div>
-          <p class="card-text">Long-form investigations that need time — and documentary pieces that sit with reality.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== SECTION: TRANSPARENCY (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">Transparency</div>
-
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20l9-16H3l9 16z"/></svg></span>
-            Where support goes
-          </div>
-          <div class="card-title">A simple breakdown.</div>
-
-          <div class="list" role="list">
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Research time & sourcing</div>
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Writing/editing time</div>
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Hosting & site maintenance</div>
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Archival/licensing costs (when needed)</div>
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Future print & film production</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM7 12h10M7 8h6"/></svg></span>
-            Yearly note
-          </div>
-          <div class="card-title">Publish a small “support report”.</div>
-          <p class="card-text">
-            Add a yearly page with basic totals, goals met, and what you shipped. It signals seriousness without becoming corporate.
-          </p>
-          <div class="cta-row">
-            <a class="btn btn-ghost" href="#" id="reportLink">
-              <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"/></svg></span>
-              Read last report
-            </a>
-          </div>
-          <p class="small">
-            (Wire this later to <code>report.html</code> when you create it.)
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== SECTION: SUPPORTER WALL (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">Reader notes</div>
-
-    <div class="grid-3" aria-label="Reader notes">
-      <div class="quote">
-        “Feels like someone finally slowed the world down long enough to explain it.”
-        <div class="who">Reader · London</div>
-      </div>
-      <div class="quote">
-        “No theatrics. No panic. Just clarity — and the discomfort that comes with it.”
-        <div class="who">Member · Berlin</div>
-      </div>
-      <div class="quote">
-        “I subscribed because the site doesn’t beg me to stay. It respects me.”
-        <div class="who">Patron · New York</div>
-      </div>
-    </div>
-
-    <!-- ========== SECTION: CONTACT (MISSING BIT) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">Contact & collaborations</div>
-
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4zM8 20h8"/></svg></span>
-            Pitch something
-          </div>
-          <div class="card-title">Send a tip, a correction, or an idea.</div>
-          <p class="card-text">
-            This is an on-site form (front-end only). If you want it live, wire it to Formspree / Netlify Forms / your backend.
-          </p>
-
-          <form id="contactForm" style="display:grid; gap:0.75rem; margin-top:0.9rem;">
-            <input class="input" type="text" name="name" placeholder="Name" required>
-            <input class="input" type="email" name="email" placeholder="Email" required>
-            <input class="input" type="text" name="subject" placeholder="Subject" required>
-            <textarea class="input" name="message" placeholder="Message" rows="5" style="border-radius:14px; resize: vertical;" required></textarea>
-            <button class="btn" type="submit">
-              <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-6-8-2z"/></svg></span>
-              Send
-            </button>
-          </form>
-          <p class="small" id="contactMsg" aria-live="polite"></p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-kicker">
-            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7h10v10H7zM4 4h4M16 4h4M4 16h4M16 16h4"/></svg></span>
-            Press / partners
-          </div>
-          <div class="card-title">A place for the “serious” links.</div>
-          <p class="card-text">
-            If FURIOSO becomes a studio later, this is where you keep the clean door open:
-            a media kit, a collaborations note, and contact.
-          </p>
-          <div class="list" role="list">
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><a href="#" class="nav-link" style="padding:0; letter-spacing:0.22em;">Media kit</a> (add <code>press.html</code>)</div>
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><a href="mailto:hello@furioso.world" class="nav-link" style="padding:0; letter-spacing:0.22em;">hello@furioso.world</a></div>
-            <div class="li" role="listitem"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Corrections policy (add <code>standards.html</code>)</div>
-          </div>
-          <p class="small">
-            Keep it spare. The point is credibility, not corporate vibes.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== SECTION: FAQ (EXPANDED) ========== -->
-    <div class="section-title" style="margin-top: 3rem;">FAQ</div>
-
-    <div class="faq">
-      <details>
-        <summary>
-          Is this a paywall?
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-        <p>
-          No. Most work remains publicly readable. Membership is about keeping the project independent and sustainable — and occasionally receiving early access or extras.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          What do members get?
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-        <p>
-          Early access to some pieces, occasional members-only dispatches, downloadable editions, and invitations to future talks or screenings as they develop.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Where does the money go?
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-        <p>
-          Research time, reporting time, archival work, publishing costs, and future long-form projects — including film work and print editions.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Can I support without subscribing?
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-        <p>
-          Yes. Add a one-time support link when you’re ready (Stripe “payment link” works well). For now, subscriptions are the cleanest baseline.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Do you take corrections seriously?
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-        <p>
-          Yes. If something’s wrong, it gets fixed — and if it’s material, it’s noted. You can add a “Standards & Corrections” page later to formalise it.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Will this become ads and sponsors?
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-        <p>
-          If it ever does, it should be rare, disclosed, and aligned. The default is: no. Support is the cleanest model.
-        </p>
-      </details>
-    </div>
-
-    <div class="back-row">
-      <a href="latest.html">← Back to Latest</a>
-      <a href="index.html">Home →</a>
-    </div>
-
-  </section>
-</main>
+  </div>
+</section>
 
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
     <div>
       <div class="footer-brand">FURIOSO</div>
       <p class="footer-note">
-        Independent dispatches on culture, geopolitics, and documentary image-making.
-        All writing, design, and site content are protected by copyright unless otherwise credited.
+        Independent dispatches on culture, geopolitics, and documentary image-making. All writing, design, and site content
+        are protected by copyright unless otherwise credited.
       </p>
     </div>
 
     <div class="footer-links" aria-label="Footer links">
       <a href="latest.html">Latest</a>
-      <a href="support.html">Support</a>
       <a href="journalism.html">Journalism</a>
+      <a href="support.html">Support</a>
+      <a href="#front">Front</a>
+      <a href="#manifesto">Manifesto</a>
+      <a href="#newsletter">Newsletter</a>
       <a href="index.html">Home</a>
     </div>
   </div>
@@ -1240,109 +1764,395 @@
   </div>
 </footer>
 
+<!-- SEARCH MODAL (NEW) -->
+<section class="modal" id="searchModal" aria-label="Search modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close-modal></div>
+
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+    <div class="modal-top">
+      <div class="modal-title" id="searchTitle">Search FURIOSO</div>
+      <button class="icon-btn" type="button" data-close-modal aria-label="Close search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12"/><path d="M18 6l-12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <input class="search-input" id="searchInput" type="search" placeholder="Type to search titles + blurbs…" autocomplete="off" />
+      <div class="results" id="searchResults" aria-label="Search results"></div>
+      <div class="form-note" style="margin-top:0.8rem;">
+        This is local search over the links on this page. Later, you can upgrade to a real site-wide search.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOAST (NEW) -->
+<div class="toast" id="toast" aria-live="polite" aria-atomic="true">
+  <div class="toast-inner" id="toastInner">
+    <span id="toastText">Saved.</span>
+    <button class="icon-btn" type="button" id="toastClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6l-12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- BACK TO TOP (NEW) -->
+<div class="to-top" id="toTop" aria-label="Back to top">
+  <button class="icon-btn" type="button" id="toTopBtn" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 5l-6 6"/><path d="M12 5l6 6"/><path d="M12 5v14"/>
+    </svg>
+  </button>
+</div>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // footer year
+    // Footer year
     const y = document.getElementById('year');
     if (y) y.textContent = new Date().getFullYear();
 
-    // ===== THEME TOGGLE =====
+    // Header: add "scrolled" state
+    const header = document.getElementById('siteHeader');
+    const setHeaderState = () => {
+      if (!header) return;
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    };
+    setHeaderState();
+    window.addEventListener('scroll', setHeaderState, { passive: true });
+
+    // ===== THEME =====
     const toggle = document.querySelector('.theme-toggle');
     const body = document.body;
     const icon = toggle?.querySelector('path');
 
-    if (localStorage.getItem('theme') === 'light') {
-      body.classList.add('light');
-      icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
+    const ICON_MOON = 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z';
+    const ICON_SUN  = 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z';
+
+    function applyTheme(mode) {
+      const isLight = mode === 'light';
+      body.classList.toggle('light', isLight);
+      icon?.setAttribute('d', isLight ? ICON_SUN : ICON_MOON);
+    }
+
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      applyTheme(saved);
+    } else {
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(prefersLight ? 'light' : 'dark');
     }
 
     toggle?.addEventListener('click', () => {
-      body.classList.toggle('light');
-
-      if (body.classList.contains('light')) {
-        localStorage.setItem('theme', 'light');
-        icon?.setAttribute('d', 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z');
-      } else {
-        localStorage.setItem('theme', 'dark');
-        icon?.setAttribute('d', 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z');
-      }
+      const nowLight = !body.classList.contains('light');
+      applyTheme(nowLight ? 'light' : 'dark');
+      localStorage.setItem('theme', nowLight ? 'light' : 'dark');
     });
 
-    // ===== TIERS (EXISTING) =====
-    const tiers = document.querySelectorAll('.tier');
-    const selectedTitle = document.getElementById('selectedTitle');
-    const selectedText = document.getElementById('selectedText');
-    const supportBtn = document.getElementById('supportBtn');
+    // ===== DROPDOWN MENU =====
+    const menuWrap = document.querySelector('.menu-wrap');
+    const menuBtn  = document.querySelector('.menu-toggle');
+    const menuPanel = document.getElementById('site-menu');
 
-    const copy = {
-      monthly: {
-        title: 'Selected: Member',
-        text: 'You’re choosing the clean baseline. This keeps the work independent, slow, and unbothered by algorithms.'
-      },
-      yearly: {
-        title: 'Selected: Patron',
-        text: 'Best value. This supports deeper reporting cycles — the kind that require time, research, and calm patience.'
-      },
-      founding: {
-        title: 'Selected: Founding',
-        text: 'For people who want this to exist loudly. This helps fund long investigations and future film / print work.'
-      }
-    };
+    function closeMenu() {
+      if (!menuWrap || !menuBtn || !menuPanel) return;
+      menuWrap.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.setAttribute('aria-hidden', 'true');
+    }
+    function openMenu() {
+      if (!menuWrap || !menuBtn || !menuPanel) return;
+      menuWrap.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuPanel.setAttribute('aria-hidden', 'false');
+      const first = menuPanel.querySelector('a');
+      first?.focus({ preventScroll: true });
+    }
 
-    tiers.forEach(t => {
-      t.addEventListener('click', () => {
-        tiers.forEach(x => x.classList.remove('selected'));
-        t.classList.add('selected');
-
-        const plan = t.dataset.plan;
-        const price = t.dataset.price;
-        const link = t.dataset.link;
-
-        if (selectedTitle) selectedTitle.textContent = copy[plan].title;
-        if (selectedText) selectedText.textContent = copy[plan].text;
-        if (supportBtn) {
-          supportBtn.textContent = `Continue — ${price}`;
-          supportBtn.setAttribute('href', link || '#');
-        }
+    if (menuWrap && menuBtn && menuPanel) {
+      menuBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = menuWrap.classList.contains('open');
+        isOpen ? closeMenu() : openMenu();
       });
+
+      menuPanel.addEventListener('click', (e) => e.stopPropagation());
+
+      document.addEventListener('click', (e) => {
+        if (!menuWrap.contains(e.target)) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+
+    // ===== REVEAL ANIMATIONS =====
+    const revealEls = Array.from(document.querySelectorAll('.reveal'));
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    }
+
+    // ===== LATEST CAROUSEL (auto dots + arrows + keys) =====
+    const track = document.getElementById('latestTrack');
+    const prevBtn = document.querySelector('[data-carousel-prev]');
+    const nextBtn = document.querySelector('[data-carousel-next]');
+    const dotsWrap = document.getElementById('carouselDots');
+
+    if (!track) return;
+    const cards = Array.from(track.querySelectorAll('.carousel-card'));
+
+    const dots = [];
+    if (dotsWrap) {
+      dotsWrap.innerHTML = '';
+      cards.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'dot' + (i === 0 ? ' active' : '');
+        b.setAttribute('aria-label', `Go to item ${i + 1}`);
+        b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+        b.style.cursor = 'pointer';
+        b.addEventListener('click', () => scrollToIndex(i));
+        dotsWrap.appendChild(b);
+        dots.push(b);
+      });
+    }
+
+    function getCardWidth() {
+      const first = cards[0];
+      if (!first) return 340;
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+      return first.getBoundingClientRect().width + gap;
+    }
+    function setActiveDot(index) {
+      if (!dots.length) return;
+      dots.forEach((d, i) => {
+        const on = i === index;
+        d.classList.toggle('active', on);
+        d.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+    function currentIndex() {
+      const w = getCardWidth();
+      return Math.max(0, Math.min(cards.length - 1, Math.round(track.scrollLeft / w)));
+    }
+    function scrollToIndex(idx) {
+      const w = getCardWidth();
+      const clamped = Math.max(0, Math.min(cards.length - 1, idx));
+      track.scrollTo({ left: clamped * w, behavior: 'smooth' });
+      setActiveDot(clamped);
+      updateButtons(clamped);
+    }
+    function updateButtons(idx) {
+      if (prevBtn) prevBtn.disabled = idx <= 0;
+      if (nextBtn) nextBtn.disabled = idx >= cards.length - 1;
+      if (prevBtn) prevBtn.style.opacity = prevBtn.disabled ? '0.45' : '1';
+      if (nextBtn) nextBtn.style.opacity = nextBtn.disabled ? '0.45' : '1';
+    }
+
+    prevBtn?.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
+    nextBtn?.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
+
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); scrollToIndex(currentIndex() - 1); }
+      if (e.key === 'ArrowRight'){ e.preventDefault(); scrollToIndex(currentIndex() + 1); }
     });
 
-    // ===== NEWSLETTER (FRONT-END ONLY) =====
-    const newsletterForm = document.getElementById('newsletterForm');
-    const newsletterMsg = document.getElementById('newsletterMsg');
+    let raf = null;
+    track.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        const idx = currentIndex();
+        setActiveDot(idx);
+        updateButtons(idx);
+        raf = null;
+      });
+    }, { passive: true });
 
+    updateButtons(0);
+
+    // ==========================
+    // NEW: Search modal (local)
+    // ==========================
+    const modal = document.getElementById('searchModal');
+    const openSearch = document.getElementById('openSearch');
+    const openSearch2 = document.getElementById('openSearch2');
+    const searchInput = document.getElementById('searchInput');
+    const results = document.getElementById('searchResults');
+    const closeBtns = Array.from(document.querySelectorAll('[data-close-modal]'));
+
+    // Build a local index from links on the page
+    const index = [];
+    const allLinks = Array.from(document.querySelectorAll('a[href]'));
+    allLinks.forEach(a => {
+      const href = a.getAttribute('href') || '';
+      const title =
+        a.getAttribute('data-title') ||
+        a.querySelector('.carousel-h')?.textContent?.trim() ||
+        a.querySelector('.lead-title')?.textContent?.trim() ||
+        a.querySelector('h2,h3,h4')?.textContent?.trim() ||
+        a.textContent?.trim();
+
+      const kicker =
+        a.getAttribute('data-kicker') ||
+        a.querySelector('.carousel-kicker')?.textContent?.trim() ||
+        a.querySelector('.lead-kicker')?.textContent?.trim() ||
+        '';
+
+      const dek =
+        a.getAttribute('data-dek') ||
+        a.querySelector('.carousel-dek')?.textContent?.trim() ||
+        a.querySelector('.lead-dek')?.textContent?.trim() ||
+        '';
+
+      // Only index meaningful editorial links (avoid footer mailto etc.)
+      const isArticleLike = href.includes('journalism') || href.includes('latest') || href.includes('support') || href.startsWith('#');
+      if (!isArticleLike) return;
+
+      index.push({ href, title: (title || '').replace(/\s+/g,' ').trim(), kicker, dek });
+    });
+
+    function openModal(){
+      if (!modal) return;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => searchInput?.focus(), 20);
+      renderResults('');
+    }
+    function closeModal(){
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    openSearch?.addEventListener('click', openModal);
+    openSearch2?.addEventListener('click', openModal);
+    closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+
+    document.addEventListener('keydown', (e) => {
+      // press "/" to open search (ignore typing in inputs)
+      if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement?.tagName || '')) {
+        e.preventDefault();
+        openModal();
+      }
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function renderResults(q){
+      if (!results) return;
+      const query = (q || '').toLowerCase().trim();
+      const filtered = query
+        ? index.filter(item => {
+            const hay = `${item.title} ${item.kicker} ${item.dek} ${item.href}`.toLowerCase();
+            return hay.includes(query);
+          })
+        : index.slice(0, 8);
+
+      results.innerHTML = '';
+      if (!filtered.length) {
+        results.innerHTML = `<div class="form-note">No matches. Try another word.</div>`;
+        return;
+      }
+
+      filtered.slice(0, 10).forEach(item => {
+        const el = document.createElement('a');
+        el.className = 'result';
+        el.href = item.href;
+        el.innerHTML = `
+          <div class="rk">${item.kicker || 'FURIOSO'}</div>
+          <div class="rh">${escapeHtml(item.title || item.href)}</div>
+          <div class="rd">${escapeHtml(item.dek || '')}</div>
+        `;
+        results.appendChild(el);
+      });
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[m]));
+    }
+
+    searchInput?.addEventListener('input', (e) => renderResults(e.target.value));
+
+    // ==========================
+    // NEW: Newsletter placeholder submit
+    // ==========================
+    const newsletterForm = document.getElementById('newsletterForm');
+    const email = document.getElementById('email');
     newsletterForm?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = new FormData(newsletterForm);
-      const email = String(data.get('email') || '').trim();
-
-      if (!email) return;
-      newsletterMsg.textContent = `You’re in. Dispatches will go to ${email}. (Wire this to your email provider when ready.)`;
+      const v = (email?.value || '').trim();
+      if (!v || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+        showToast('Enter a real email — then we’ll talk.');
+        email?.focus();
+        return;
+      }
+      showToast('Subscribed (placeholder). Wire this up to your email provider next.');
       newsletterForm.reset();
     });
 
-    // ===== GIFT (FRONT-END ONLY) =====
-    const giftForm = document.getElementById('giftForm');
-    const giftMsg = document.getElementById('giftMsg');
-
-    giftForm?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = new FormData(giftForm);
-      const email = String(data.get('email') || '').trim();
-
-      if (!email) return;
-      giftMsg.textContent = `Got it. We’ll follow up with gift options at ${email}.`;
-      giftForm.reset();
+    // ==========================
+    // NEW: Copy link
+    // ==========================
+    const copyLink = document.getElementById('copyLink');
+    copyLink?.addEventListener('click', async () => {
+      const url = window.location.href;
+      try{
+        await navigator.clipboard.writeText(url);
+        showToast('Copied link to clipboard.');
+      }catch{
+        showToast('Could not copy automatically — copy from the address bar.');
+      }
     });
 
-    // ===== CONTACT (FRONT-END ONLY) =====
-    const contactForm = document.getElementById('contactForm');
-    const contactMsg = document.getElementById('contactMsg');
+    // ==========================
+    // NEW: Toast
+    // ==========================
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toastText');
+    const toastClose = document.getElementById('toastClose');
+    let toastTimer = null;
 
-    contactForm?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      contactMsg.textContent = `Message queued. (Wire this form to Formspree/Netlify Forms/backend to make it live.)`;
-      contactForm.reset();
+    function showToast(msg){
+      if (!toast || !toastText) return;
+      toastText.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+    toastClose?.addEventListener('click', () => toast?.classList.remove('show'));
+
+    // ==========================
+    // NEW: Back to top
+    // ==========================
+    const toTop = document.getElementById('toTop');
+    const toTopBtn = document.getElementById('toTopBtn');
+
+    function setTopState(){
+      if (!toTop) return;
+      toTop.classList.toggle('show', window.scrollY > 900);
+    }
+    setTopState();
+    window.addEventListener('scroll', setTopState, { passive:true });
+
+    toTopBtn?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 </script>
