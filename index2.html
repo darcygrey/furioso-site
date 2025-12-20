@@ -290,29 +290,32 @@
       overflow: hidden;
     }
 
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(1200px 520px at 50% 20%, rgba(255,255,255,0.10), transparent 60%),
-        linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.92)),
-        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
-        center/cover no-repeat fixed;
-      filter: grayscale(72%) contrast(1.18);
-      transform: scale(1.06);
-      z-index: -2;
-    }
-    body.light .hero::before{
+.hero::before{
   content:"";
   position:absolute;
   inset:0;
   background:
-    radial-gradient(1200px 520px at 50% 18%, rgba(255,255,255,0.06), transparent 62%),
-    linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.96)),
+    radial-gradient(1200px 520px at 50% 20%, rgba(255,255,255,0.06), transparent 60%),
+    linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.97)),
     url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
     center/cover no-repeat fixed;
-  filter: grayscale(72%) contrast(1.18);
+  /* THIS is the “make it undeniably darker” part */
+  filter: grayscale(72%) contrast(1.18) brightness(0.62);
+  transform: scale(1.06);
+  z-index: -2;
+}
+
+/* Light mode: keep it lighter + cleaner */
+body.light .hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(1200px 520px at 50% 18%, rgba(0,0,0,0.04), transparent 62%),
+    linear-gradient(to bottom, rgba(247,246,243,0.18), rgba(247,246,243,0.93)),
+    url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
+    center/cover no-repeat fixed;
+  filter: grayscale(24%) contrast(1.05) brightness(1);
   transform: scale(1.06);
   z-index: -2;
 }
