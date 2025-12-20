@@ -332,16 +332,13 @@
       position: relative;
     }
 
-    /* subtle edge fades */
-    .carousel-viewport::before,
-    .carousel-viewport::after{
-      content:"";
-      position:absolute;
-      top:0; bottom:0;
-      width: 42px;
-      pointer-events:none;
-      z-index: 3;
-    }
+/* ✅ MOBILE: make edge fades much smaller so they don't mask cards */
+@media (max-width: 640px) {
+  .carousel-viewport::before,
+  .carousel-viewport::after {
+    width: 14px;          /* was 42px */
+  }
+}
     .carousel-viewport::before{
       left:0;
       background: linear-gradient(to right, var(--bg-secondary), rgba(0,0,0,0));
