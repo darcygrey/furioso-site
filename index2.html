@@ -290,47 +290,28 @@
       overflow: hidden;
     }
 
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    /* vignette: darker edges, clearer centre */
-    radial-gradient(1200px 700px at 50% 45%, rgba(0,0,0,0.12), rgba(0,0,0,0.78) 78%, rgba(0,0,0,0.92) 100%),
+    /* ✅ UPDATED: match the simpler “v2” look (lighter centre, clean top→bottom fade) */
+    .hero::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)),
+        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(70%) contrast(1.2);
+      z-index: -2;
+      transform: scale(1.05);
+    }
 
-    /* subtle top bloom */
-    radial-gradient(1200px 520px at 50% 18%, rgba(255,255,255,0.08), transparent 62%),
-
-    /* bottom falloff (LESS heavy than before) */
-    linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0.78)),
-
-    url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
-      center/cover no-repeat fixed;
-
-  /* lift midtones a touch */
-  filter: grayscale(72%) contrast(1.14) brightness(1.06);
-  transform: scale(1.06);
-  z-index: -2;
-}
-
-/* Light mode: keep it lighter + cleaner */
-body.light .hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(1200px 700px at 50% 45%, rgba(0,0,0,0.06), rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.70) 100%),
-    radial-gradient(1200px 520px at 50% 18%, rgba(255,255,255,0.06), transparent 64%),
-    linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.70)),
-    url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
-      center/cover no-repeat fixed;
-
-  filter: grayscale(72%) contrast(1.10) brightness(1.08);
-  transform: scale(1.06);
-  z-index: -2;
-}
-
-
+    /* ✅ UPDATED: light mode version from v2 */
+    body.light .hero::before{
+      background:
+        linear-gradient(to bottom, rgba(246,246,244,0.20), rgba(246,246,244,0.92)),
+        url("https://media.newyorker.com/photos/5dc5afd07e30f20009915fb1/master/w_1600,c_limit/gilden14.jpg")
+        center/cover no-repeat fixed;
+      filter: grayscale(28%) contrast(1.05);
+    }
 
     .hero::after{
       content:"";
