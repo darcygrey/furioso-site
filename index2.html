@@ -33,6 +33,17 @@
   font-display: swap;
 }
 
+    /* ==========================
+   Swirly Canalope — Hero Logo
+   ========================== */
+@font-face{
+  font-family: "SwirlyCanalope";
+  src: url("fonts/SwirlyCanalope.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
     :root{
       /* Core palette */
       --bg-main: #050505;
@@ -385,16 +396,16 @@ body.light .hero-mark{
       color: var(--text-muted);
       margin-bottom: 1.15rem;
     }
-
-    h1{
-      letter-spacing: 0.38em;
-      font-weight: 700;
-      font-size: clamp(2.8rem, 8vw, 4.9rem);
-      line-height: 1.02;
-      margin-bottom: 1.2rem;
-      text-shadow: 0 10px 40px rgba(0,0,0,0.45);
-    }
-    body.light h1{ text-shadow: none; }
+h1{
+  font-family: "SwirlyCanalope", "Montserrat", system-ui, sans-serif;
+  font-weight: normal;        /* script fonts must NOT be bolded */
+  letter-spacing: 0;          /* critical for script fonts */
+  text-transform: none;
+  font-size: clamp(3.2rem, 9vw, 5.2rem);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.45);
+}
 
     .tagline{
       font-size: clamp(0.86rem, 2.1vw, 1.02rem);
