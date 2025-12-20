@@ -268,7 +268,7 @@
       color: var(--text-muted);
     }
 
-    /* ===== LATEST CAROUSEL (NEW) ===== */
+    /* ===== LATEST CAROUSEL ===== */
     .latest-carousel {
       padding: 3.75rem 1.75rem 4.25rem;
       background: var(--bg-secondary);
@@ -332,13 +332,18 @@
       position: relative;
     }
 
-/* ✅ MOBILE: make edge fades much smaller so they don't mask cards */
-@media (max-width: 640px) {
-  .carousel-viewport::before,
-  .carousel-viewport::after {
-    width: 14px;          /* was 42px */
-  }
-}
+    /* ✅ FIX: ACTUAL EDGE-FADE OVERLAYS (these were missing) */
+    .carousel-viewport::before,
+    .carousel-viewport::after{
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 42px;              /* desktop fade width */
+      pointer-events: none;
+      z-index: 6;
+    }
+
     .carousel-viewport::before{
       left:0;
       background: linear-gradient(to right, var(--bg-secondary), rgba(0,0,0,0));
@@ -347,6 +352,7 @@
       right:0;
       background: linear-gradient(to left, var(--bg-secondary), rgba(0,0,0,0));
     }
+
     body.light .carousel-viewport::before{
       background: linear-gradient(to right, var(--bg-secondary), rgba(255,255,255,0));
     }
@@ -578,11 +584,18 @@
     @media (max-width: 820px) {
       .feature-link { grid-template-columns: 1fr; }
     }
+
     @media (max-width: 640px) {
       .nav { padding: 1rem 1.25rem; }
       .hero-meta { inset-inline: 1.25rem; }
       .carousel-track{ grid-auto-columns: minmax(78vw, 1fr); }
       .latest-top{ align-items: flex-start; }
+
+      /* ✅ MOBILE: keep fades visible but thin (doesn't mask cards) */
+      .carousel-viewport::before,
+      .carousel-viewport::after{
+        width: 14px;
+      }
     }
   </style>
 </head>
@@ -633,7 +646,6 @@
   </div>
 </section>
 
-<!-- ✅ NEW: LATEST ARTICLES CAROUSEL -->
 <section class="latest-carousel" aria-label="Latest articles">
   <div class="latest-inner">
     <div class="latest-top">
@@ -650,7 +662,6 @@
 
     <div class="carousel-viewport">
       <div class="carousel-track" id="latestTrack">
-        <!-- 1) Failed State -->
         <a class="carousel-card" href="journalism/who-decides-what-a-failed-state-is.html">
           <div class="carousel-media">
             <img src="https://content.magnumphotos.com/wp-content/uploads/2020/01/ECN1989002W00003-24-overlay.jpg" alt="Who decides what a failed state is?">
@@ -669,7 +680,6 @@
           </div>
         </a>
 
-        <!-- 2) Sudan -->
         <a class="carousel-card" href="journalism/Sudan-or-the-Cartography-of-Control.html">
           <div class="carousel-media">
             <img src="https://www.magnumphotos.com/wp-content/uploads/2024/11/MG1270907_.jpg" alt="Sudan, or the Cartography of Control">
@@ -688,7 +698,6 @@
           </div>
         </a>
 
-        <!-- 3) Haiti -->
         <a class="carousel-card" href="journalism/haiti-afterlife-of-empire.html">
           <div class="carousel-media">
             <img src="https://www.theinspiredeye.net/wp-content/uploads/2020/05/haiti-street-photography-3.jpg" alt="Haiti, or the Afterlife of Empire">
@@ -850,11 +859,9 @@
     });
 
     track.addEventListener('scroll', () => {
-      // lightweight snap indicator update
       window.requestAnimationFrame(() => setActiveDot(currentIndex()));
     });
 
-    // click dots (optional but nice)
     dots.forEach((dot, i) => {
       dot.style.cursor = 'pointer';
       dot.addEventListener('click', () => scrollToIndex(i));
