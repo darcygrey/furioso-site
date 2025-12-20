@@ -186,21 +186,17 @@ body.light .hero-mark{
     .nav-left{ justify-content:flex-start; gap: 0.55rem; }
     .nav-right{ justify-content:flex-end; gap: 0.55rem; }
 
-    .nav-logo-center{
+  .nav-logo-center{
   justify-self: center;
   text-decoration: none;
   color: var(--text-main);
-
-  /* ✅ Bucklane Script */
   font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
   font-weight: normal;
-  letter-spacing: 0;       /* script fonts hate tracking */
-  text-transform: none;    /* don't force uppercase */
-  font-size: 1.55rem;      /* tune this if needed */
-  line-height: 1;
-
+  text-transform: none;
+  letter-spacing: 0;              /* important for script fonts */
+  font-size: 1.6rem;              /* ⬅️ increase size */
   position: relative;
-  padding: 0.35rem 0.1rem;
+  padding: 0.35rem 0.2rem;
   user-select: none;
 }
 
