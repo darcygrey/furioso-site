@@ -233,6 +233,41 @@ body.light .hero-mark{
     }
     body.light .nav-link:hover{ background: rgba(0,0,0,0.06); }
 
+    .nav-support{
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      padding: 0.65rem 1.05rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      transition: transform var(--dur) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease), opacity var(--dur-fast) var(--ease);
+      display:inline-flex;
+      align-items:center;
+      gap: 0.45rem;
+      opacity: 0.98;
+    }
+    .nav-support:hover{
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border-color: var(--border-strong);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.34);
+      opacity: 1;
+    }
+    .nav-support:active{ transform: translateY(0); }
+    body.light .nav-support{
+      background: linear-gradient(135deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+    body.light .nav-support:hover{
+      background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,0,0,0.03));
+      box-shadow: 0 16px 34px rgba(0,0,0,0.16);
+    }
+    body.light .nav-support{ color: var(--text-main); }
+
     .icon-btn{
       appearance:none;
       border: 1px solid transparent;
@@ -1482,7 +1517,7 @@ h1{
 
     <!-- RIGHT: Support + Theme toggle -->
     <div class="nav-right">
-      <a class="nav-link" href="support.html">Support</a>
+      <a class="nav-support" href="support.html">Support</a>
 
       <button class="icon-btn theme-toggle" aria-label="Toggle theme" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true">
