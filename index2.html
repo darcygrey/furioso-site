@@ -233,6 +233,41 @@ body.light .hero-mark{
     }
     body.light .nav-link:hover{ background: rgba(0,0,0,0.06); }
 
+    .nav-support{
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      padding: 0.65rem 1.05rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      transition: transform var(--dur) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease), opacity var(--dur-fast) var(--ease);
+      display:inline-flex;
+      align-items:center;
+      gap: 0.45rem;
+      opacity: 0.98;
+    }
+    .nav-support:hover{
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border-color: var(--border-strong);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.34);
+      opacity: 1;
+    }
+    .nav-support:active{ transform: translateY(0); }
+    body.light .nav-support{
+      background: linear-gradient(135deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+    body.light .nav-support:hover{
+      background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,0,0,0.03));
+      box-shadow: 0 16px 34px rgba(0,0,0,0.16);
+    }
+    body.light .nav-support{ color: var(--text-main); }
+
     .icon-btn{
       appearance:none;
       border: 1px solid transparent;
@@ -823,6 +858,10 @@ h1{
       padding: 4.25rem var(--gutter) 4.75rem;
       background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 24%), var(--bg-secondary);
       border-top: 1px solid var(--border-soft);
+      scroll-margin-top: 7.5rem;
+    }
+    .front:first-of-type{
+      padding-top: calc(4.25rem + 7rem);
     }
     .front-inner{ max-width: var(--container); margin: 0 auto; }
 
@@ -1188,6 +1227,39 @@ h1{
       color: var(--text-main);
       transform: translateX(2px);
     }
+    .footer-social{
+      margin-top: 0.85rem;
+      display:flex;
+      gap: 0.65rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .footer-social a{
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      display:grid;
+      place-items:center;
+      text-decoration:none;
+      color: var(--text-muted);
+      transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+      background: var(--panel);
+    }
+    .footer-social a:hover{
+      color: var(--text-main);
+      border-color: var(--border-strong);
+      background: var(--panel-2);
+      transform: translateY(-1px);
+    }
+    .footer-social svg{
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
     .footer-bottom{
       max-width: var(--container);
       margin: 2rem auto 0;
@@ -1392,6 +1464,7 @@ h1{
     @media (max-width: 740px){
       .footer-inner{ grid-template-columns: 1fr; }
       .footer-links{ justify-items: start; }
+      .footer-social{ justify-content: flex-start; }
       .shell-top{ align-items: flex-start; }
       .nav-link{ display:none; }
       .hero-meta{ justify-content:center; text-align:center; }
@@ -1444,7 +1517,7 @@ h1{
 
     <!-- RIGHT: Support + Theme toggle -->
     <div class="nav-right">
-      <a class="nav-link" href="support.html">Support</a>
+      <a class="nav-support" href="support.html">Support</a>
 
       <button class="icon-btn theme-toggle" aria-label="Toggle theme" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1454,6 +1527,39 @@ h1{
     </div>
   </nav>
 </header>
+<!-- FEATURED -->
+<section class="section-shell feature" aria-label="Featured">
+  <div class="shell-inner reveal">
+    <div class="shell-top">
+      <div>
+        <div class="shell-label">Featured · Op-Ed</div>
+        <div class="shell-title">Start here</div>
+      </div>
+    </div>
+
+    <a class="feature-link" href="journalism/haiti-afterlife-of-empire.html">
+      <div>
+        <div class="feature-kicker">Journalism · Featured Op-Ed</div>
+        <h2 class="feature-title">Haiti, or the Afterlife of Empire</h2>
+        <p class="feature-dek">
+          Colonial debt, modern extraction, and the way history keeps collecting interest.
+        </p>
+        <div class="feature-meta">
+          <span class="pill">Read</span>
+          <span class="pill">8–12 min</span>
+          <span class="pill">Dispatch System</span>
+        </div>
+      </div>
+
+      <div class="feature-media">
+        <img loading="lazy" decoding="async"
+          src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
+          alt="Haiti editorial image">
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- FRONT PAGE GRID (NEW) -->
 <section class="front" id="front" aria-label="Front page">
   <div class="front-inner reveal">
@@ -1539,91 +1645,6 @@ h1{
         </div>
       </aside>
     </div>
-  </div>
-</section>
-<section class="hero" aria-label="Hero">
-  <div class="hero-inner">
-    <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
-    <h1>Furioso</h1>
-    <p class="tagline">CULTURE IN HIGH CONTRAST.<br>NO GLOSS. JUST GRIT.</p>
-
-    <div class="hero-cta" aria-label="Primary actions">
-      <a class="btn" href="latest.html">
-        <span>Read Latest</span>
-      </a>
-      <button class="btn btn-ghost" id="openSearch2" type="button">
-        <span>Search</span>
-      </button>
-      <a class="btn btn-ghost" href="#manifesto">
-        <span>Why we exist</span>
-      </a>
-    </div>
-
-    <!-- NEW: Topic chips -->
-    <div class="chip-row" aria-label="Topics">
-      <a class="chip" href="journalism.html">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12"/><path d="M6 12h12"/><path d="M6 17h10"/></svg>
-        Journalism
-      </a>
-      <a class="chip" href="latest.html">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l3 2"/><path d="M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0"/></svg>
-        Dispatches
-      </a>
-      <a class="chip" href="#front">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
-        Front Page
-      </a>
-      <a class="chip" href="#newsletter">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6l8-6"/></svg>
-        Newsletter
-      </a>
-      <a class="chip" href="support.html">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-9-9a5 5 0 0 1 9-2a5 5 0 0 1 9 2c-2 4.6-9 9-9 9z"/></svg>
-        Support
-      </a>
-    </div>
-
-    <div class="micro" style="margin-top:1.15rem;">
-      Tip: press <strong style="letter-spacing:0.12em;">/</strong> to search · press <strong style="letter-spacing:0.12em;">Esc</strong> to close
-    </div>
-  </div>
-
-  <div class="hero-meta" aria-hidden="true">
-    <span class="hero-mark" aria-label="Furioso">F</span>
-    <span>SHOT IN REAL LIFE / NO FILTERS</span>
-  </div>
-</section>
-
-<!-- FEATURED -->
-<section class="section-shell feature" aria-label="Featured">
-  <div class="shell-inner reveal">
-    <div class="shell-top">
-      <div>
-        <div class="shell-label">Featured · Op-Ed</div>
-        <div class="shell-title">Start here</div>
-      </div>
-    </div>
-
-    <a class="feature-link" href="journalism/haiti-afterlife-of-empire.html">
-      <div>
-        <div class="feature-kicker">Journalism · Featured Op-Ed</div>
-        <h2 class="feature-title">Haiti, or the Afterlife of Empire</h2>
-        <p class="feature-dek">
-          Colonial debt, modern extraction, and the way history keeps collecting interest.
-        </p>
-        <div class="feature-meta">
-          <span class="pill">Read</span>
-          <span class="pill">8–12 min</span>
-          <span class="pill">Dispatch System</span>
-        </div>
-      </div>
-
-      <div class="feature-media">
-        <img loading="lazy" decoding="async"
-          src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
-          alt="Haiti editorial image">
-      </div>
-    </a>
   </div>
 </section>
 
@@ -1710,90 +1731,22 @@ h1{
   </div>
 </section>
 
-<!-- FRONT PAGE GRID (NEW) -->
-<section class="front" id="front" aria-label="Front page">
-  <div class="front-inner reveal">
-    <div class="shell-top">
-      <div>
-        <div class="shell-label">Front Page · Editorial</div>
-        <div class="shell-title">A cleaner way to enter the world</div>
-      </div>
-      <div class="micro">Curated · not endless</div>
-    </div>
+<!-- ABOUT -->
+<section class="about" id="about" aria-label="About FURIOSO">
+  <div class="about-inner reveal">
+    <div class="about-label">ABOUT</div>
+    <h2 class="about-title">Run-and-gun stories from the edges of the map.</h2>
+    <p class="about-body">
+      FURIOSO covers global culture through the lens of power—conflict, history, money, borders, media—and how all of it leaks into music,
+      fashion, language, food, and the way people live. Long reads. Sharp reporting. Documentary imagery. The aim isn’t hot takes. It’s understanding.
+    </p>
+    <p class="about-body">
+      Built independent. Designed to feel like a magazine. Written to sound like a human being with skin in the game.
+    </p>
 
-    <div class="front-grid">
-      <!-- LEAD -->
-      <a class="lead-card" href="journalism/haiti-afterlife-of-empire.html">
-        <div class="lead-media">
-          <img loading="lazy" decoding="async"
-               src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
-               alt="Front page lead story image">
-        </div>
-        <div class="lead-body">
-          <div class="lead-kicker">The Week’s Lead</div>
-          <h3 class="lead-title">Haiti, or the Afterlife of Empire</h3>
-          <p class="lead-dek">
-            A field guide to how power survives the funeral of empire: debt as discipline, extraction as policy, and the way “aid” becomes a ledger.
-          </p>
-          <div class="lead-meta">
-            <span class="pill">Op-Ed</span>
-            <span class="pill">8–12 min</span>
-            <span class="pill">Culture / Power</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- RAIL -->
-      <aside class="rail" aria-label="Editorial rail">
-        <div class="rail-card">
-          <div class="rail-title">Reading List</div>
-          <div class="mini-list">
-            <a class="mini" href="journalism/Sudan-or-the-Cartography-of-Control.html">
-              <div>
-                <h4>Sudan, or the Cartography of Control</h4>
-                <p>Maps don’t just describe borders. They produce them.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-
-            <a class="mini" href="journalism/who-decides-what-a-failed-state-is.html">
-              <div>
-                <h4>Who decides what a failed state is</h4>
-                <p>Failure isn’t always collapse. Sometimes it’s branding.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-
-            <a class="mini" href="journalism/haiti-afterlife-of-empire.html">
-              <div>
-                <h4>Haiti, or the Afterlife of Empire</h4>
-                <p>History didn’t end. It learned finance.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-          </div>
-        </div>
-
-        <div class="rail-card">
-          <div class="rail-title">Series</div>
-          <div class="mini-list">
-            <a class="mini" href="journalism.html">
-              <div>
-                <h4>Afterlife of Empire</h4>
-                <p>Where power goes when it stops wearing a flag.</p>
-              </div>
-              <div class="mini-meta">new</div>
-            </a>
-            <a class="mini" href="journalism.html">
-              <div>
-                <h4>Cartography</h4>
-                <p>Maps, borders, and the aesthetics of control.</p>
-              </div>
-              <div class="mini-meta">new</div>
-            </a>
-          </div>
-        </div>
-      </aside>
+    <div class="about-actions">
+      <a class="btn btn-solid" href="latest.html"><span>Start reading</span></a>
+      <button class="btn btn-ghost" id="copyLink" type="button"><span>Copy site link</span></button>
     </div>
   </div>
 </section>
@@ -1851,23 +1804,56 @@ h1{
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about" id="about" aria-label="About FURIOSO">
-  <div class="about-inner reveal">
-    <div class="about-label">ABOUT</div>
-    <h2 class="about-title">Run-and-gun stories from the edges of the map.</h2>
-    <p class="about-body">
-      FURIOSO covers global culture through the lens of power—conflict, history, money, borders, media—and how all of it leaks into music,
-      fashion, language, food, and the way people live. Long reads. Sharp reporting. Documentary imagery. The aim isn’t hot takes. It’s understanding.
-    </p>
-    <p class="about-body">
-      Built independent. Designed to feel like a magazine. Written to sound like a human being with skin in the game.
-    </p>
+<section class="hero" aria-label="Hero">
+  <div class="hero-inner">
+    <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
+    <h1>Furioso</h1>
+    <p class="tagline">CULTURE IN HIGH CONTRAST.<br>NO GLOSS. JUST GRIT.</p>
 
-    <div class="about-actions">
-      <a class="btn btn-solid" href="latest.html"><span>Start reading</span></a>
-      <button class="btn btn-ghost" id="copyLink" type="button"><span>Copy site link</span></button>
+    <div class="hero-cta" aria-label="Primary actions">
+      <a class="btn" href="latest.html">
+        <span>Read Latest</span>
+      </a>
+      <button class="btn btn-ghost" id="openSearch2" type="button">
+        <span>Search</span>
+      </button>
+      <a class="btn btn-ghost" href="#manifesto">
+        <span>Why we exist</span>
+      </a>
     </div>
+
+    <!-- NEW: Topic chips -->
+    <div class="chip-row" aria-label="Topics">
+      <a class="chip" href="journalism.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12"/><path d="M6 12h12"/><path d="M6 17h10"/></svg>
+        Journalism
+      </a>
+      <a class="chip" href="latest.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l3 2"/><path d="M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0"/></svg>
+        Dispatches
+      </a>
+      <a class="chip" href="#front">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+        Front Page
+      </a>
+      <a class="chip" href="#newsletter">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6l8-6"/></svg>
+        Newsletter
+      </a>
+      <a class="chip" href="support.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-9-9a5 5 0 0 1 9-2a5 5 0 0 1 9 2c-2 4.6-9 9-9 9z"/></svg>
+        Support
+      </a>
+    </div>
+
+    <div class="micro" style="margin-top:1.15rem;">
+      Tip: press <strong style="letter-spacing:0.12em;">/</strong> to search · press <strong style="letter-spacing:0.12em;">Esc</strong> to close
+    </div>
+  </div>
+
+  <div class="hero-meta" aria-hidden="true">
+    <span class="hero-mark" aria-label="Furioso">F</span>
+    <span>SHOT IN REAL LIFE / NO FILTERS</span>
   </div>
 </section>
 
@@ -1881,14 +1867,31 @@ h1{
       </p>
     </div>
 
-    <div class="footer-links" aria-label="Footer links">
-      <a href="latest.html">Latest</a>
-      <a href="journalism.html">Journalism</a>
-      <a href="support.html">Support</a>
-      <a href="#front">Front</a>
-      <a href="#manifesto">Manifesto</a>
-      <a href="#newsletter">Newsletter</a>
-      <a href="index.html">Home</a>
+    <div>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="latest.html">Latest</a>
+        <a href="journalism.html">Journalism</a>
+        <a href="support.html">Support</a>
+        <a href="#front">Front</a>
+        <a href="#manifesto">Manifesto</a>
+        <a href="#newsletter">Newsletter</a>
+        <a href="index.html">Home</a>
+      </div>
+      <div class="footer-social" aria-label="Social links">
+        <a href="https://instagram.com" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="4"/>
+            <circle cx="12" cy="12" r="3.2"/>
+            <circle cx="17" cy="7" r="1.2"/>
+          </svg>
+        </a>
+        <a href="https://x.com" aria-label="X">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5l14 14"/>
+            <path d="M19 5L5 19"/>
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
 
