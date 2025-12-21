@@ -21,28 +21,24 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    
-          /* ==========================
-   Bucklane Script — Logo F
-   ========================== */
-@font-face{
-  font-family: "BucklaneScript";
-  src: url("fonts/BucklaneScript.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
     /* ==========================
-   Swirly Canalope — Hero Logo
-   ========================== */
-@font-face{
-  font-family: "SwirlyCanalope";
-  src: url("fonts/SwirlyCanalope.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+       Local Fonts (ensure /fonts exists in your repo)
+       ========================== */
+    @font-face{
+      font-family: "BucklaneScript";
+      src: url("fonts/BucklaneScript.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face{
+      font-family: "SwirlyCanalope";
+      src: url("fonts/SwirlyCanalope.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
 
     :root{
       /* Core palette */
@@ -56,30 +52,6 @@
       --text-faint: rgba(255,255,255,0.54);
       --border-soft: rgba(255,255,255,0.10);
       --border-strong: rgba(255,255,255,0.18);
-
-/* Bottom-left logo mark (F) */
-.hero-mark{
-  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
-  font-size: 2.8rem;              /* logo-like */
-  line-height: 1;
-  letter-spacing: 0;              /* script fonts hate spacing */
-  text-transform: none;
-  color: var(--text-main);
-  opacity: 0.92;
-  transform: translateY(2px);     /* slight optical alignment */
-  user-select: none;
-}
-
-/* Light mode tweak (optional but nicer) */
-body.light .hero-mark{
-  opacity: 0.85;
-}
-
-/* Responsive sizing */
-@media (max-width: 740px){
-  .hero-mark{ font-size: 2.35rem; }
-}
-
 
       /* Accents */
       --glow: rgba(255,255,255,0.12);
@@ -152,6 +124,23 @@ body.light .hero-mark{
       * { animation: none !important; transition: none !important; }
     }
 
+    /* Bottom-left logo mark (F) */
+    .hero-mark{
+      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+      font-size: 2.8rem;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-main);
+      opacity: 0.92;
+      transform: translateY(2px);
+      user-select: none;
+    }
+    body.light .hero-mark{ opacity: 0.85; }
+    @media (max-width: 740px){
+      .hero-mark{ font-size: 2.35rem; }
+    }
+
     /* ==========================
        Header / Nav
        ========================== */
@@ -186,19 +175,19 @@ body.light .hero-mark{
     .nav-left{ justify-content:flex-start; gap: 0.55rem; }
     .nav-right{ justify-content:flex-end; gap: 0.55rem; }
 
-  .nav-logo-center{
-  justify-self: center;
-  text-decoration: none;
-  color: var(--text-main);
-  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
-  font-weight: normal;
-  text-transform: none;
-  letter-spacing: 3;              /* important for script fonts */
-  font-size: 2.4rem;              /* ⬅️ increase size */
-  position: relative;
-  padding: 0.35rem 0.2rem;
-  user-select: none;
-}
+    .nav-logo-center{
+      justify-self: center;
+      text-decoration: none;
+      color: var(--text-main);
+      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0.06em; /* fixed: must have unit */
+      font-size: 2.4rem;
+      position: relative;
+      padding: 0.35rem 0.2rem;
+      user-select: none;
+    }
 
     .nav-logo-center::after{
       content:"";
@@ -239,11 +228,13 @@ body.light .hero-mark{
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--text-main);
-      padding: 0.65rem 1.05rem;
+      padding: 0.7rem 1.15rem;
       border-radius: 14px;
-      border: 1px solid var(--border-soft);
-      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(160deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      box-shadow:
+        0 14px 32px rgba(0,0,0,0.32),
+        0 0 0 1px rgba(255,255,255,0.04) inset;
       transition: transform var(--dur) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease), opacity var(--dur-fast) var(--ease);
       display:inline-flex;
       align-items:center;
@@ -258,15 +249,19 @@ body.light .hero-mark{
       opacity: 1;
     }
     .nav-support:active{ transform: translateY(0); }
+
     body.light .nav-support{
-      background: linear-gradient(135deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
-      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+      background: linear-gradient(160deg, rgba(0,0,0,0.08), rgba(0,0,0,0.03));
+      border-color: rgba(0,0,0,0.16);
+      box-shadow:
+        0 14px 32px rgba(0,0,0,0.14),
+        0 0 0 1px rgba(0,0,0,0.08) inset;
+      color: var(--text-main);
     }
     body.light .nav-support:hover{
       background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,0,0,0.03));
       box-shadow: 0 16px 34px rgba(0,0,0,0.16);
     }
-    body.light .nav-support{ color: var(--text-main); }
 
     .icon-btn{
       appearance:none;
@@ -373,7 +368,6 @@ body.light .hero-mark{
       overflow: hidden;
     }
 
-    /* ✅ UPDATED: match the simpler “v2” look (lighter centre, clean top→bottom fade) */
     .hero::before{
       content: "";
       position: absolute;
@@ -387,7 +381,6 @@ body.light .hero-mark{
       transform: scale(1.05);
     }
 
-    /* ✅ UPDATED: light mode version from v2 */
     body.light .hero::before{
       background:
         linear-gradient(to bottom, rgba(246,246,244,0.20), rgba(246,246,244,0.92)),
@@ -433,16 +426,17 @@ body.light .hero-mark{
       color: var(--text-muted);
       margin-bottom: 1.15rem;
     }
-h1{
-  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
-  font-weight: normal;        /* script fonts must NOT be bolded */
-  letter-spacing: 0;          /* critical for script fonts */
-  text-transform: none;
-  font-size: clamp(3.2rem, 9vw, 5.2rem);
-  line-height: 1;
-  margin-bottom: 1.2rem;
-  text-shadow: 0 10px 40px rgba(0,0,0,0.45);
-}
+
+    h1{
+      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+      font-weight: normal;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: clamp(3.2rem, 9vw, 5.2rem);
+      line-height: 1;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.45);
+    }
 
     .tagline{
       font-size: clamp(0.86rem, 2.1vw, 1.02rem);
@@ -585,6 +579,8 @@ h1{
        ========================== */
     .feature{
       background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 30%), var(--bg-secondary);
+      padding: calc(4.25rem + 4.5rem) var(--gutter) 4.5rem;
+      scroll-margin-top: 8rem;
     }
     .feature-link{
       display:grid;
@@ -858,10 +854,11 @@ h1{
       padding: 4.25rem var(--gutter) 4.75rem;
       background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 24%), var(--bg-secondary);
       border-top: 1px solid var(--border-soft);
-      scroll-margin-top: 6rem;
+      scroll-margin-top: 7.5rem;
     }
     .front:first-of-type{
-      padding-top: calc(4.25rem + 5rem);
+      padding-top: calc(4.25rem + 7rem);
+      scroll-margin-top: 6rem;
     }
     .front-inner{ max-width: var(--container); margin: 0 auto; }
 
@@ -1503,7 +1500,7 @@ h1{
         </div>
       </div>
 
-      <!-- NEW: Search button -->
+      <!-- Search button -->
       <button class="icon-btn" id="openSearch" type="button" aria-label="Search">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M10.5 18a7.5 7.5 0 1 1 0-15a7.5 7.5 0 0 1 0 15z"/>
@@ -1527,6 +1524,7 @@ h1{
     </div>
   </nav>
 </header>
+
 <!-- FEATURED -->
 <section class="section-shell feature" aria-label="Featured">
   <div class="shell-inner reveal">
@@ -1560,7 +1558,7 @@ h1{
   </div>
 </section>
 
-<!-- FRONT PAGE GRID (NEW) -->
+<!-- FRONT PAGE GRID -->
 <section class="front" id="front" aria-label="Front page">
   <div class="front-inner reveal">
     <div class="shell-top">
@@ -1751,7 +1749,7 @@ h1{
   </div>
 </section>
 
-<!-- MANIFESTO (NEW) -->
+<!-- MANIFESTO -->
 <section class="manifesto" id="manifesto" aria-label="Manifesto">
   <div class="manifesto-inner reveal">
     <div class="manifesto-card">
@@ -1779,7 +1777,7 @@ h1{
   </div>
 </section>
 
-<!-- NEWSLETTER (NEW) -->
+<!-- NEWSLETTER -->
 <section class="newsletter" id="newsletter" aria-label="Newsletter">
   <div class="newsletter-inner reveal">
     <div>
@@ -1804,6 +1802,7 @@ h1{
   </div>
 </section>
 
+<!-- HERO -->
 <section class="hero" aria-label="Hero">
   <div class="hero-inner">
     <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
@@ -1822,7 +1821,6 @@ h1{
       </a>
     </div>
 
-    <!-- NEW: Topic chips -->
     <div class="chip-row" aria-label="Topics">
       <a class="chip" href="journalism.html">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12"/><path d="M6 12h12"/><path d="M6 17h10"/></svg>
@@ -1902,7 +1900,7 @@ h1{
   </div>
 </footer>
 
-<!-- SEARCH MODAL (NEW) -->
+<!-- SEARCH MODAL -->
 <section class="modal" id="searchModal" aria-label="Search modal" aria-hidden="true">
   <div class="modal-backdrop" data-close-modal></div>
 
@@ -1926,7 +1924,7 @@ h1{
   </div>
 </section>
 
-<!-- TOAST (NEW) -->
+<!-- TOAST -->
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true">
   <div class="toast-inner" id="toastInner">
     <span id="toastText">Saved.</span>
@@ -1936,7 +1934,7 @@ h1{
   </div>
 </div>
 
-<!-- BACK TO TOP (NEW) -->
+<!-- BACK TO TOP -->
 <div class="to-top" id="toTop" aria-label="Back to top">
   <button class="icon-btn" type="button" id="toTopBtn" aria-label="Back to top">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -2123,7 +2121,7 @@ h1{
     updateButtons(0);
 
     // ==========================
-    // NEW: Search modal (local)
+    // Search modal (local)
     // ==========================
     const modal = document.getElementById('searchModal');
     const openSearch = document.getElementById('openSearch');
@@ -2156,7 +2154,6 @@ h1{
         a.querySelector('.lead-dek')?.textContent?.trim() ||
         '';
 
-      // Only index meaningful editorial links (avoid footer mailto etc.)
       const isArticleLike = href.includes('journalism') || href.includes('latest') || href.includes('support') || href.startsWith('#');
       if (!isArticleLike) return;
 
@@ -2183,7 +2180,6 @@ h1{
     closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
 
     document.addEventListener('keydown', (e) => {
-      // press "/" to open search (ignore typing in inputs)
       if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement?.tagName || '')) {
         e.preventDefault();
         openModal();
@@ -2229,7 +2225,7 @@ h1{
     searchInput?.addEventListener('input', (e) => renderResults(e.target.value));
 
     // ==========================
-    // NEW: Newsletter placeholder submit
+    // Newsletter placeholder submit
     // ==========================
     const newsletterForm = document.getElementById('newsletterForm');
     const email = document.getElementById('email');
@@ -2246,7 +2242,7 @@ h1{
     });
 
     // ==========================
-    // NEW: Copy link
+    // Copy link
     // ==========================
     const copyLink = document.getElementById('copyLink');
     copyLink?.addEventListener('click', async () => {
@@ -2260,7 +2256,7 @@ h1{
     });
 
     // ==========================
-    // NEW: Toast
+    // Toast
     // ==========================
     const toast = document.getElementById('toast');
     const toastText = document.getElementById('toastText');
@@ -2277,7 +2273,7 @@ h1{
     toastClose?.addEventListener('click', () => toast?.classList.remove('show'));
 
     // ==========================
-    // NEW: Back to top
+    // Back to top
     // ==========================
     const toTop = document.getElementById('toTop');
     const toTopBtn = document.getElementById('toTopBtn');
