@@ -260,6 +260,60 @@
     /* ==========================
        Hero
        ========================== */
+    /* Hero header like the “Front Page” section in your screenshot */
+.hero-inner{
+  max-width: var(--container);
+  text-align: left;
+}
+
+/* top row: label left, micro right */
+.hero-front-head{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+}
+
+.hero-front-label{
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.86;
+}
+
+.hero-front-micro{
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  opacity: 0.95;
+  white-space: nowrap;
+}
+
+/* override your global h1 script styling for this hero title */
+.hero-front-title{
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-size: clamp(2.1rem, 4.8vw, 3.2rem);
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.35);
+}
+
+/* on small screens let the micro drop under */
+@media (max-width: 740px){
+  .hero-front-head{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .hero-front-micro{ white-space: normal; }
+}
+
     .hero{
       position: relative;
       min-height: 100vh;
@@ -312,13 +366,16 @@
       100%{ transform: translate(0,0); }
     }
 
-    .hero-inner{
-      max-width: 820px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp var(--dur-slow) var(--ease) forwards;
-      animation-delay: 80ms;
-    }
+  .hero-inner{
+  max-width: var(--container);
+  text-align: left;
+
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp var(--dur-slow) var(--ease) forwards;
+  animation-delay: 80ms;
+}
+
     @keyframes fadeUp{ to{ opacity: 1; transform: translateY(0); } }
 
     .brand-tag{
@@ -1334,9 +1391,12 @@
 
 <section class="hero" aria-label="Hero">
   <div class="hero-inner">
-    <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
-    <h1>Furioso</h1>
-    <p class="tagline">CULTURE IN HIGH CONTRAST.<br>NO GLOSS. JUST GRIT.</p>
+   <div class="hero-front-head">
+  <div class="hero-front-label">Front Page · Editorial</div>
+  <div class="hero-front-micro">Curated · Not Endless</div>
+</div>
+
+<h1 class="hero-front-title">A cleaner way to enter the world</h1>
 
     <div class="hero-cta" aria-label="Primary actions">
       <a class="btn" href="latest.html">
