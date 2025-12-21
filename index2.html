@@ -823,6 +823,10 @@ h1{
       padding: 4.25rem var(--gutter) 4.75rem;
       background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 24%), var(--bg-secondary);
       border-top: 1px solid var(--border-soft);
+      scroll-margin-top: 6rem;
+    }
+    .front:first-of-type{
+      padding-top: calc(4.25rem + 5rem);
     }
     .front-inner{ max-width: var(--container); margin: 0 auto; }
 
@@ -1188,6 +1192,39 @@ h1{
       color: var(--text-main);
       transform: translateX(2px);
     }
+    .footer-social{
+      margin-top: 0.85rem;
+      display:flex;
+      gap: 0.65rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .footer-social a{
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      display:grid;
+      place-items:center;
+      text-decoration:none;
+      color: var(--text-muted);
+      transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+      background: var(--panel);
+    }
+    .footer-social a:hover{
+      color: var(--text-main);
+      border-color: var(--border-strong);
+      background: var(--panel-2);
+      transform: translateY(-1px);
+    }
+    .footer-social svg{
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
     .footer-bottom{
       max-width: var(--container);
       margin: 2rem auto 0;
@@ -1392,6 +1429,7 @@ h1{
     @media (max-width: 740px){
       .footer-inner{ grid-template-columns: 1fr; }
       .footer-links{ justify-items: start; }
+      .footer-social{ justify-content: flex-start; }
       .shell-top{ align-items: flex-start; }
       .nav-link{ display:none; }
       .hero-meta{ justify-content:center; text-align:center; }
@@ -1881,14 +1919,31 @@ h1{
       </p>
     </div>
 
-    <div class="footer-links" aria-label="Footer links">
-      <a href="latest.html">Latest</a>
-      <a href="journalism.html">Journalism</a>
-      <a href="support.html">Support</a>
-      <a href="#front">Front</a>
-      <a href="#manifesto">Manifesto</a>
-      <a href="#newsletter">Newsletter</a>
-      <a href="index.html">Home</a>
+    <div>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="latest.html">Latest</a>
+        <a href="journalism.html">Journalism</a>
+        <a href="support.html">Support</a>
+        <a href="#front">Front</a>
+        <a href="#manifesto">Manifesto</a>
+        <a href="#newsletter">Newsletter</a>
+        <a href="index.html">Home</a>
+      </div>
+      <div class="footer-social" aria-label="Social links">
+        <a href="https://instagram.com" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="4"/>
+            <circle cx="12" cy="12" r="3.2"/>
+            <circle cx="17" cy="7" r="1.2"/>
+          </svg>
+        </a>
+        <a href="https://x.com" aria-label="X">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5l14 14"/>
+            <path d="M19 5L5 19"/>
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
 
