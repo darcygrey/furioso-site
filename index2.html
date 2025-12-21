@@ -14,32 +14,35 @@
   <style>
     /* ==========================
        FURIOSO — v3 magazine leap
+       Adds: editorial front grid, topic chips, search modal,
+             newsletter, manifesto, series list, reading-list rail,
+             toast, back-to-top, better footer utility.
        ========================== */
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    
+          /* ==========================
+   Bucklane Script — Logo F
+   ========================== */
+@font-face{
+  font-family: "BucklaneScript";
+  src: url("fonts/BucklaneScript.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
     /* ==========================
-       Bucklane Script — Logo F
-       ========================== */
-    @font-face{
-      font-family: "BucklaneScript";
-      src: url("fonts/BucklaneScript.otf") format("opentype");
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    /* ==========================
-       Swirly Canalope — Hero Logo
-       ========================== */
-    @font-face{
-      font-family: "SwirlyCanalope";
-      src: url("fonts/SwirlyCanalope.otf") format("opentype");
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
+   Swirly Canalope — Hero Logo
+   ========================== */
+@font-face{
+  font-family: "SwirlyCanalope";
+  src: url("fonts/SwirlyCanalope.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
     :root{
       /* Core palette */
@@ -53,6 +56,30 @@
       --text-faint: rgba(255,255,255,0.54);
       --border-soft: rgba(255,255,255,0.10);
       --border-strong: rgba(255,255,255,0.18);
+
+/* Bottom-left logo mark (F) */
+.hero-mark{
+  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+  font-size: 2.8rem;              /* logo-like */
+  line-height: 1;
+  letter-spacing: 0;              /* script fonts hate spacing */
+  text-transform: none;
+  color: var(--text-main);
+  opacity: 0.92;
+  transform: translateY(2px);     /* slight optical alignment */
+  user-select: none;
+}
+
+/* Light mode tweak (optional but nicer) */
+body.light .hero-mark{
+  opacity: 0.85;
+}
+
+/* Responsive sizing */
+@media (max-width: 740px){
+  .hero-mark{ font-size: 2.35rem; }
+}
+
 
       /* Accents */
       --glow: rgba(255,255,255,0.12);
@@ -78,23 +105,6 @@
       --dur-fast: 140ms;
       --dur: 220ms;
       --dur-slow: 520ms;
-    }
-
-    /* Bottom-left logo mark (F) */
-    .hero-mark{
-      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
-      font-size: 2.8rem;
-      line-height: 1;
-      letter-spacing: 0;
-      text-transform: none;
-      color: var(--text-main);
-      opacity: 0.92;
-      transform: translateY(2px);
-      user-select: none;
-    }
-    body.light .hero-mark{ opacity: 0.85; }
-    @media (max-width: 740px){
-      .hero-mark{ font-size: 2.35rem; }
     }
 
     body.light{
@@ -129,6 +139,7 @@
     img { display: block; max-width: 100%; }
     button, input { font: inherit; }
 
+    /* Accessibility */
     :focus-visible{
       outline: 2px solid rgba(255,255,255,0.55);
       outline-offset: 3px;
@@ -175,19 +186,19 @@
     .nav-left{ justify-content:flex-start; gap: 0.55rem; }
     .nav-right{ justify-content:flex-end; gap: 0.55rem; }
 
-    .nav-logo-center{
-      justify-self: center;
-      text-decoration: none;
-      color: var(--text-main);
-      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
-      font-weight: normal;
-      text-transform: none;
-      letter-spacing: 0.18em; /* ✅ fixed (was 3 with no unit) */
-      font-size: 2.4rem;
-      position: relative;
-      padding: 0.35rem 0.2rem;
-      user-select: none;
-    }
+  .nav-logo-center{
+  justify-self: center;
+  text-decoration: none;
+  color: var(--text-main);
+  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 3;              /* important for script fonts */
+  font-size: 2.4rem;              /* ⬅️ increase size */
+  position: relative;
+  padding: 0.35rem 0.2rem;
+  user-select: none;
+}
 
     .nav-logo-center::after{
       content:"";
@@ -214,8 +225,6 @@
       transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
       opacity: 0.96;
       white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
     }
     .nav-link:hover{
       color: var(--text-main);
@@ -223,9 +232,6 @@
       opacity: 1;
     }
     body.light .nav-link:hover{ background: rgba(0,0,0,0.06); }
-
-    /* ✅ keep these visible on mobile */
-    .nav-link.primary{ display:inline-flex; }
 
     .icon-btn{
       appearance:none;
@@ -257,66 +263,70 @@
       stroke-linejoin: round;
     }
 
+    /* Dropdown */
+    .menu-wrap{ position: relative; display:flex; align-items:center; }
+    .burger{ width: 22px; height: 16px; display: inline-flex; flex-direction: column; justify-content: space-between; }
+    .burger span{
+      display:block; height:2px; width:100%;
+      background: var(--text-main);
+      border-radius: 999px;
+      opacity: 0.95;
+      transform-origin: center;
+      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    }
+    .menu-wrap.open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .menu-wrap.open .burger span:nth-child(2){ opacity: 0; }
+    .menu-wrap.open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-panel{
+      position:absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 240px;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: rgba(10,10,10,0.86);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      padding: 0.55rem;
+      display: grid;
+      gap: 0.25rem;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+      z-index: 999;
+    }
+    body.light .menu-panel{ background: rgba(255,255,255,0.90); }
+
+    .menu-wrap.open .menu-panel{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .menu-item{
+      display:block;
+      text-decoration:none;
+      padding: 0.8rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+      white-space: nowrap;
+    }
+    .menu-item:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      transform: translateX(2px);
+    }
+    body.light .menu-item:hover{ background: rgba(0,0,0,0.06); }
+
     /* ==========================
        Hero
        ========================== */
-    /* Hero header like the “Front Page” section */
-    .hero-inner{
-      max-width: var(--container);
-      text-align: left;
-
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp var(--dur-slow) var(--ease) forwards;
-      animation-delay: 80ms;
-    }
-
-    /* top row: label left, micro right */
-    .hero-front-head{
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 0.55rem;
-    }
-
-    .hero-front-label{
-      font-size: 0.72rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      opacity: 0.86;
-    }
-
-    .hero-front-micro{
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      opacity: 0.95;
-      white-space: nowrap;
-    }
-
-    .hero-front-title{
-      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      text-transform: none;
-      font-size: clamp(2.1rem, 4.8vw, 3.2rem);
-      line-height: 1.1;
-      margin-bottom: 1.2rem;
-      text-shadow: 0 10px 40px rgba(0,0,0,0.35);
-    }
-
-    @media (max-width: 740px){
-      .hero-front-head{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.4rem;
-      }
-      .hero-front-micro{ white-space: normal; }
-    }
-
     .hero{
       position: relative;
       min-height: 100vh;
@@ -328,6 +338,7 @@
       overflow: hidden;
     }
 
+    /* ✅ UPDATED: match the simpler “v2” look (lighter centre, clean top→bottom fade) */
     .hero::before{
       content: "";
       position: absolute;
@@ -341,6 +352,7 @@
       transform: scale(1.05);
     }
 
+    /* ✅ UPDATED: light mode version from v2 */
     body.light .hero::before{
       background:
         linear-gradient(to bottom, rgba(246,246,244,0.20), rgba(246,246,244,0.92)),
@@ -369,6 +381,13 @@
       100%{ transform: translate(0,0); }
     }
 
+    .hero-inner{
+      max-width: 820px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp var(--dur-slow) var(--ease) forwards;
+      animation-delay: 80ms;
+    }
     @keyframes fadeUp{ to{ opacity: 1; transform: translateY(0); } }
 
     .brand-tag{
@@ -379,17 +398,16 @@
       color: var(--text-muted);
       margin-bottom: 1.15rem;
     }
-
-    h1{
-      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
-      font-weight: normal;
-      letter-spacing: 0;
-      text-transform: none;
-      font-size: clamp(3.2rem, 9vw, 5.2rem);
-      line-height: 1;
-      margin-bottom: 1.2rem;
-      text-shadow: 0 10px 40px rgba(0,0,0,0.45);
-    }
+h1{
+  font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+  font-weight: normal;        /* script fonts must NOT be bolded */
+  letter-spacing: 0;          /* critical for script fonts */
+  text-transform: none;
+  font-size: clamp(3.2rem, 9vw, 5.2rem);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.45);
+}
 
     .tagline{
       font-size: clamp(0.86rem, 2.1vw, 1.02rem);
@@ -398,8 +416,6 @@
       line-height: 2.05;
       opacity: 0.94;
       color: rgba(255,255,255,0.92);
-      max-width: 70ch;
-      text-align: left;
     }
     body.light .tagline{ color: rgba(0,0,0,0.78); }
 
@@ -423,7 +439,7 @@
       margin-top: 2.1rem;
       display: flex;
       gap: 0.75rem;
-      justify-content: flex-start;
+      justify-content: center;
       flex-wrap: wrap;
     }
     .btn{
@@ -457,6 +473,7 @@
     .btn-ghost:hover{ background: rgba(255,255,255,0.06); }
     body.light .btn-ghost:hover{ background: rgba(0,0,0,0.06); }
 
+    /* Small helper text */
     .micro{
       font-size: 0.7rem;
       letter-spacing: 0.14em;
@@ -466,7 +483,37 @@
     }
 
     /* ==========================
-       Topic Chips
+       Section shells
+       ========================== */
+    .section-shell{
+      padding: 4.25rem var(--gutter);
+      border-top: 1px solid var(--border-soft);
+      background: var(--bg-secondary);
+    }
+    .shell-inner{ max-width: var(--container); margin: 0 auto; }
+    .shell-top{
+      display:flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .shell-label{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.86;
+    }
+    .shell-title{
+      font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      margin-top: 0.35rem;
+    }
+
+    /* ==========================
+       Topic Chips (NEW)
        ========================== */
     .chip-row{
       display:flex;
@@ -501,33 +548,6 @@
     /* ==========================
        Featured
        ========================== */
-    .section-shell{
-      padding: 4.25rem var(--gutter);
-      border-top: 1px solid var(--border-soft);
-      background: var(--bg-secondary);
-    }
-    .shell-inner{ max-width: var(--container); margin: 0 auto; }
-    .shell-top{
-      display:flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-    .shell-label{
-      font-size: 0.72rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      opacity: 0.86;
-    }
-    .shell-title{
-      font-size: clamp(1.25rem, 2.6vw, 1.7rem);
-      letter-spacing: 0.06em;
-      line-height: 1.2;
-      margin-top: 0.35rem;
-    }
-
     .feature{
       background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 30%), var(--bg-secondary);
     }
@@ -547,6 +567,7 @@
       position: relative;
       isolation: isolate;
     }
+
     .feature-link::before{
       content:"";
       position:absolute;
@@ -563,11 +584,13 @@
         radial-gradient(680px 260px at 20% 10%, rgba(0,0,0,0.05), transparent 60%),
         radial-gradient(540px 240px at 85% 20%, rgba(0,0,0,0.03), transparent 60%);
     }
+
     .feature-link:hover{
       transform: translateY(-3px);
       background: var(--panel-2);
       border-color: var(--border-strong);
     }
+
     .feature-kicker{
       font-size: 0.7rem;
       letter-spacing: 0.28em;
@@ -794,7 +817,7 @@
     .dot.active{ background: var(--text-main); opacity: 0.9; transform: scale(1.18); }
 
     /* ==========================
-       Editorial Front Grid
+       Editorial Front Grid (NEW)
        ========================== */
     .front{
       padding: 4.25rem var(--gutter) 4.75rem;
@@ -900,6 +923,7 @@
       box-shadow: var(--shadow-soft);
       padding: 1.15rem 1.1rem;
     }
+
     .rail-title{
       font-size: 0.75rem;
       letter-spacing: 0.22em;
@@ -908,6 +932,7 @@
       opacity: 0.9;
       margin-bottom: 0.9rem;
     }
+
     .mini-list{ display:grid; gap: 0.8rem; }
     .mini{
       display:grid;
@@ -922,6 +947,7 @@
     }
     .mini:hover{ background: rgba(255,255,255,0.05); transform: translateX(2px); }
     body.light .mini:hover{ background: rgba(0,0,0,0.05); }
+
     .mini h4{
       font-size: 0.95rem;
       line-height: 1.45;
@@ -944,7 +970,7 @@
     }
 
     /* ==========================
-       Manifesto / Newsletter / About / Footer / Modal / Toast / To top
+       Manifesto / Mission (NEW)
        ========================== */
     .manifesto{
       padding: 4.75rem var(--gutter);
@@ -990,6 +1016,9 @@
       opacity: 0.95;
     }
 
+    /* ==========================
+       Newsletter (NEW)
+       ========================== */
     .newsletter{
       padding: 4.75rem var(--gutter) 5.25rem;
       border-top: 1px solid var(--border-soft);
@@ -1017,6 +1046,7 @@
                   radial-gradient(700px 240px at 85% 20%, rgba(0,0,0,0.03), transparent 60%),
                   var(--panel);
     }
+
     .newsletter-k{
       font-size: 0.72rem;
       letter-spacing: 0.28em;
@@ -1037,6 +1067,7 @@
       opacity: 0.95;
       max-width: 65ch;
     }
+
     .form-row{
       display:grid;
       grid-template-columns: 1fr auto;
@@ -1073,6 +1104,9 @@
       opacity: 0.95;
     }
 
+    /* ==========================
+       About
+       ========================== */
     .about{
       padding: 5rem var(--gutter) 5.25rem;
       background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%), var(--bg-secondary);
@@ -1103,6 +1137,9 @@
     }
     .about-actions{ display:flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.25rem; }
 
+    /* ==========================
+       Footer
+       ========================== */
     footer.site-footer{
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-soft);
@@ -1174,6 +1211,9 @@
     }
     body.light .footer-bottom a{ border-bottom-color: rgba(0,0,0,0.18); }
 
+    /* ==========================
+       Reveal animations
+       ========================== */
     .reveal{
       opacity: 0;
       transform: translateY(10px);
@@ -1181,6 +1221,9 @@
     }
     .reveal.is-visible{ opacity: 1; transform: translateY(0); }
 
+    /* ==========================
+       Modal: Search (NEW)
+       ========================== */
     .modal{
       position: fixed;
       inset: 0;
@@ -1283,6 +1326,9 @@
       opacity: 0.95;
     }
 
+    /* ==========================
+       Toast (NEW)
+       ========================== */
     .toast{
       position: fixed;
       left: 50%;
@@ -1316,6 +1362,9 @@
     }
     body.light .toast-inner{ background: rgba(255,255,255,0.92); }
 
+    /* ==========================
+       Back to top (NEW)
+       ========================== */
     .to-top{
       position: fixed;
       right: 18px;
@@ -1344,15 +1393,8 @@
       .footer-inner{ grid-template-columns: 1fr; }
       .footer-links{ justify-items: start; }
       .shell-top{ align-items: flex-start; }
-
-      /* ✅ change: only hide non-primary nav-links on mobile */
-      .nav-link:not(.primary){ display:none; }
-
+      .nav-link{ display:none; }
       .hero-meta{ justify-content:center; text-align:center; }
-      .hero-cta{ justify-content: center; }
-      .tagline{ text-align:center; }
-      .hero-inner{ text-align: center; }
-      .hero-front-head{ align-items: center; }
     }
     @media (max-width: 640px){
       .carousel-track{ grid-auto-columns: minmax(78vw, 1fr); }
@@ -1366,17 +1408,43 @@
 
 <body>
 
-<!-- ✅ UPDATED HEADER: Left = Latest, Center = Logo, Right = Support + Toggle -->
 <header class="site-header" id="siteHeader">
   <nav class="nav" aria-label="Primary">
+    <!-- LEFT: Burger dropdown -->
     <div class="nav-left">
-      <a class="nav-link primary" href="latest.html">Latest</a>
+      <div class="menu-wrap">
+        <button class="icon-btn menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
+          <span class="burger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
+          <a class="menu-item" role="menuitem" href="latest.html">Latest</a>
+          <a class="menu-item" role="menuitem" href="journalism.html">Journalism</a>
+          <a class="menu-item" role="menuitem" href="support.html">Support</a>
+          <a class="menu-item" role="menuitem" href="#front">Front Page</a>
+          <a class="menu-item" role="menuitem" href="#manifesto">Manifesto</a>
+          <a class="menu-item" role="menuitem" href="#newsletter">Newsletter</a>
+          <a class="menu-item" role="menuitem" href="#about">About</a>
+        </div>
+      </div>
+
+      <!-- NEW: Search button -->
+      <button class="icon-btn" id="openSearch" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.5 18a7.5 7.5 0 1 1 0-15a7.5 7.5 0 0 1 0 15z"/>
+          <path d="M16.8 16.8L21 21"/>
+        </svg>
+      </button>
     </div>
 
+    <!-- CENTER: Logo -->
     <a href="index.html" class="nav-logo-center" aria-label="FURIOSO Home">Furioso</a>
 
+    <!-- RIGHT: Support + Theme toggle -->
     <div class="nav-right">
-      <a class="nav-link primary" href="support.html">Support</a>
+      <a class="nav-link" href="support.html">Support</a>
 
       <button class="icon-btn theme-toggle" aria-label="Toggle theme" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1387,26 +1455,25 @@
   </nav>
 </header>
 
-<!-- ✅ HERO (fixed: this is now the hero, not the front section) -->
-<section class="hero" id="top" aria-label="Home hero">
+<section class="hero" aria-label="Hero">
   <div class="hero-inner">
-    <div class="hero-front-head">
-      <div class="hero-front-label">Furioso · Dispatch</div>
-      <div class="hero-front-micro">Curated · not endless</div>
-    </div>
-
-    <div class="hero-front-title">Culture in High Contrast</div>
-
-    <div class="tagline">
-      Independent dispatches on culture, geopolitics, and documentary image-making — written to feel like a magazine, not a feed.
-    </div>
+    <div class="brand-tag">GLOBAL CULTURE / GEO-POLITICS / DOCUMENTARY</div>
+    <h1>Furioso</h1>
+    <p class="tagline">CULTURE IN HIGH CONTRAST.<br>NO GLOSS. JUST GRIT.</p>
 
     <div class="hero-cta" aria-label="Primary actions">
-      <a class="btn" href="latest.html"><span>Read Latest</span></a>
-      <button class="btn btn-ghost" id="openSearch2" type="button"><span>Search</span></button>
-      <a class="btn btn-ghost" href="#manifesto"><span>Why we exist</span></a>
+      <a class="btn" href="latest.html">
+        <span>Read Latest</span>
+      </a>
+      <button class="btn btn-ghost" id="openSearch2" type="button">
+        <span>Search</span>
+      </button>
+      <a class="btn btn-ghost" href="#manifesto">
+        <span>Why we exist</span>
+      </a>
     </div>
 
+    <!-- NEW: Topic chips -->
     <div class="chip-row" aria-label="Topics">
       <a class="chip" href="journalism.html">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12"/><path d="M6 12h12"/><path d="M6 17h10"/></svg>
@@ -1438,92 +1505,6 @@
   <div class="hero-meta" aria-hidden="true">
     <span class="hero-mark" aria-label="Furioso">F</span>
     <span>SHOT IN REAL LIFE / NO FILTERS</span>
-  </div>
-</section>
-
-<!-- ✅ FRONT PAGE GRID (moved directly under hero, only appears once) -->
-<section class="front" id="front" aria-label="Front page">
-  <div class="front-inner reveal">
-    <div class="shell-top">
-      <div>
-        <div class="shell-label">Front Page · Editorial</div>
-        <div class="shell-title">A cleaner way to enter the world</div>
-      </div>
-      <div class="micro">Curated · not endless</div>
-    </div>
-
-    <div class="front-grid">
-      <a class="lead-card" href="journalism/haiti-afterlife-of-empire.html">
-        <div class="lead-media">
-          <img loading="lazy" decoding="async"
-               src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
-               alt="Front page lead story image">
-        </div>
-        <div class="lead-body">
-          <div class="lead-kicker">The Week’s Lead</div>
-          <h3 class="lead-title">Haiti, or the Afterlife of Empire</h3>
-          <p class="lead-dek">
-            A field guide to how power survives the funeral of empire: debt as discipline, extraction as policy, and the way “aid” becomes a ledger.
-          </p>
-          <div class="lead-meta">
-            <span class="pill">Op-Ed</span>
-            <span class="pill">8–12 min</span>
-            <span class="pill">Culture / Power</span>
-          </div>
-        </div>
-      </a>
-
-      <aside class="rail" aria-label="Editorial rail">
-        <div class="rail-card">
-          <div class="rail-title">Reading List</div>
-          <div class="mini-list">
-            <a class="mini" href="journalism/Sudan-or-the-Cartography-of-Control.html">
-              <div>
-                <h4>Sudan, or the Cartography of Control</h4>
-                <p>Maps don’t just describe borders. They produce them.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-
-            <a class="mini" href="journalism/who-decides-what-a-failed-state-is.html">
-              <div>
-                <h4>Who decides what a failed state is</h4>
-                <p>Failure isn’t always collapse. Sometimes it’s branding.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-
-            <a class="mini" href="journalism/haiti-afterlife-of-empire.html">
-              <div>
-                <h4>Haiti, or the Afterlife of Empire</h4>
-                <p>History didn’t end. It learned finance.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-          </div>
-        </div>
-
-        <div class="rail-card">
-          <div class="rail-title">Series</div>
-          <div class="mini-list">
-            <a class="mini" href="journalism.html">
-              <div>
-                <h4>Afterlife of Empire</h4>
-                <p>Where power goes when it stops wearing a flag.</p>
-              </div>
-              <div class="mini-meta">new</div>
-            </a>
-            <a class="mini" href="journalism.html">
-              <div>
-                <h4>Cartography</h4>
-                <p>Maps, borders, and the aesthetics of control.</p>
-              </div>
-              <div class="mini-meta">new</div>
-            </a>
-          </div>
-        </div>
-      </aside>
-    </div>
   </div>
 </section>
 
@@ -1643,6 +1624,95 @@
   </div>
 </section>
 
+<!-- FRONT PAGE GRID (NEW) -->
+<section class="front" id="front" aria-label="Front page">
+  <div class="front-inner reveal">
+    <div class="shell-top">
+      <div>
+        <div class="shell-label">Front Page · Editorial</div>
+        <div class="shell-title">A cleaner way to enter the world</div>
+      </div>
+      <div class="micro">Curated · not endless</div>
+    </div>
+
+    <div class="front-grid">
+      <!-- LEAD -->
+      <a class="lead-card" href="journalism/haiti-afterlife-of-empire.html">
+        <div class="lead-media">
+          <img loading="lazy" decoding="async"
+               src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
+               alt="Front page lead story image">
+        </div>
+        <div class="lead-body">
+          <div class="lead-kicker">The Week’s Lead</div>
+          <h3 class="lead-title">Haiti, or the Afterlife of Empire</h3>
+          <p class="lead-dek">
+            A field guide to how power survives the funeral of empire: debt as discipline, extraction as policy, and the way “aid” becomes a ledger.
+          </p>
+          <div class="lead-meta">
+            <span class="pill">Op-Ed</span>
+            <span class="pill">8–12 min</span>
+            <span class="pill">Culture / Power</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- RAIL -->
+      <aside class="rail" aria-label="Editorial rail">
+        <div class="rail-card">
+          <div class="rail-title">Reading List</div>
+          <div class="mini-list">
+            <a class="mini" href="journalism/Sudan-or-the-Cartography-of-Control.html">
+              <div>
+                <h4>Sudan, or the Cartography of Control</h4>
+                <p>Maps don’t just describe borders. They produce them.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+
+            <a class="mini" href="journalism/who-decides-what-a-failed-state-is.html">
+              <div>
+                <h4>Who decides what a failed state is</h4>
+                <p>Failure isn’t always collapse. Sometimes it’s branding.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+
+            <a class="mini" href="journalism/haiti-afterlife-of-empire.html">
+              <div>
+                <h4>Haiti, or the Afterlife of Empire</h4>
+                <p>History didn’t end. It learned finance.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="rail-card">
+          <div class="rail-title">Series</div>
+          <div class="mini-list">
+            <a class="mini" href="journalism.html">
+              <div>
+                <h4>Afterlife of Empire</h4>
+                <p>Where power goes when it stops wearing a flag.</p>
+              </div>
+              <div class="mini-meta">new</div>
+            </a>
+            <a class="mini" href="journalism.html">
+              <div>
+                <h4>Cartography</h4>
+                <p>Maps, borders, and the aesthetics of control.</p>
+              </div>
+              <div class="mini-meta">new</div>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO (NEW) -->
 <section class="manifesto" id="manifesto" aria-label="Manifesto">
   <div class="manifesto-inner reveal">
     <div class="manifesto-card">
@@ -1670,6 +1740,7 @@
   </div>
 </section>
 
+<!-- NEWSLETTER (NEW) -->
 <section class="newsletter" id="newsletter" aria-label="Newsletter">
   <div class="newsletter-inner reveal">
     <div>
@@ -1694,6 +1765,7 @@
   </div>
 </section>
 
+<!-- ABOUT -->
 <section class="about" id="about" aria-label="About FURIOSO">
   <div class="about-inner reveal">
     <div class="about-label">ABOUT</div>
@@ -1741,6 +1813,7 @@
   </div>
 </footer>
 
+<!-- SEARCH MODAL (NEW) -->
 <section class="modal" id="searchModal" aria-label="Search modal" aria-hidden="true">
   <div class="modal-backdrop" data-close-modal></div>
 
@@ -1764,6 +1837,7 @@
   </div>
 </section>
 
+<!-- TOAST (NEW) -->
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true">
   <div class="toast-inner" id="toastInner">
     <span id="toastText">Saved.</span>
@@ -1773,6 +1847,7 @@
   </div>
 </div>
 
+<!-- BACK TO TOP (NEW) -->
 <div class="to-top" id="toTop" aria-label="Back to top">
   <button class="icon-btn" type="button" id="toTopBtn" aria-label="Back to top">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1823,6 +1898,45 @@
       applyTheme(nowLight ? 'light' : 'dark');
       localStorage.setItem('theme', nowLight ? 'light' : 'dark');
     });
+
+    // ===== DROPDOWN MENU =====
+    const menuWrap = document.querySelector('.menu-wrap');
+    const menuBtn  = document.querySelector('.menu-toggle');
+    const menuPanel = document.getElementById('site-menu');
+
+    function closeMenu() {
+      if (!menuWrap || !menuBtn || !menuPanel) return;
+      menuWrap.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.setAttribute('aria-hidden', 'true');
+    }
+    function openMenu() {
+      if (!menuWrap || !menuBtn || !menuPanel) return;
+      menuWrap.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuPanel.setAttribute('aria-hidden', 'false');
+      const first = menuPanel.querySelector('a');
+      first?.focus({ preventScroll: true });
+    }
+
+    if (menuWrap && menuBtn && menuPanel) {
+      menuBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = menuWrap.classList.contains('open');
+        isOpen ? closeMenu() : openMenu();
+      });
+
+      menuPanel.addEventListener('click', (e) => e.stopPropagation());
+
+      document.addEventListener('click', (e) => {
+        if (!menuWrap.contains(e.target)) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
 
     // ===== REVEAL ANIMATIONS =====
     const revealEls = Array.from(document.querySelectorAll('.reveal'));
@@ -1920,14 +2034,16 @@
     updateButtons(0);
 
     // ==========================
-    // Search modal (local)
+    // NEW: Search modal (local)
     // ==========================
     const modal = document.getElementById('searchModal');
+    const openSearch = document.getElementById('openSearch');
     const openSearch2 = document.getElementById('openSearch2');
     const searchInput = document.getElementById('searchInput');
     const results = document.getElementById('searchResults');
     const closeBtns = Array.from(document.querySelectorAll('[data-close-modal]'));
 
+    // Build a local index from links on the page
     const index = [];
     const allLinks = Array.from(document.querySelectorAll('a[href]'));
     allLinks.forEach(a => {
@@ -1951,6 +2067,7 @@
         a.querySelector('.lead-dek')?.textContent?.trim() ||
         '';
 
+      // Only index meaningful editorial links (avoid footer mailto etc.)
       const isArticleLike = href.includes('journalism') || href.includes('latest') || href.includes('support') || href.startsWith('#');
       if (!isArticleLike) return;
 
@@ -1972,10 +2089,12 @@
       document.body.style.overflow = '';
     }
 
+    openSearch?.addEventListener('click', openModal);
     openSearch2?.addEventListener('click', openModal);
     closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
 
     document.addEventListener('keydown', (e) => {
+      // press "/" to open search (ignore typing in inputs)
       if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement?.tagName || '')) {
         e.preventDefault();
         openModal();
@@ -2020,7 +2139,9 @@
 
     searchInput?.addEventListener('input', (e) => renderResults(e.target.value));
 
-    // Newsletter placeholder submit
+    // ==========================
+    // NEW: Newsletter placeholder submit
+    // ==========================
     const newsletterForm = document.getElementById('newsletterForm');
     const email = document.getElementById('email');
     newsletterForm?.addEventListener('submit', (e) => {
@@ -2035,7 +2156,9 @@
       newsletterForm.reset();
     });
 
-    // Copy link
+    // ==========================
+    // NEW: Copy link
+    // ==========================
     const copyLink = document.getElementById('copyLink');
     copyLink?.addEventListener('click', async () => {
       const url = window.location.href;
@@ -2047,7 +2170,9 @@
       }
     });
 
-    // Toast
+    // ==========================
+    // NEW: Toast
+    // ==========================
     const toast = document.getElementById('toast');
     const toastText = document.getElementById('toastText');
     const toastClose = document.getElementById('toastClose');
@@ -2062,7 +2187,9 @@
     }
     toastClose?.addEventListener('click', () => toast?.classList.remove('show'));
 
-    // Back to top
+    // ==========================
+    // NEW: Back to top
+    // ==========================
     const toTop = document.getElementById('toTop');
     const toTopBtn = document.getElementById('toTopBtn');
 
