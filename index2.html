@@ -182,7 +182,7 @@
       font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
       font-weight: normal;
       text-transform: none;
-      letter-spacing: 3;
+      letter-spacing: 0.18em; /* ✅ fixed (was 3 with no unit) */
       font-size: 2.4rem;
       position: relative;
       padding: 0.35rem 0.2rem;
@@ -224,7 +224,7 @@
     }
     body.light .nav-link:hover{ background: rgba(0,0,0,0.06); }
 
-    /* ✅ NEW: keep these visible on mobile */
+    /* ✅ keep these visible on mobile */
     .nav-link.primary{ display:inline-flex; }
 
     .icon-btn{
@@ -260,59 +260,62 @@
     /* ==========================
        Hero
        ========================== */
-    /* Hero header like the “Front Page” section in your screenshot */
-.hero-inner{
-  max-width: var(--container);
-  text-align: left;
-}
+    /* Hero header like the “Front Page” section */
+    .hero-inner{
+      max-width: var(--container);
+      text-align: left;
 
-/* top row: label left, micro right */
-.hero-front-head{
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  margin-bottom: 0.55rem;
-}
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp var(--dur-slow) var(--ease) forwards;
+      animation-delay: 80ms;
+    }
 
-.hero-front-label{
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  opacity: 0.86;
-}
+    /* top row: label left, micro right */
+    .hero-front-head{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.55rem;
+    }
 
-.hero-front-micro{
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  opacity: 0.95;
-  white-space: nowrap;
-}
+    .hero-front-label{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.86;
+    }
 
-/* override your global h1 script styling for this hero title */
-.hero-front-title{
-  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  text-transform: none;
-  font-size: clamp(2.1rem, 4.8vw, 3.2rem);
-  line-height: 1.1;
-  margin-bottom: 1.2rem;
-  text-shadow: 0 10px 40px rgba(0,0,0,0.35);
-}
+    .hero-front-micro{
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      opacity: 0.95;
+      white-space: nowrap;
+    }
 
-/* on small screens let the micro drop under */
-@media (max-width: 740px){
-  .hero-front-head{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
-  }
-  .hero-front-micro{ white-space: normal; }
-}
+    .hero-front-title{
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      text-transform: none;
+      font-size: clamp(2.1rem, 4.8vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+
+    @media (max-width: 740px){
+      .hero-front-head{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+      .hero-front-micro{ white-space: normal; }
+    }
 
     .hero{
       position: relative;
@@ -366,16 +369,6 @@
       100%{ transform: translate(0,0); }
     }
 
-  .hero-inner{
-  max-width: var(--container);
-  text-align: left;
-
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp var(--dur-slow) var(--ease) forwards;
-  animation-delay: 80ms;
-}
-
     @keyframes fadeUp{ to{ opacity: 1; transform: translateY(0); } }
 
     .brand-tag{
@@ -405,6 +398,8 @@
       line-height: 2.05;
       opacity: 0.94;
       color: rgba(255,255,255,0.92);
+      max-width: 70ch;
+      text-align: left;
     }
     body.light .tagline{ color: rgba(0,0,0,0.78); }
 
@@ -428,7 +423,7 @@
       margin-top: 2.1rem;
       display: flex;
       gap: 0.75rem;
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
     }
     .btn{
@@ -950,7 +945,6 @@
 
     /* ==========================
        Manifesto / Newsletter / About / Footer / Modal / Toast / To top
-       (unchanged from your version)
        ========================== */
     .manifesto{
       padding: 4.75rem var(--gutter);
@@ -1355,6 +1349,10 @@
       .nav-link:not(.primary){ display:none; }
 
       .hero-meta{ justify-content:center; text-align:center; }
+      .hero-cta{ justify-content: center; }
+      .tagline{ text-align:center; }
+      .hero-inner{ text-align: center; }
+      .hero-front-head{ align-items: center; }
     }
     @media (max-width: 640px){
       .carousel-track{ grid-auto-columns: minmax(78vw, 1fr); }
@@ -1389,25 +1387,24 @@
   </nav>
 </header>
 
-<section class="hero" aria-label="Hero">
+<!-- ✅ HERO (fixed: this is now the hero, not the front section) -->
+<section class="hero" id="top" aria-label="Home hero">
   <div class="hero-inner">
-   <div class="hero-front-head">
-  <div class="hero-front-label">Front Page · Editorial</div>
-  <div class="hero-front-micro">Curated · Not Endless</div>
-</div>
+    <div class="hero-front-head">
+      <div class="hero-front-label">Furioso · Dispatch</div>
+      <div class="hero-front-micro">Curated · not endless</div>
+    </div>
 
-<h1 class="hero-front-title">A cleaner way to enter the world</h1>
+    <div class="hero-front-title">Culture in High Contrast</div>
+
+    <div class="tagline">
+      Independent dispatches on culture, geopolitics, and documentary image-making — written to feel like a magazine, not a feed.
+    </div>
 
     <div class="hero-cta" aria-label="Primary actions">
-      <a class="btn" href="latest.html">
-        <span>Read Latest</span>
-      </a>
-      <button class="btn btn-ghost" id="openSearch2" type="button">
-        <span>Search</span>
-      </button>
-      <a class="btn btn-ghost" href="#manifesto">
-        <span>Why we exist</span>
-      </a>
+      <a class="btn" href="latest.html"><span>Read Latest</span></a>
+      <button class="btn btn-ghost" id="openSearch2" type="button"><span>Search</span></button>
+      <a class="btn btn-ghost" href="#manifesto"><span>Why we exist</span></a>
     </div>
 
     <div class="chip-row" aria-label="Topics">
@@ -1441,6 +1438,92 @@
   <div class="hero-meta" aria-hidden="true">
     <span class="hero-mark" aria-label="Furioso">F</span>
     <span>SHOT IN REAL LIFE / NO FILTERS</span>
+  </div>
+</section>
+
+<!-- ✅ FRONT PAGE GRID (moved directly under hero, only appears once) -->
+<section class="front" id="front" aria-label="Front page">
+  <div class="front-inner reveal">
+    <div class="shell-top">
+      <div>
+        <div class="shell-label">Front Page · Editorial</div>
+        <div class="shell-title">A cleaner way to enter the world</div>
+      </div>
+      <div class="micro">Curated · not endless</div>
+    </div>
+
+    <div class="front-grid">
+      <a class="lead-card" href="journalism/haiti-afterlife-of-empire.html">
+        <div class="lead-media">
+          <img loading="lazy" decoding="async"
+               src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
+               alt="Front page lead story image">
+        </div>
+        <div class="lead-body">
+          <div class="lead-kicker">The Week’s Lead</div>
+          <h3 class="lead-title">Haiti, or the Afterlife of Empire</h3>
+          <p class="lead-dek">
+            A field guide to how power survives the funeral of empire: debt as discipline, extraction as policy, and the way “aid” becomes a ledger.
+          </p>
+          <div class="lead-meta">
+            <span class="pill">Op-Ed</span>
+            <span class="pill">8–12 min</span>
+            <span class="pill">Culture / Power</span>
+          </div>
+        </div>
+      </a>
+
+      <aside class="rail" aria-label="Editorial rail">
+        <div class="rail-card">
+          <div class="rail-title">Reading List</div>
+          <div class="mini-list">
+            <a class="mini" href="journalism/Sudan-or-the-Cartography-of-Control.html">
+              <div>
+                <h4>Sudan, or the Cartography of Control</h4>
+                <p>Maps don’t just describe borders. They produce them.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+
+            <a class="mini" href="journalism/who-decides-what-a-failed-state-is.html">
+              <div>
+                <h4>Who decides what a failed state is</h4>
+                <p>Failure isn’t always collapse. Sometimes it’s branding.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+
+            <a class="mini" href="journalism/haiti-afterlife-of-empire.html">
+              <div>
+                <h4>Haiti, or the Afterlife of Empire</h4>
+                <p>History didn’t end. It learned finance.</p>
+              </div>
+              <div class="mini-meta">8–12</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="rail-card">
+          <div class="rail-title">Series</div>
+          <div class="mini-list">
+            <a class="mini" href="journalism.html">
+              <div>
+                <h4>Afterlife of Empire</h4>
+                <p>Where power goes when it stops wearing a flag.</p>
+              </div>
+              <div class="mini-meta">new</div>
+            </a>
+            <a class="mini" href="journalism.html">
+              <div>
+                <h4>Cartography</h4>
+                <p>Maps, borders, and the aesthetics of control.</p>
+              </div>
+              <div class="mini-meta">new</div>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
   </div>
 </section>
 
@@ -1557,92 +1640,6 @@
     </div>
 
     <div class="dots" id="carouselDots" aria-label="Carousel pagination" role="tablist"></div>
-  </div>
-</section>
-
-<!-- FRONT PAGE GRID -->
-<section class="front" id="front" aria-label="Front page">
-  <div class="front-inner reveal">
-    <div class="shell-top">
-      <div>
-        <div class="shell-label">Front Page · Editorial</div>
-        <div class="shell-title">A cleaner way to enter the world</div>
-      </div>
-      <div class="micro">Curated · not endless</div>
-    </div>
-
-    <div class="front-grid">
-      <a class="lead-card" href="journalism/haiti-afterlife-of-empire.html">
-        <div class="lead-media">
-          <img loading="lazy" decoding="async"
-               src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
-               alt="Front page lead story image">
-        </div>
-        <div class="lead-body">
-          <div class="lead-kicker">The Week’s Lead</div>
-          <h3 class="lead-title">Haiti, or the Afterlife of Empire</h3>
-          <p class="lead-dek">
-            A field guide to how power survives the funeral of empire: debt as discipline, extraction as policy, and the way “aid” becomes a ledger.
-          </p>
-          <div class="lead-meta">
-            <span class="pill">Op-Ed</span>
-            <span class="pill">8–12 min</span>
-            <span class="pill">Culture / Power</span>
-          </div>
-        </div>
-      </a>
-
-      <aside class="rail" aria-label="Editorial rail">
-        <div class="rail-card">
-          <div class="rail-title">Reading List</div>
-          <div class="mini-list">
-            <a class="mini" href="journalism/Sudan-or-the-Cartography-of-Control.html">
-              <div>
-                <h4>Sudan, or the Cartography of Control</h4>
-                <p>Maps don’t just describe borders. They produce them.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-
-            <a class="mini" href="journalism/who-decides-what-a-failed-state-is.html">
-              <div>
-                <h4>Who decides what a failed state is</h4>
-                <p>Failure isn’t always collapse. Sometimes it’s branding.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-
-            <a class="mini" href="journalism/haiti-afterlife-of-empire.html">
-              <div>
-                <h4>Haiti, or the Afterlife of Empire</h4>
-                <p>History didn’t end. It learned finance.</p>
-              </div>
-              <div class="mini-meta">8–12</div>
-            </a>
-          </div>
-        </div>
-
-        <div class="rail-card">
-          <div class="rail-title">Series</div>
-          <div class="mini-list">
-            <a class="mini" href="journalism.html">
-              <div>
-                <h4>Afterlife of Empire</h4>
-                <p>Where power goes when it stops wearing a flag.</p>
-              </div>
-              <div class="mini-meta">new</div>
-            </a>
-            <a class="mini" href="journalism.html">
-              <div>
-                <h4>Cartography</h4>
-                <p>Maps, borders, and the aesthetics of control.</p>
-              </div>
-              <div class="mini-meta">new</div>
-            </a>
-          </div>
-        </div>
-      </aside>
-    </div>
   </div>
 </section>
 
