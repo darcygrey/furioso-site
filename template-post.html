@@ -14,15 +14,12 @@
   <style>
     /* ==========================
        FURIOSO — Article Template
-       Matches your current look/feel.
+       Fixed + matches your look/feel.
        ========================== */
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
-    /* ==========================
-       Bucklane Script — Logo
-       ========================== */
     @font-face{
       font-family: "BucklaneScript";
       src: url("fonts/BucklaneScript.otf") format("opentype");
@@ -31,7 +28,6 @@
       font-display: swap;
     }
 
-    /* Optional: if you use this elsewhere */
     @font-face{
       font-family: "SwirlyCanalope";
       src: url("fonts/SwirlyCanalope.otf") format("opentype");
@@ -118,7 +114,7 @@
     }
 
     /* ==========================
-       Header / Nav (same as site)
+       Header / Nav
        ========================== */
     .site-header{
       position: fixed;
@@ -158,7 +154,7 @@
       font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
       font-weight: normal;
       text-transform: none;
-      letter-spacing: 3;
+      letter-spacing: 0.06em; /* ✅ FIX: needs a unit */
       font-size: 2.4rem;
       position: relative;
       padding: 0.35rem 0.2rem;
@@ -289,7 +285,7 @@
     body.light .menu-item:hover{ background: rgba(0,0,0,0.06); }
 
     /* ==========================
-       Article Hero (top)
+       Article Hero
        ========================== */
     .article-hero{
       position: relative;
@@ -428,7 +424,7 @@
     body.light .btn-solid{ background: rgba(0,0,0,0.06); }
 
     /* ==========================
-       Main layout: article + rail
+       Main layout
        ========================== */
     .article-shell{
       padding: 2.75rem var(--gutter) 4.5rem;
@@ -443,7 +439,6 @@
       align-items: start;
     }
 
-    /* Article card */
     .article-card{
       border: 1px solid var(--border-soft);
       border-radius: var(--r-xl);
@@ -456,7 +451,6 @@
       padding: 2.15rem 1.9rem;
     }
 
-    /* Optional lead image block */
     .figure{
       border: 1px solid var(--border-soft);
       border-radius: var(--r-lg);
@@ -477,13 +471,11 @@
       line-height: 1.7;
       color: var(--text-faint);
       letter-spacing: 0.08em;
-      text-transform: none;
       background: rgba(255,255,255,0.02);
       border-top: 1px solid var(--border-soft);
     }
     body.light .figcap{ background: rgba(0,0,0,0.02); }
 
-    /* Typography */
     .article-body p{
       font-size: 1.03rem;
       line-height: var(--lh-body);
@@ -498,9 +490,7 @@
       color: rgba(255,255,255,0.88);
       opacity: 1;
     }
-    body.light .article-body p.lede{
-      color: rgba(0,0,0,0.78);
-    }
+    body.light .article-body p.lede{ color: rgba(0,0,0,0.78); }
 
     .article-body h2{
       font-size: 1.25rem;
@@ -533,11 +523,8 @@
       border-bottom: 1px solid rgba(255,255,255,0.18);
       padding-bottom: 2px;
     }
-    body.light .article-body a{
-      border-bottom-color: rgba(0,0,0,0.18);
-    }
+    body.light .article-body a{ border-bottom-color: rgba(0,0,0,0.18); }
 
-    /* Footnotes / sources (optional) */
     .sources{
       margin-top: 2.25rem;
       padding-top: 1.5rem;
@@ -564,7 +551,6 @@
       opacity: 0.95;
     }
 
-    /* Rail */
     .rail{
       display:grid;
       gap: 1rem;
@@ -619,9 +605,7 @@
     }
     body.light .rail-link:hover{ background: rgba(0,0,0,0.045); }
 
-    /* ==========================
-       Footer (same vibe)
-       ========================== */
+    /* Footer */
     footer.site-footer{
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-soft);
@@ -693,9 +677,7 @@
     }
     body.light .footer-bottom a{ border-bottom-color: rgba(0,0,0,0.18); }
 
-    /* ==========================
-       Toast + Back to top
-       ========================== */
+    /* Toast + Top */
     .toast{
       position: fixed;
       left: 50%;
@@ -744,7 +726,6 @@
     }
     body.light .to-top .icon-btn{ background: rgba(0,0,0,0.04); }
 
-    /* Reveal */
     .reveal{
       opacity: 0;
       transform: translateY(10px);
@@ -752,7 +733,6 @@
     }
     .reveal.is-visible{ opacity: 1; transform: translateY(0); }
 
-    /* Responsive */
     @media (max-width: 980px){
       .article-hero-inner{ grid-template-columns: 1fr; }
       .article-inner{ grid-template-columns: 1fr; }
@@ -772,7 +752,6 @@
 
 <header class="site-header" id="siteHeader">
   <nav class="nav" aria-label="Primary">
-    <!-- LEFT: Burger dropdown -->
     <div class="nav-left">
       <div class="menu-wrap">
         <button class="icon-btn menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
@@ -792,7 +771,6 @@
         </div>
       </div>
 
-      <!-- Share -->
       <button class="icon-btn" id="shareBtn" type="button" aria-label="Copy article link">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 8a3 3 0 1 0-2.83-4"/>
@@ -804,10 +782,8 @@
       </button>
     </div>
 
-    <!-- CENTER: Logo -->
     <a href="index.html" class="nav-logo-center" aria-label="FURIOSO Home">Furioso</a>
 
-    <!-- RIGHT: Support + Theme toggle -->
     <div class="nav-right">
       <a class="nav-link" href="support.html">Support</a>
       <button class="icon-btn theme-toggle" aria-label="Toggle theme" type="button">
@@ -823,13 +799,29 @@
 <section class="article-hero" aria-label="Article header">
   <div class="article-hero-inner reveal">
     <div>
-      <!-- EDIT THESE -->
       <div class="kicker">Journalism · Op-Ed</div>
       <h1 class="article-title">Article Title Goes Here</h1>
       <p class="dek">A one–two sentence standfirst. What is this piece, and why should someone read it right now?</p>
     </div>
 
-   
+    <!-- ✅ FIX: your original page was missing this entire right column AND the closing tags -->
+    <aside class="meta-card" aria-label="Article meta">
+      <div class="meta-row">
+        <span class="pill">2025</span>
+        <span class="pill">8–12 min</span>
+        <span class="pill" id="pubDate">DATE</span>
+      </div>
+      <div class="meta-row">
+        <span>By</span>
+        <span style="letter-spacing:0.12em; text-transform:uppercase;">FURIOSO</span>
+      </div>
+      <div class="meta-actions">
+        <button class="btn btn-solid" id="copyArticleLinkTop" type="button"><span>Copy Link</span></button>
+        <button class="btn btn-ghost" id="printBtnTop" type="button"><span>Print</span></button>
+      </div>
+    </aside>
+  </div>
+</section>
 
 <!-- ARTICLE BODY + RAIL -->
 <section class="article-shell" aria-label="Article content">
@@ -837,7 +829,6 @@
     <article class="article-card reveal" aria-label="Post">
       <div class="article-body">
 
-        <!-- OPTIONAL: Lead image block (delete if not needed) -->
         <figure class="figure" aria-label="Lead image">
           <img
             src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
@@ -845,7 +836,6 @@
           <figcaption class="figcap">Caption placeholder. Keep it short. Credit: Photographer / Source.</figcaption>
         </figure>
 
-        <!-- WRITE YOUR ARTICLE BELOW -->
         <p class="lede">
           Lead paragraph. Make it land. A clean, human voice. No throat-clearing.
         </p>
@@ -875,7 +865,6 @@
           Closing paragraphs. Bring it back to the question. Leave them with an image, not a slogan.
         </p>
 
-        <!-- OPTIONAL: Sources / Footnotes (delete if you don't need it) -->
         <section class="sources" aria-label="Sources">
           <div class="label">Sources (optional)</div>
           <ul>
@@ -888,12 +877,11 @@
       </div>
     </article>
 
-    <!-- RIGHT RAIL -->
     <aside class="rail reveal" aria-label="Sidebar">
       <div class="rail-card">
         <div class="rail-title">On this page</div>
         <p class="rail-p">
-          This is your empty template. Duplicate it per article and just edit: title, kicker, dek, meta, image, body.
+          Duplicate this file per article. Edit: title, kicker, dek, pills, image, body.
         </p>
 
         <div class="rail-list" aria-label="Quick links">
@@ -940,7 +928,6 @@
   </div>
 </footer>
 
-<!-- TOAST -->
 <div class="toast" id="toast" aria-live="polite" aria-atomic="true">
   <div class="toast-inner">
     <span id="toastText">Saved.</span>
@@ -950,7 +937,6 @@
   </div>
 </div>
 
-<!-- BACK TO TOP -->
 <div class="to-top" id="toTop" aria-label="Back to top">
   <button class="icon-btn" type="button" id="toTopBtn" aria-label="Back to top">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -987,7 +973,7 @@
       revealEls.forEach(el => el.classList.add('is-visible'));
     }
 
-    // ===== THEME =====
+    // Theme
     const toggle = document.querySelector('.theme-toggle');
     const body = document.body;
     const icon = toggle?.querySelector('path');
@@ -1015,7 +1001,7 @@
       localStorage.setItem('theme', nowLight ? 'light' : 'dark');
     });
 
-    // ===== DROPDOWN MENU =====
+    // Dropdown menu
     const menuWrap = document.querySelector('.menu-wrap');
     const menuBtn  = document.querySelector('.menu-toggle');
     const menuPanel = document.getElementById('site-menu');
@@ -1054,7 +1040,7 @@
       });
     }
 
-    // ===== Copy link + toast =====
+    // Toast + copy link
     const toast = document.getElementById('toast');
     const toastText = document.getElementById('toastText');
     const toastClose = document.getElementById('toastClose');
@@ -1080,10 +1066,13 @@
     }
 
     document.getElementById('copyArticleLink')?.addEventListener('click', copyUrl);
+    document.getElementById('copyArticleLinkTop')?.addEventListener('click', copyUrl);
     document.getElementById('shareBtn')?.addEventListener('click', copyUrl);
 
     // Print
-    document.getElementById('printBtn')?.addEventListener('click', () => window.print());
+    const doPrint = () => window.print();
+    document.getElementById('printBtn')?.addEventListener('click', doPrint);
+    document.getElementById('printBtnTop')?.addEventListener('click', doPrint);
 
     // Back to top
     const toTop = document.getElementById('toTop');
@@ -1099,9 +1088,9 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Optional: auto-fill date if you want
+    // Auto-fill date pill if left as DATE
     const pub = document.getElementById('pubDate');
-    if (pub && pub.textContent.trim() === 'DATE') {
+    if (pub && pub.textContent.trim().toUpperCase() === 'DATE') {
       const d = new Date();
       pub.textContent = d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'2-digit' });
     }
