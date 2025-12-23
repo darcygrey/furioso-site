@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Article Title — FURIOSO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="description" content="FURIOSO — Independent dispatches on culture, geopolitics, and documentary image-making." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================
+       FURIOSO — Article Template
+       Fixed + matches your look/feel.
+       ========================== */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    @font-face{
+      font-family: "BucklaneScript";
+      src: url("fonts/BucklaneScript.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face{
+      font-family: "SwirlyCanalope";
+      src: url("fonts/SwirlyCanalope.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root{
+      --bg-main: #050505;
+      --bg-secondary: #0b0b0b;
+      --panel: rgba(255,255,255,0.03);
+      --panel-2: rgba(255,255,255,0.05);
+
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.72);
+      --text-faint: rgba(255,255,255,0.54);
+      --border-soft: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.18);
+
+      --glow: rgba(255,255,255,0.12);
+      --shadow: 0 18px 50px rgba(0,0,0,0.55);
+      --shadow-soft: 0 10px 26px rgba(0,0,0,0.35);
+
+      --r-xl: 22px;
+      --r-lg: 18px;
+      --r-md: 14px;
+      --r-sm: 12px;
+
+      --lh-body: 1.92;
+      --lh-tight: 1.15;
+
+      --container: 1120px;
+      --gutter: clamp(1rem, 3vw, 2rem);
+
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --dur-fast: 140ms;
+      --dur: 220ms;
+      --dur-slow: 520ms;
+    }
+
+    body.light{
+      --bg-main: #f7f6f3;
+      --bg-secondary: #ffffff;
+      --panel: rgba(0,0,0,0.03);
+      --panel-2: rgba(0,0,0,0.045);
+
+      --text-main: #111111;
+      --text-muted: rgba(0,0,0,0.64);
+      --text-faint: rgba(0,0,0,0.50);
+      --border-soft: rgba(0,0,0,0.10);
+      --border-strong: rgba(0,0,0,0.16);
+
+      --glow: rgba(0,0,0,0.08);
+      --shadow: 0 18px 50px rgba(0,0,0,0.12);
+      --shadow-soft: 0 10px 26px rgba(0,0,0,0.08);
+    }
+
+    body{
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    button, input { font: inherit; }
+
+    :focus-visible{
+      outline: 2px solid rgba(255,255,255,0.55);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+    body.light :focus-visible{ outline-color: rgba(0,0,0,0.45); }
+
+    @media (prefers-reduced-motion: reduce){
+      html { scroll-behavior: auto; }
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ==========================
+       Header / Nav
+       ========================== */
+    .site-header{
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 80;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.78), rgba(0,0,0,0));
+      backdrop-filter: blur(10px);
+    }
+    body.light .site-header{
+      background: linear-gradient(to bottom, rgba(247,246,243,0.92), rgba(247,246,243,0));
+    }
+    .site-header.scrolled{
+      background: rgba(8,8,8,0.82);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    body.light .site-header.scrolled{ background: rgba(255,255,255,0.86); }
+
+    .nav{
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 1.05rem var(--gutter);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-left, .nav-right{ display:flex; align-items:center; }
+    .nav-left{ justify-content:flex-start; gap: 0.55rem; }
+    .nav-right{ justify-content:flex-end; gap: 0.55rem; }
+
+    .nav-logo-center{
+      justify-self: center;
+      text-decoration: none;
+      color: var(--text-main);
+      font-family: "BucklaneScript", "Montserrat", system-ui, sans-serif;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0.06em; /* ✅ FIX: needs a unit */
+      font-size: 2.4rem;
+      position: relative;
+      padding: 0.35rem 0.2rem;
+      user-select: none;
+    }
+    .nav-logo-center::after{
+      content:"";
+      position:absolute;
+      left: 10%;
+      right: 10%;
+      bottom: -2px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-soft), transparent);
+      opacity: 0;
+      transform: translateY(3px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+    .nav-logo-center:hover::after{ opacity: 1; transform: translateY(0); }
+
+    .nav-link{
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.55rem 0.6rem;
+      border-radius: 999px;
+      transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+      opacity: 0.96;
+      white-space: nowrap;
+    }
+    .nav-link:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      opacity: 1;
+    }
+    body.light .nav-link:hover{ background: rgba(0,0,0,0.06); }
+
+    .icon-btn{
+      appearance:none;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor:pointer;
+      padding: 0.55rem;
+      border-radius: 999px;
+      opacity: 0.92;
+      transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-btn:hover{
+      opacity: 1;
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.06);
+      border-color: var(--border-soft);
+    }
+    body.light .icon-btn:hover{ background: rgba(0,0,0,0.06); }
+
+    .icon-btn svg{
+      width: 20px; height: 20px;
+      stroke: var(--text-main);
+      stroke-width: 2.3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Dropdown */
+    .menu-wrap{ position: relative; display:flex; align-items:center; }
+    .burger{ width: 22px; height: 16px; display: inline-flex; flex-direction: column; justify-content: space-between; }
+    .burger span{
+      display:block; height:2px; width:100%;
+      background: var(--text-main);
+      border-radius: 999px;
+      opacity: 0.95;
+      transform-origin: center;
+      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    }
+    .menu-wrap.open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .menu-wrap.open .burger span:nth-child(2){ opacity: 0; }
+    .menu-wrap.open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-panel{
+      position:absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 240px;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: rgba(10,10,10,0.86);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      padding: 0.55rem;
+      display: grid;
+      gap: 0.25rem;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+      z-index: 999;
+    }
+    body.light .menu-panel{ background: rgba(255,255,255,0.90); }
+
+    .menu-wrap.open .menu-panel{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .menu-item{
+      display:block;
+      text-decoration:none;
+      padding: 0.8rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+      white-space: nowrap;
+    }
+    .menu-item:hover{
+      color: var(--text-main);
+      background: rgba(255,255,255,0.06);
+      transform: translateX(2px);
+    }
+    body.light .menu-item:hover{ background: rgba(0,0,0,0.06); }
+
+    /* ==========================
+       Article Hero
+       ========================== */
+    .article-hero{
+      position: relative;
+      padding: calc(7.25rem + 2vh) var(--gutter) 2.75rem;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 22%), var(--bg-secondary);
+      border-bottom: 1px solid var(--border-soft);
+      overflow:hidden;
+      isolation: isolate;
+    }
+    .article-hero::after{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background-image: url("https://grainy-gradients.vercel.app/noise.png");
+      opacity: 0.22;
+      mix-blend-mode: soft-light;
+      z-index: -1;
+      pointer-events:none;
+      animation: grainShift 9s steps(10) infinite;
+    }
+    @keyframes grainShift{
+      0%{ transform: translate(0,0); }
+      25%{ transform: translate(-10px, 8px); }
+      50%{ transform: translate(6px, -12px); }
+      75%{ transform: translate(-4px, 6px); }
+      100%{ transform: translate(0,0); }
+    }
+
+    .article-hero-inner{
+      max-width: var(--container);
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.4rem;
+      align-items: end;
+    }
+
+    .kicker{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.92;
+      margin-bottom: 0.9rem;
+    }
+
+    .article-title{
+      font-size: clamp(2rem, 4.2vw, 3.2rem);
+      line-height: 1.08;
+      letter-spacing: 0.01em;
+      margin-bottom: 0.9rem;
+    }
+
+    .dek{
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      opacity: 0.95;
+      max-width: 70ch;
+    }
+
+    .meta-card{
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-xl);
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      padding: 1.1rem 1.1rem;
+      display:grid;
+      gap: 0.65rem;
+      align-self: stretch;
+    }
+    .meta-row{
+      display:flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      flex-wrap: wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.6rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      color: var(--text-faint);
+    }
+    body.light .pill{ background: rgba(0,0,0,0.02); }
+
+    .meta-actions{
+      display:flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      padding-top: 0.25rem;
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.06);
+      color: var(--text-main);
+      cursor:pointer;
+      padding: 0.85rem 1.05rem;
+      border-radius: 999px;
+      text-decoration:none;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 0.55rem;
+    }
+    .btn:hover{ transform: translateY(-2px); background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
+    .btn:active{ transform: translateY(0); }
+    body.light .btn{
+      background: rgba(0,0,0,0.04);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    }
+    body.light .btn:hover{ background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.14); }
+
+    .btn-ghost{ background: transparent; box-shadow: none; }
+    .btn-ghost:hover{ background: rgba(255,255,255,0.06); }
+    body.light .btn-ghost:hover{ background: rgba(0,0,0,0.06); }
+
+    .btn-solid{
+      border-color: var(--border-strong);
+      background: rgba(255,255,255,0.12);
+    }
+    body.light .btn-solid{ background: rgba(0,0,0,0.06); }
+
+    /* ==========================
+       Main layout
+       ========================== */
+    .article-shell{
+      padding: 2.75rem var(--gutter) 4.5rem;
+      background: var(--bg-secondary);
+    }
+    .article-inner{
+      max-width: var(--container);
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap: 1.4rem;
+      align-items: start;
+    }
+
+    .article-card{
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-xl);
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
+    }
+
+    .article-body{
+      padding: 2.15rem 1.9rem;
+    }
+
+    .figure{
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-lg);
+      overflow:hidden;
+      background: #000;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.26);
+      margin: 0 0 1.6rem 0;
+    }
+    .figure img{
+      width:100%; height:auto;
+      filter: grayscale(44%) contrast(1.08);
+      display:block;
+    }
+    body.light .figure img{ filter: grayscale(20%) contrast(1.02); }
+    .figcap{
+      padding: 0.75rem 0.85rem;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text-faint);
+      letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid var(--border-soft);
+    }
+    body.light .figcap{ background: rgba(0,0,0,0.02); }
+
+    .article-body p{
+      font-size: 1.03rem;
+      line-height: var(--lh-body);
+      color: var(--text-muted);
+      opacity: 0.98;
+      margin: 0 0 1.25rem 0;
+      max-width: 75ch;
+    }
+    .article-body p.lede{
+      font-size: 1.12rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.88);
+      opacity: 1;
+    }
+    body.light .article-body p.lede{ color: rgba(0,0,0,0.78); }
+
+    .article-body h2{
+      font-size: 1.25rem;
+      line-height: 1.25;
+      letter-spacing: 0.05em;
+      margin: 2.1rem 0 0.85rem;
+      color: var(--text-main);
+    }
+
+    .article-body blockquote{
+      margin: 1.65rem 0;
+      padding: 0.25rem 0 0.25rem 1rem;
+      border-left: 2px solid var(--border-soft);
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      line-height: 1.9;
+      opacity: 0.98;
+      max-width: 70ch;
+    }
+
+    .article-body hr{
+      border: 0;
+      border-top: 1px solid var(--border-soft);
+      margin: 2rem 0;
+      opacity: 0.85;
+    }
+
+    .article-body a{
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding-bottom: 2px;
+    }
+    body.light .article-body a{ border-bottom-color: rgba(0,0,0,0.18); }
+
+    .sources{
+      margin-top: 2.25rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-soft);
+    }
+    .sources .label{
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.9;
+      margin-bottom: 0.9rem;
+    }
+    .sources ul{
+      list-style: none;
+      display:grid;
+      gap: 0.65rem;
+      padding-left: 0;
+    }
+    .sources li{
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      opacity: 0.95;
+    }
+
+    .rail{
+      display:grid;
+      gap: 1rem;
+      position: sticky;
+      top: 88px;
+    }
+    .rail-card{
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-lg);
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+      padding: 1.15rem 1.1rem;
+    }
+    .rail-title{
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.9;
+      margin-bottom: 0.9rem;
+    }
+    .rail-p{
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      opacity: 0.95;
+    }
+
+    .rail-list{ display:grid; gap: 0.6rem; margin-top: 0.85rem; }
+    .rail-link{
+      display:flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      text-decoration:none;
+      padding: 0.75rem 0.8rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    body.light .rail-link{ background: rgba(0,0,0,0.02); }
+    .rail-link:hover{
+      background: rgba(255,255,255,0.05);
+      border-color: var(--border-strong);
+      transform: translateX(2px);
+      color: var(--text-main);
+    }
+    body.light .rail-link:hover{ background: rgba(0,0,0,0.045); }
+
+    /* Footer */
+    footer.site-footer{
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-soft);
+      padding: 3.75rem var(--gutter) 2.5rem;
+    }
+    .footer-inner{
+      max-width: var(--container);
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .footer-brand{
+      font-size: 0.8rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.95;
+      margin-bottom: 0.9rem;
+    }
+    .footer-note{
+      font-size: 0.94rem;
+      line-height: 1.9;
+      opacity: 0.92;
+      max-width: 64ch;
+      color: var(--text-muted);
+    }
+    .footer-links{
+      display:grid;
+      gap: 0.55rem;
+      justify-items: end;
+    }
+    .footer-links a{
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-muted);
+      opacity: 0.92;
+      padding: 0.25rem 0.1rem;
+      transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+      white-space: nowrap;
+    }
+    .footer-links a:hover{
+      opacity: 1;
+      color: var(--text-main);
+      transform: translateX(2px);
+    }
+    .footer-bottom{
+      max-width: var(--container);
+      margin: 2rem auto 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-soft);
+      display:flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.92;
+    }
+    .footer-bottom a{
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding-bottom: 2px;
+    }
+    body.light .footer-bottom a{ border-bottom-color: rgba(0,0,0,0.18); }
+
+    /* Toast + Top */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(16px);
+      z-index: 250;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+      max-width: min(680px, 92vw);
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .toast-inner{
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: rgba(12,12,12,0.88);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow-soft);
+      padding: 0.8rem 1rem;
+      display:flex;
+      gap: 0.75rem;
+      align-items:center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    body.light .toast-inner{ background: rgba(255,255,255,0.92); }
+
+    .to-top{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 150;
+      display:none;
+    }
+    .to-top.show{ display:block; }
+    .to-top .icon-btn{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-soft);
+    }
+    body.light .to-top .icon-btn{ background: rgba(0,0,0,0.04); }
+
+    .reveal{
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+    }
+    .reveal.is-visible{ opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 980px){
+      .article-hero-inner{ grid-template-columns: 1fr; }
+      .article-inner{ grid-template-columns: 1fr; }
+      .rail{ position: static; }
+      .meta-card{ max-width: 720px; }
+    }
+    @media (max-width: 740px){
+      .footer-inner{ grid-template-columns: 1fr; }
+      .footer-links{ justify-items: start; }
+      .nav-link{ display:none; }
+      .article-body{ padding: 1.75rem 1.35rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header" id="siteHeader">
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-left">
+      <div class="menu-wrap">
+        <button class="icon-btn menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu" type="button">
+          <span class="burger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
+          <a class="menu-item" role="menuitem" href="latest.html">Latest</a>
+          <a class="menu-item" role="menuitem" href="journalism.html">Journalism</a>
+          <a class="menu-item" role="menuitem" href="support.html">Support</a>
+          <a class="menu-item" role="menuitem" href="index.html#front">Front Page</a>
+          <a class="menu-item" role="menuitem" href="index.html#manifesto">Manifesto</a>
+          <a class="menu-item" role="menuitem" href="index.html#newsletter">Newsletter</a>
+          <a class="menu-item" role="menuitem" href="index.html#about">About</a>
+        </div>
+      </div>
+
+      <button class="icon-btn" id="shareBtn" type="button" aria-label="Copy article link">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 8a3 3 0 1 0-2.83-4"/>
+          <path d="M9 12l6-3"/>
+          <path d="M9 12l6 3"/>
+          <path d="M6 14a3 3 0 1 0 0-4"/>
+          <path d="M18 20a3 3 0 1 0 0-4"/>
+        </svg>
+      </button>
+    </div>
+
+    <a href="index.html" class="nav-logo-center" aria-label="FURIOSO Home">Furioso</a>
+
+    <div class="nav-right">
+      <a class="nav-link" href="support.html">Support</a>
+      <button class="icon-btn theme-toggle" aria-label="Toggle theme" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ARTICLE HERO -->
+<section class="article-hero" aria-label="Article header">
+  <div class="article-hero-inner reveal">
+    <div>
+      <div class="kicker">Journalism · Op-Ed</div>
+      <h1 class="article-title">Article Title Goes Here</h1>
+      <p class="dek">A one–two sentence standfirst. What is this piece, and why should someone read it right now?</p>
+    </div>
+
+    <!-- ✅ FIX: your original page was missing this entire right column AND the closing tags -->
+  
+</section>
+
+<!-- ARTICLE BODY + RAIL -->
+<section class="article-shell" aria-label="Article content">
+  <div class="article-inner">
+    <article class="article-card reveal" aria-label="Post">
+      <div class="article-body">
+
+        <figure class="figure" aria-label="Lead image">
+          <img
+            src="https://content.magnumphotos.com/wp-content/uploads/2016/05/cortex/nyc16202-teaser-story-big.jpg"
+            alt="Describe the image for accessibility">
+          <figcaption class="figcap">Caption placeholder. Keep it short. Credit: Photographer / Source.</figcaption>
+        </figure>
+
+        <p class="lede">
+          Lead paragraph. Make it land. A clean, human voice. No throat-clearing.
+        </p>
+
+        <p>
+          Paragraph two. Build the mechanism. If you’re going to make a claim, either source it or frame it as analysis.
+        </p>
+
+        <h2>Section break (optional)</h2>
+
+        <p>
+          Keep headings sparse. The design reads best with long-flow paragraphs and occasional anchors.
+        </p>
+
+        <blockquote>
+          Pull quote / internal thesis. Something the reader can carry.
+        </blockquote>
+
+        <p>
+          If you need links, use them sparingly and with intent:
+          <a href="#" target="_blank" rel="noopener">source link placeholder</a>.
+        </p>
+
+        <hr>
+
+        <p>
+          Closing paragraphs. Bring it back to the question. Leave them with an image, not a slogan.
+        </p>
+
+        <section class="sources" aria-label="Sources">
+          <div class="label">Sources (optional)</div>
+          <ul>
+            <li>[1] Source title / author / publication / date.</li>
+            <li>[2] Source title / author / publication / date.</li>
+            <li>[3] Source title / author / publication / date.</li>
+          </ul>
+        </section>
+
+      </div>
+    </article>
+
+    <aside class="rail reveal" aria-label="Sidebar">
+      <div class="rail-card">
+        <div class="rail-title">On this page</div>
+        <p class="rail-p">
+          Duplicate this file per article. Edit: title, kicker, dek, pills, image, body.
+        </p>
+
+        <div class="rail-list" aria-label="Quick links">
+          <a class="rail-link" href="latest.html"><span>Latest</span><span>→</span></a>
+          <a class="rail-link" href="journalism.html"><span>Journalism</span><span>→</span></a>
+          <a class="rail-link" href="support.html"><span>Support</span><span>→</span></a>
+        </div>
+      </div>
+
+      <div class="rail-card">
+        <div class="rail-title">Share</div>
+        <p class="rail-p">Copy the link, or add your own social buttons later.</p>
+        <div class="meta-actions" style="padding-top:0.35rem;">
+          <button class="btn btn-solid" id="copyArticleLink" type="button"><span>Copy Link</span></button>
+          <button class="btn btn-ghost" id="printBtn" type="button"><span>Print</span></button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">FURIOSO</div>
+      <p class="footer-note">
+        Independent dispatches on culture, geopolitics, and documentary image-making. All writing, design, and site content
+        are protected by copyright unless otherwise credited.
+      </p>
+    </div>
+
+    <div class="footer-links" aria-label="Footer links">
+      <a href="latest.html">Latest</a>
+      <a href="journalism.html">Journalism</a>
+      <a href="support.html">Support</a>
+      <a href="index.html">Home</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> FURIOSO. All rights reserved.</span>
+    <span>Images © their respective owners.</span>
+    <span>Contact: <a href="mailto:hello@furioso.world">hello@furioso.world</a></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite" aria-atomic="true">
+  <div class="toast-inner">
+    <span id="toastText">Saved.</span>
+    <button class="icon-btn" type="button" id="toastClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6l-12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="to-top" id="toTop" aria-label="Back to top">
+  <button class="icon-btn" type="button" id="toTopBtn" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 5l-6 6"/><path d="M12 5l6 6"/><path d="M12 5v14"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Footer year
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+
+    // Header: scrolled state
+    const header = document.getElementById('siteHeader');
+    const setHeaderState = () => header?.classList.toggle('scrolled', window.scrollY > 10);
+    setHeaderState();
+    window.addEventListener('scroll', setHeaderState, { passive: true });
+
+    // Reveal animations
+    const revealEls = Array.from(document.querySelectorAll('.reveal'));
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    }
+
+    // Theme
+    const toggle = document.querySelector('.theme-toggle');
+    const body = document.body;
+    const icon = toggle?.querySelector('path');
+
+    const ICON_MOON = 'M12 3a1 1 0 0 1 0 18a9 9 0 0 0 0-18z';
+    const ICON_SUN  = 'M12 4a8 8 0 1 0 0 16a6 6 0 0 1 0-16z';
+
+    function applyTheme(mode) {
+      const isLight = mode === 'light';
+      body.classList.toggle('light', isLight);
+      icon?.setAttribute('d', isLight ? ICON_SUN : ICON_MOON);
+    }
+
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      applyTheme(saved);
+    } else {
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(prefersLight ? 'light' : 'dark');
+    }
+
+    toggle?.addEventListener('click', () => {
+      const nowLight = !body.classList.contains('light');
+      applyTheme(nowLight ? 'light' : 'dark');
+      localStorage.setItem('theme', nowLight ? 'light' : 'dark');
+    });
+
+    // Dropdown menu
+    const menuWrap = document.querySelector('.menu-wrap');
+    const menuBtn  = document.querySelector('.menu-toggle');
+    const menuPanel = document.getElementById('site-menu');
+
+    function closeMenu() {
+      if (!menuWrap || !menuBtn || !menuPanel) return;
+      menuWrap.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.setAttribute('aria-hidden', 'true');
+    }
+    function openMenu() {
+      if (!menuWrap || !menuBtn || !menuPanel) return;
+      menuWrap.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuPanel.setAttribute('aria-hidden', 'false');
+      const first = menuPanel.querySelector('a');
+      first?.focus({ preventScroll: true });
+    }
+
+    if (menuWrap && menuBtn && menuPanel) {
+      menuBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = menuWrap.classList.contains('open');
+        isOpen ? closeMenu() : openMenu();
+      });
+
+      menuPanel.addEventListener('click', (e) => e.stopPropagation());
+
+      document.addEventListener('click', (e) => {
+        if (!menuWrap.contains(e.target)) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+
+    // Toast + copy link
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toastText');
+    const toastClose = document.getElementById('toastClose');
+    let toastTimer = null;
+
+    function showToast(msg){
+      if (!toast || !toastText) return;
+      toastText.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+    toastClose?.addEventListener('click', () => toast?.classList.remove('show'));
+
+    async function copyUrl(){
+      const url = window.location.href;
+      try{
+        await navigator.clipboard.writeText(url);
+        showToast('Copied link to clipboard.');
+      }catch{
+        showToast('Could not copy automatically — copy from the address bar.');
+      }
+    }
+
+    document.getElementById('copyArticleLink')?.addEventListener('click', copyUrl);
+    document.getElementById('copyArticleLinkTop')?.addEventListener('click', copyUrl);
+    document.getElementById('shareBtn')?.addEventListener('click', copyUrl);
+
+    // Print
+    const doPrint = () => window.print();
+    document.getElementById('printBtn')?.addEventListener('click', doPrint);
+    document.getElementById('printBtnTop')?.addEventListener('click', doPrint);
+
+    // Back to top
+    const toTop = document.getElementById('toTop');
+    const toTopBtn = document.getElementById('toTopBtn');
+
+    function setTopState(){
+      toTop?.classList.toggle('show', window.scrollY > 900);
+    }
+    setTopState();
+    window.addEventListener('scroll', setTopState, { passive:true });
+
+    toTopBtn?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Auto-fill date pill if left as DATE
+    const pub = document.getElementById('pubDate');
+    if (pub && pub.textContent.trim().toUpperCase() === 'DATE') {
+      const d = new Date();
+      pub.textContent = d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'2-digit' });
+    }
+  });
+</script>
+
+</body>
+</html>
